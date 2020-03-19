@@ -11,14 +11,17 @@ $(function() {
   //   console.log(response.name);
   // });
 
+  let jsonFile = 'jsons.jsons';
 
-  fetch('json.json').then(response => {
-  return response.json()
+  fetch(jsonFile, {mode: 'no-cors'})
+  .then(response => {
+    response.json()
   })
   .then(data => {
-    console.log(data)
+    console.log("LOL")
   })
   .catch(err => {
-  })
+    console.log('KIKOO')
+  });
 
 });
