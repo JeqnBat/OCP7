@@ -1,0 +1,49 @@
+@charset "utf-8";
+/* JB PELLIER - OCP7 - 03/2020
+________________________________________*/
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: antiquewhite;
+}
+
+#titre {
+  width: 100vw;
+  text-align: center;
+  margin: 0 auto;
+  height: 20vh;
+}
+
+#main {
+  height: 80vh;
+  width: 100vw;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+#left {
+  flex: 0 1 auto;
+  height: 100%;
+  width: 100%;
+  background: white;
+  border-radius: 2vw;
+  margin: 2vw;
+}
+
+#right {
+  flex: 0 1 auto;
+  height: 100%;
+  width: 100%;
+  background: orange;
+  border-radius: 2vw;
+    margin: 2vw;
+}
+
+#text {
+  margin: 5vw;
+}
