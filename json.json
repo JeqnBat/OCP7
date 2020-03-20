@@ -1,34 +1,37 @@
-[
-   {
-      "restaurantName":"Bronco",
-      "address":"39 Rue des Petites �curies, 75010 Paris",
-      "lat":48.8737815,
-      "long":2.3501649,
-      "ratings":[
-         {
-            "stars":4,
-            "comment":"Un excellent restaurant, j'y reviendrai ! Par contre il vaut mieux aimer la viande."
-         },
-         {
-            "stars":5,
-            "comment":"Tout simplement mon restaurant pr�f�r� !"
-         }
+{
+  "restaurant":
+  [
+    {
+      "restaurantName": "Bronco",
+      "address": "39 Rue des Petites ecuries, 75010 Paris",
+      "lat": 48.8737815,
+      "long": 2.3501649,
+      "ratings": [
+        {
+          "stars": 4,
+          "comment": "Un excellent restaurant, j'y reviendrai ! Par contre il vaut mieux aimer la viande."
+        },
+        {
+          "stars": 5,
+          "comment": "Tout simplement mon restaurant prefere !"
+        }
       ]
-   },
-   {
-      "restaurantName":"Babalou",
-      "address":"4 Rue Lamarck, 75018 Paris",
-      "lat":48.8865035,
-      "long":2.3442197,
-      "ratings":[
-         {
-            "stars":5,
-            "comment":"Une minuscule pizzeria d�licieuse cach�e juste � c�t� du Sacr� choeur !"
-         },
-         {
-            "stars":3,
-            "comment":"J'ai trouv� �a correct, sans plus"
-         }
+    },
+    {
+      "restaurantName": "Babalou",
+      "address": "4 Rue Lamarck, 75018 Paris",
+      "lat": 48.8865035,
+      "long": 2.3442197,
+      "ratings": [
+        {
+          "stars": 5,
+          "comment": "Une minuscule pizzeria delicieuse cachee juste a cote du Sacre Coeur !"
+        },
+        {
+          "stars": 3,
+          "comment": "J'ai trouve ca correct, sans plus"
+        }
       ]
-   }
-]
+    }
+  ]
+}

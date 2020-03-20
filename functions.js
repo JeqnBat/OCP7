@@ -1,27 +1,48 @@
 $(function() {
 // test API Call with ajax
   // var settings = {
-  //   "url": "https://www.potterapi.com/v1/characters/5a0fa4daae5bc100213c232e?key=$2a$10$8aGIy84sCcJiJvYuK.DnHekNSW9WLzjaVqKZ3.bjKema7dXkuiF6.",
+  //   "url": "http://127.0.0.1/OCP7/json.json",
   //   "method": "GET",
   //   "timeout": 0,
   // };
   //
   // $.ajax(settings).done(function (response) {
   //   console.log(response);
-  //   console.log(response.name);
   // });
 
-  let jsonFile = 'jsons.jsons';
+  // Méthode fetch
+  let customInit =  { method: 'GET',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      mode: 'no-cors',
+                      cache: 'default'
+                    };
 
-  fetch(jsonFile, {mode: 'no-cors'})
-  .then(response => {
-    response.json()
-  })
-  .then(data => {
-    console.log("LOL")
-  })
-  .catch(err => {
-    console.log('KIKOO')
-  });
+  let jsonFile = 'http://127.0.0.1/OCP7/json.json';
 
+  fetch(jsonFile, customInit)
+    .then(function(resp) {
+      return resp.json();
+    })
+    .then(function(data) {
+      console.log(data);
+      console.log(data.restaurant[0].address);
+    });
+
+  // avec les fonctions fléchées
+  // fetch(jsonFile, {mode: 'no-cors'})
+  //   .then(response => {
+  //     response.json()
+  //   })
+  //   .then(data => {
+  //     console.log("LOL")
+  //   })
+  //   .catch(err => {
+  //     console.log('KIKOO')
+  //   });
+
+
+  // var myObj = JSON.parse(jsonFile);
+  // document.getElementById("right").innerHTML = myObj.restaurant[0].address;
 });
