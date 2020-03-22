@@ -12,6 +12,12 @@ $(function() {
   //   console.log(response);
   // });
 
+  // Méthode 3 - avec Json.parse()
+  // var myObj = JSON.parse(jsonFile);
+  // document.getElementById("right").innerHTML = myObj.restaurant[0].address;
+
+  // utiliser typeof pour vérifier si c'est un objet
+
   // Méthode 2 - Fetch
   let customInit =  { method: 'GET',
                       headers: {
@@ -44,10 +50,6 @@ $(function() {
   //     console.log()
   //   });
 
-  // Méthode 3 - avec Json.parse()
-  // var myObj = JSON.parse(jsonFile);
-  // document.getElementById("right").innerHTML = myObj.restaurant[0].address;
-
   // __________Partie 2 : Appel de l'API des restaurants__________
   function geoLoc() {
     function sortLongLat(ip) {
@@ -76,7 +78,23 @@ $(function() {
       });
     }
 
-    geoLoc();
+    // geoLoc();
+
+    function userPosition(position) {
+      console.log(position);
+    }
+
+    function geoLocError(err) {
+      console.warn(`ERREUR (${err.code}): ${err.message}`); // ${ } utilisé pour faire de la concaténation + +
+    }
+
+    function geoLoc2() {
+      if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(userPosition, geoLocError);
+      }
+    }
+
+    geoLoc2();
 
   // réfléchit :
   // 1. je sélectionne ip= comme point de départ et je dis
