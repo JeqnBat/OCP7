@@ -22,13 +22,14 @@
       </div>
     </div>
     <script>
-      var map;
+      let map
+
       function initMap() {
         map = new google.maps.Map(document.getElementById('left'), {
           center: {lat: -34.397, lng: 150.644},
           zoom: 8
-        });
-        console.log(map.center + ' HELLO');
+        })
+        localStorage.setItem('map', map)
       }
 
     </script>
@@ -37,4 +38,6 @@
   </body>
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script src="functions.js"></script>
+</html>
+
 </html>
