@@ -1,127 +1,98 @@
 $(function() {
-  // __________ Partie 1 : Appel de l'API des restaurants __________
-  ////////////////////////////////////////////////////////////////////////////
-  // Méthode 1 - Ajax -
+/* Proposition pour la STRUCTURE du programme :
+    .Une fonction async 'MASTER' qui appelle toutes les autres fonctions dans le bon ordre
+        ---- Bloc asynchrone ----
+        const master = async() {
+              await init() {}
+              await geoLoc() {}
 
-  // var settings = {
-  //   "url": "http://127.0.0.1/OCP7/json.json",
-  //   "method": "GET",
-  //   "timeout": 0,
-  // };
-  //
-  // $.ajax(settings).done(function (response) {
-  //   console.log(response);
-  // });
+              etc.
+        }
+        ---- Appel ----
+        master()
+        DOM()
+*/
+let restaurants = {}
+  // ----------------------------- (1) BLOC ASYNCHRONE -----------------------------
+  const master = async () => {
+    // __________ Partie 1 : Appel de l'API des restaurants __________
+    // Enchâsser l'appel API dans une fonction ASYNC
+  const getData = async () => {
+      // Premier Paramètre de fetch
+      let customInit =  { method: 'GET',
+                          headers: {
+                            'Content-Type': 'application/json'
+                          },
+                          mode:   'no-cors',
+                          cache:  'default'
+                        }
+      // Second paramètre de fetch
+      let jsonFile = 'http://127.0.0.1/OCP7/json.json'
+      let response = await fetch(jsonFile, customInit)
+      let data     = await response.json()
+      let places   = data
+      
+      processData(places)
+    }
 
-  // Méthode 3 - avec Json.parse()
-  // var myObj = JSON.parse(jsonFile);
-  // document.getElementById("right").innerHTML = myObj.restaurant[0].address;
-
-  // utiliser typeof pour vérifier si c'est un objet
-  ////////////////////////////////////////////////////////////////////////////
-
-
-  // __________ créer une fonction init qui doit : __________
-  //            .synchroniser toutes les fonctions dans la bonne séquence
-  //            .await-async le fetch
-  //            .préparer la suite du programme
-
-  let restaurants = {} // Créer l'objet qui va accueillir les data du JSON
-  // Enchâsser l'appel API dans une fonction ASYNC pour le faire passer en SYNC et l'intégrer dans la séquence d'init
-  const init = async () => {
-    // Définition des 2 arguments de fetch()
-    let customInit =  { method: 'GET',
-                        headers: {
-                          'Content-Type': 'application/json'
-                        },
-                        mode: 'no-cors',
-                        cache: 'default'
-                      }
-
-    let jsonFile = 'http://127.0.0.1/OCP7/json.json'
-    // Création de la requête
-    let response = await fetch(jsonFile, customInit)
-    let data = await response.json()
-    let restaurants = data // on stocke le retour du JSON dans l'objet restaurants
-    console.log(data)
-    console.log(restaurants.length)
-    console.log(restaurants[0].restaurantName)
-
-    // dois-je écrire tout mon programme ici ?
-  }
-
-  init()
-  // Méthode 2 - Fetch
-//   let customInit =  { method: 'GET',
-//                       headers: {
-//                         'Content-Type': 'application/json'
-//                       },
-//                       mode: 'no-cors',
-//                       cache: 'default'
-//                     }
-//
-//   let jsonFile = 'http://127.0.0.1/OCP7/json.json'
-//
-// // Ce fetch est asynchrone, OR, il doit être synchrone et s'inscrire dans la séquence d'initialisation
-//   fetch(jsonFile, customInit)
-//     .then(res => {
-//       if(res.ok) {
-//         return res.json ()
-//       } else {
-//         throw new Error('ERROR')
-//       }
-//     })
-//     .then(data => {
-//       restaurants = data // On stocke le data du JSON dans un objet
-//       console.log(restaurants.length)
-//       console.log(restaurants[0].restaurantName)
-//     })
-//     .catch(error => console.log('ERROR'))
-
-  // Méthode 2bis - Fetch avec fonctions fléchées
-  // fetch(jsonFile, {mode: 'no-cors'})
-  //   .then(response => {
-  //     response.json()
-  //   })
-  //   .then(data => {
-  //     console.log()
-  //   })
-  //   .catch(err => {
-  //     console.log()
-  //   });
-
-
-  // __________Partie 2 : Géo localisation__________
-  function userPosition(position) {
-    let pos = {
-      lat: position.coords.latitude,
-      lng: position.coords.longitude
-    };
-    localStorage.getItem('map') // reçoit l'objet map d'index.html
-    map.setCenter(pos) // update la map avec la position reçue
-    map.setZoom(16)
-  }
-
-  function geoLocError(err) {
-    console.warn(`ERREUR (${err.code}): ${err.message}`) // ${ } utilisé pour faire de la concaténation + +
-  }
-
-  function geoLoc() {
+    // __________ Partie 2 : Géo localisation __________
+    function geoLoc() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(userPosition, geoLocError)
       } else {
         // ...
       }
-  }
+    }
+
+    function userPosition(position) {
+      let pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      localStorage.getItem('map') // reçoit l'objet map d'index.html
+      map.setCenter(pos) // update la map avec la position reçue
+      map.setZoom(16)
+    }
+
+    function geoLocError(err) {
+      console.warn(`ERREUR (${err.code}): ${err.message}`)
+    }
+
+  // __________ Partie 3 : Display des restaurants du JSON sur la map __________
+  // 1. récupérer le length de mon array restaurants
+  // 2. créer une boucle sur la longueur de cet arret en i++ (ou un foreach)
+  // 3. pour chaque tour de boucle, append le DOM dans la div dédiée, avec toutes les infos du resto
+  // j'ai besoin qu'init() soit fini pour accéder aux restaurants : comment faire savoir qd c'est fini ?
+
+    function processData(data) {
+      for (let i = 0; i < data.length; i++) { // forEach ?
+        $('#two').append(`<div class="text" item="${i}">
+        Nom : ${data[i].restaurantName}<br>
+        Adresse : ${data[i].address}<br>
+        <hr>`)
+
+        for (let j = 0; j < data[i].ratings.length; j++) {
+          $(`[item = ${i}]`).append(
+          `Note : ${data[i].ratings[j].stars}<br>
+          Commentaire : ${data[i].ratings[j].comment}<br>
+          </div>`)
+        }
+      }
+
+    }// moyenne : il faut accéder à la longueur de ratings pour savoir le dénominateur
+    // additionner les ratings et les diviser par la length de ratings
 
 
-  // __________Partie 3 : Display des restaurants du JSON sur la map__________
+  // ----------------------------- (2) APPELS -----------------------------
+    const allCalls = async () => {
+      const a = await geoLoc()
+      const b = await getData()
+    }
 
-geoLoc()
+    allCalls()
 
-// 1. récupérer le length de mon array restaurants
-// 2. créer une boucle sur la longueur de cet arret en i++
-// 3. pour chaque tour de boucle, append le DOM dans la div dédiée, avec toutes les infos du resto
+  } // fin de la fonction Master()
 
+  master()
 
 });

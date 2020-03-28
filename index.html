@@ -11,27 +11,23 @@
   <body>
     <div id="titre"> <h2>- Tous au resto -</h2><br> Site d'avis de restaurants </div>
     <div id="main">
-      <div id="left"></div>
-      <div id="right">
-        <div id="text">
-          Nom du restaurant :<br>
-          Adresse :<br>
-          Note :<br>
-          Commentaire :<br>
+      <div id="one" class="column"></div>
+      <div id="two" class="column">
+      </div>
+      <div id="three" class="column">
+        <div class="text">description du restaurant sélectionné
         </div>
       </div>
     </div>
     <script>
       let map
-
       function initMap() {
-        map = new google.maps.Map(document.getElementById('left'), {
+        map = new google.maps.Map(document.getElementById('one'), {
           center: {lat: -34.397, lng: 150.644},
           zoom: 8
         })
         localStorage.setItem('map', map)
       }
-
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIi85Z-k3YNhERLkmweLw4PBm-3EAjXiI&callback=initMap"
     async defer></script>
