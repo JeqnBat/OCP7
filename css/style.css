@@ -1,7 +1,6 @@
 @charset "utf-8";
 /* JB PELLIER - OCP7 - 03/2020
 ________________________________________*/
-
 html, body {
   height: 100%;
   margin: 0;
@@ -9,6 +8,8 @@ html, body {
   background-color: gray;
 }
 
+/* Main layout
+________________________________________*/
 #titre {
   width: 100vw;
   text-align: center;
@@ -41,4 +42,15 @@ html, body {
 
 .text {
   margin: 5vw;
+}
+
+.filter {
+  margin: 4vw;
+}
+
+
+/* FONTS
+________________________________________*/
+.averageRate {
+  color: gray;
 }

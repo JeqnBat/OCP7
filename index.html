@@ -13,10 +13,17 @@
     <div id="main">
       <div id="one" class="column"></div>
       <div id="two" class="column">
+        <div class="filter">
+          <p>Filtrer les restaurants par note</p>
+          <label for="minRate">min</label><br>
+          <input type="number" id="minRate" name="minRate" min="0" max="5" value="1"><br>
+          <label for="maxRate">max</label><br>
+          <input type="number" id="maxRate" name="maxRate" min="0" max="5" value="2"><br>
+          <div id="filter">FILTRER</div>
+        </div>
       </div>
       <div id="three" class="column">
-        <div class="text">description du restaurant sélectionné
-        </div>
+        <div class="text">description du restaurant sélectionné</div>
       </div>
     </div>
     <script>

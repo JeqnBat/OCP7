@@ -12,12 +12,13 @@ $(function() {
         master()
         DOM()
 */
-let restaurants = {}
+let places = {}
+let allRates = []
   // ----------------------------- (1) BLOC ASYNCHRONE -----------------------------
   const master = async () => {
     // __________ Partie 1 : Appel de l'API des restaurants __________
     // Enchâsser l'appel API dans une fonction ASYNC
-  const getData = async () => {
+    const getData = async () => {
       // Premier Paramètre de fetch
       let customInit =  { method: 'GET',
                           headers: {
@@ -29,10 +30,8 @@ let restaurants = {}
       // Second paramètre de fetch
       let jsonFile = 'http://127.0.0.1/OCP7/json.json'
       let response = await fetch(jsonFile, customInit)
-      let data     = await response.json()
-      let places   = data
-      
-      processData(places)
+      places       = await response.json()
+      // places       = data // autre possibilité de retrieve les data
     }
 
     // __________ Partie 2 : Géo localisation __________
@@ -58,41 +57,70 @@ let restaurants = {}
       console.warn(`ERREUR (${err.code}): ${err.message}`)
     }
 
-  // __________ Partie 3 : Display des restaurants du JSON sur la map __________
-  // 1. récupérer le length de mon array restaurants
-  // 2. créer une boucle sur la longueur de cet arret en i++ (ou un foreach)
-  // 3. pour chaque tour de boucle, append le DOM dans la div dédiée, avec toutes les infos du resto
-  // j'ai besoin qu'init() soit fini pour accéder aux restaurants : comment faire savoir qd c'est fini ?
-
+    // __________ Partie 3.0 : Display des restaurants du JSON __________
+    // I. Display des infos dans le DOM
     function processData(data) {
-      for (let i = 0; i < data.length; i++) { // forEach ?
+      // Calcul de la moyenne(1) - déclaration des variables
+      let sum = 0
+      let averageRate = 0
+      // Display des data(1)
+      for (let i = 0; i < data.length; i++) {
         $('#two').append(`<div class="text" item="${i}">
         Nom : ${data[i].restaurantName}<br>
         Adresse : ${data[i].address}<br>
+        <p class="averageRate"></p>
         <hr>`)
-
+        // Display des data(2) - détails
         for (let j = 0; j < data[i].ratings.length; j++) {
           $(`[item = ${i}]`).append(
           `Note : ${data[i].ratings[j].stars}<br>
           Commentaire : ${data[i].ratings[j].comment}<br>
           </div>`)
+          // Calcul de la moyenne(2) - stockage de la somme
+          sum += data[i].ratings[j].stars
+        }
+        // Calcul de la moyenne(3) - computation & affichage
+        let denominator = data[i].ratings.length
+        let averageRate = sum / denominator
+        allRates.push(averageRate)
+        sum = 0
+
+        $('.averageRate:last').append(`Note moyenne : ${averageRate}`)
+      }
+      // __________ Partie 3.1 : Création d'un filtre de notes __________
+      // stocker la valeur des deux input number
+      let minRate = $('#minRate').val()
+      let maxRate = $('#maxRate').val()
+
+      function filterByRate() {
+        for (let i = 0; i < allRates.length; i++) {
+          if (allRates[i] >= minRate && allRates[i] <= maxRate) { // factoriser cette ligne ?? (allRatesx2)
+            $(`[item = ${i}]`).css('display', '')
+          } else {
+            $(`[item = ${i}]`).css('display', 'none')
+          }
         }
       }
 
-    }// moyenne : il faut accéder à la longueur de ratings pour savoir le dénominateur
-    // additionner les ratings et les diviser par la length de ratings
+      $('#filter').click(function(){
+        minRate = $('#minRate').val()
+        maxRate = $('#maxRate').val()
+        filterByRate()
+      })
+    }
 
-
-  // ----------------------------- (2) APPELS -----------------------------
+    // ----------------------------- (2) APPELS -----------------------------
     const allCalls = async () => {
       const a = await geoLoc()
       const b = await getData()
+      const c = await processData(places)
+
     }
 
     allCalls()
 
   } // fin de la fonction Master()
 
-  master()
+master()
 
 });
