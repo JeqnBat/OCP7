@@ -11,15 +11,12 @@ html, body {
 /* Main layout
 ________________________________________*/
 #titre {
-  width: 100vw;
   text-align: center;
   margin: 0 auto;
-  height: 20vh;
 }
 
 #main {
   height: 80vh;
-  width: 100vw;
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
@@ -41,7 +38,11 @@ ________________________________________*/
 }
 
 .text {
-  margin: 5vw;
+  border-radius: 1vw;
+  border: 1px solid orange;
+  margin: 4vw;
+  padding: 1vw;
+  background: antiquewhite;
 }
 
 .filter {
