@@ -47,8 +47,7 @@ $(function() {
     let pos = {
       lat: position.coords.latitude,
       lng: position.coords.longitude
-    };
-
+    }
     map.setCenter(pos) // update la map avec la position reçue
     map.setZoom(16)
   }
@@ -63,14 +62,14 @@ $(function() {
     // Calcul de la moyenne(1) - déclaration des variables
     let sum = 0
     let averageRate = 0
-    // Display des data(1)
+    // Display des data
     for (let i = 0; i < data.length; i++) {
       $('#two').append(`<div class="text" item="${i}">
       Nom : ${data[i].restaurantName}<br>
       Adresse : ${data[i].address}<br>
       <p class="averageRate"></p>
       <hr>`)
-      // Display des data(2) - détails
+      // Nouvelle boucle pour process l'array dans l'array
       for (let j = 0; j < data[i].ratings.length; j++) {
         $(`[item = ${i}]`).append(
         `Note : ${data[i].ratings[j].stars}<br>
@@ -87,7 +86,7 @@ $(function() {
 
       $('.averageRate:last').append(`Note moyenne : ${averageRate}`)
     }
-    // __________ Partie 3.1 : Création d'un filtre de notes __________
+    // __________ Partie 3.1 : Création d'un filtre basé sur les notes __________
     // stocker la valeur des deux input number
     let minRate = $('#minRate').val()
     let maxRate = $('#maxRate').val()
@@ -107,30 +106,48 @@ $(function() {
       maxRate = $('#maxRate').val()
       filterByRate()
     })
-    // __________ Partie 3.2 : Display des restaurants sur la Gmap __________
-    // penser aux icônes une fois que ça marchera (une fois que ça marchera…)
+  } // fin de processData()
 
-    // 1. voici le code pour intégrer une nouvelle 'place' à ma Gmap
-    // 2. créer une boucle pour de faire tous les restaurants de la liste
+  // __________ Partie 3.2 : Display des restaurants sur la Gmap __________
+  // penser aux icônes une fois que ça marchera (une fois que ça marchera…)
+  function displayGmap(data) {
+    // 1. On stocke tous les marqueurs générés ici
+    let allMarkers = []
+    // 2. On génère TOUS les marqueurs à partir de l'array 'places' qui provient du JSON
     for (let i = 0; i < data.length; i++) {
-      let myLatLng = new google.maps.LatLng(data[i].lat, data[i].long) // on récupère les coords de chaque restaurant
+      let latLng = new google.maps.LatLng(data[i].lat, data[i].long)
       let marker = new google.maps.Marker({
-        position: myLatLng,
+        position: latLng,
         map: map,
-        title: data[0].restaurantName
-        // icon:
+        title: data[i].restaurantName,
+        visible: false
+        //icon:
       })
+      allMarkers.push(marker)
     }
-
+    // 3. On crée une fonction qui renvoie TRUE si le marker est dans les limites visibles de la MAP
+    function checkPos(marker) {
+      return map.getBounds().contains(marker.getPosition())
+    }
+    // 4. On utilise un eventHandler pour MAJ la map à chaque "dragend"
+    google.maps.event.addListener(map, 'dragend', function() {
+      // 4.1 On boucle sur tous les marqueurs à la fin de chaque "dragend"
+      for (let i = 0; i < allMarkers.length; i++) {
+        // 4.2 Si l'un des marqueurs est dans les limites de la map on l'affiche, sinon non
+        if (checkPos(allMarkers[i]) == true) {
+          allMarkers[i].setVisible(true)
+        } else {
+          allMarkers[i].setVisible(false)
+        }
+      }
+    }) // fin du event handler
   }
-
-
   // ----------------------------- (2) APPELS -----------------------------
   const master = async () => {
     const geoLocRdy = await geoLoc()
     const dataRdy = await getData()
-    const placesRdy = await processData(places)
-
+    processData(places)
+    displayGmap(places)
   }
 
   master()
