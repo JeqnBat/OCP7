@@ -26,10 +26,6 @@ ________________________________________*/
   align-items: center;
 }
 
-#two {
-  overflow: scroll;
-}
-
 .column {
   flex: 0 1 auto;
   height: 96%;
@@ -37,6 +33,7 @@ ________________________________________*/
   background: honeydew;
   border-radius: 1vw;
   margin: 1vw;
+  overflow: scroll;
 }
 
 .text {
