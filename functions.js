@@ -83,7 +83,7 @@ $(function() {
       let averageRate = sum / denominator
       allRates.push(averageRate)
       sum = 0
-
+      // Display de la note moyenne
       $('.averageRate:last').append(`Note moyenne : ${averageRate}`)
     }
     // __________ Partie 3.1 : Création d'un filtre basé sur les notes __________
@@ -109,10 +109,11 @@ $(function() {
   } // fin de processData()
 
   // __________ Partie 3.2 : Display des restaurants sur la Gmap __________
-  // penser aux icônes une fois que ça marchera (une fois que ça marchera…)
-  function displayGmap(data) {
+  function updateGmap(data) {
     // 1. On stocke tous les marqueurs générés ici
     let allMarkers = []
+    let markerPNG = 'png/marker.png'
+
     // 2. On génère TOUS les marqueurs à partir de l'array 'places' qui provient du JSON
     for (let i = 0; i < data.length; i++) {
       let latLng = new google.maps.LatLng(data[i].lat, data[i].long)
@@ -120,11 +121,52 @@ $(function() {
         position: latLng,
         map: map,
         title: data[i].restaurantName,
-        visible: false
-        //icon:
+        visible: false,
+        animation: google.maps.Animation.DROP,
+        icon: markerPNG
       })
+      showMarkerDetails(marker) // On appelle la gestion d'événements à l'intérieur de chaque marqueur
+      // On envoie tous les markers dans l'array allMarkers
       allMarkers.push(marker)
     }
+
+    // 3 Gestion événementielle des markers
+    function showMarkerDetails(marker) {
+      let infowindow = new google.maps.InfoWindow({
+        content: 'ca viendra tkt'
+      })
+      // 3.1 Onclick
+      marker.addListener('click', function() {
+
+        // 3.1.1 Identifier le marker cliqué dans l'array des restaurants
+        let n = 0
+          while (marker.title != data[n].restaurantName) {
+              n++
+          }
+        // 3.1.2 passer 'n' au code pour obtenir toutes les infos
+        $('#three').html(`<div class="text" item="${n}">
+        Nom : ${data[n].restaurantName}<br>
+        Adresse : ${data[n].address}<br>
+        <p class="averageRate"></p>
+        <hr>`)
+        // Nouvelle boucle pour process l'array dans l'array
+        for (let j = 0; j <data[n].ratings.length; j++) {
+          $('[item]:last').append(
+          `Note : ${data[n].ratings[j].stars}<br>
+          Commentaire : ${data[n].ratings[j].comment}<br>
+          </div>`)
+        }
+      })
+
+      marker.addListener('mouseover', function() {
+        infowindow.open(marker.get('map'), marker)
+      })
+
+      marker.addListener('mouseout', function() {
+        infowindow.close()
+      })
+    }
+
     // 3. On crée une fonction qui renvoie TRUE si le marker est dans les limites visibles de la MAP
     function checkPos(marker) {
       return map.getBounds().contains(marker.getPosition())
@@ -141,13 +183,14 @@ $(function() {
         }
       }
     }) // fin du event handler
-  }
+  } // fin de updateGmap()
+
   // ----------------------------- (2) APPELS -----------------------------
   const master = async () => {
     const geoLocRdy = await geoLoc()
     const dataRdy = await getData()
     processData(places)
-    displayGmap(places)
+    updateGmap(places)
   }
 
   master()
