@@ -49,6 +49,7 @@ $(function() {
   // __________ Partie 3 : Display des restaurants sur la Gmap __________
   function updateGmap(data) {
     let markerPNG = 'png/marker.png'
+    let averageRate = 0
     // 2. On génère TOUS les marqueurs à partir de l'array 'places' qui provient du JSON
     for (let i = 0; i < data.length; i++) {
       let latLng = new google.maps.LatLng(data[i].lat, data[i].long)
@@ -60,9 +61,21 @@ $(function() {
         animation: google.maps.Animation.DROP,
         icon: markerPNG
       })
+      // Calcul de la moyenne (qui pourra être une fonction appélée ici pour factoriser)
+      let sum = 0
+      let denominator = data[i].ratings.length
+      for (let j = 0; j < denominator; j++) {
+        sum += data[i].ratings[j].stars
+      }
+      averageRate = sum / denominator
+      allRates.push(averageRate)
+      sum = 0
+
       showMarkerDetails(marker) // On appelle la gestion d'événements à l'intérieur de chaque marqueur
       // On envoie tous les markers dans l'array allMarkers
       allMarkers.push(marker)
+
+
     }
     // 3 Gestion événementielle des markers
     function showMarkerDetails(marker) {
@@ -72,8 +85,6 @@ $(function() {
       // 3.1 Onclick
       marker.addListener('click', function() {
         // 3.1.1 Identifier le marker cliqué dans l'array des restaurants
-        let sum = 0
-        let averageRate = 0
         let n = 0
           while (marker.title != data[n].restaurantName) {
               n++
@@ -84,7 +95,7 @@ $(function() {
           $('#two').append(`<div class="text" item="${data[n].restaurantName}">
           Nom : ${data[n].restaurantName}<br>
           Adresse : ${data[n].address}<br>
-          <p class="averageRate"></p>
+          <p class="averageRate">Note moyenne : ${allRates[n]}</p>
           <hr>`)
           // Nouvelle boucle pour process l'array dans l'array
           for (let j = 0; j < data[n].ratings.length; j++) {
@@ -93,16 +104,7 @@ $(function() {
             Note : ${data[n].ratings[j].stars}<br>
             <br>
             </div>`)
-            sum += data[n].ratings[j].stars
           }
-
-          let denominator = data[n].ratings.length
-          averageRate = sum / denominator
-          $('.averageRate:last').append(`Note moyenne : ${averageRate}`)
-
-          allRates.push(averageRate, `${data[n].restaurantName}`)
-          sum = 0
-
         } else {
           // rajouter toggle plus tard via CSS pour montrer que le resto est déjà là
         }
@@ -141,18 +143,14 @@ $(function() {
   let minRate = $('#minRate').val()
   let maxRate = $('#maxRate').val()
 
-  function filterByRate() {
+  function filterByRate(data) {
     for (let i = 0; i < allRates.length; i++) {
-      if (typeof allRates[i] === 'string' ) {
-        continue
-      }
       if (allRates[i] >= minRate && allRates[i] <= maxRate) { // factoriser cette ligne ?? (allRatesx2)
-        $(`[item=${allRates[i+1]}]`).css('display', '')
+        $(`[item=${data[i].restaurantName}]`).css('display', '')
+        allMarkers[i].setVisible(true)
       } else {
-        $(`[item=${allRates[i+1]}]`).css('display', 'none')
-        // allMarkers[i].setVisible(true)
-        console.log(allMarkers[0].title)
-        console.log(allRates[i+1])
+        $(`[item=${data[i].restaurantName}]`).css('display', 'none')
+        allMarkers[i].setVisible(false)
       }
     }
   }
@@ -160,7 +158,7 @@ $(function() {
   $('#filter').click(function() {
     minRate = $('#minRate').val()
     maxRate = $('#maxRate').val()
-    filterByRate()
+    filterByRate(places)
   })
 
   // ----------------------------- (2) APPELS -----------------------------
@@ -168,7 +166,6 @@ $(function() {
     const geoLocRdy = await geoLoc()
     const dataRdy = await getData()
     updateGmap(places)
-    filterByRate()
   }
 
   master()
