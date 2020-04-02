@@ -23,24 +23,31 @@
         </div>
       </div>
       <div id="three" class="column">
-        <div class="text">description du restaurant sélectionné</div>
+        <div class="text">StreetView affiche toi, stp?</div>
       </div>
     </div>
     <script>
       let map
+      let pano
+      //
       function initMap() {
         map = new google.maps.Map(document.getElementById('one'), {
           center: {lat: -34.397, lng: 150.644},
           zoom: 8
         })
-        localStorage.setItem('map', map)
+        //
+        pano = new google.maps.StreetViewPanorama(document.getElementById('three'), {
+          position: {lat: 37.869260, lng: -122.254811},
+          pov: {heading: 165, pitch: 0},
+          zoom: 1,
+        })
       }
+      // Envoie les variables map & panorama dans le localStorage
+      localStorage.setItem('map', map, 'pano', pano)
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIi85Z-k3YNhERLkmweLw4PBm-3EAjXiI&callback=initMap"
     async defer></script>
   </body>
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script src="functions.js"></script>
-</html>
-
 </html>

@@ -26,13 +26,17 @@ ________________________________________*/
   align-items: center;
 }
 
+#three {
+  filter: invert(1); /* bypass du mode development only du StreetView */
+}
+
 .column {
   flex: 0 1 auto;
   height: 96%;
   width: 100%;
   background: honeydew;
   border-radius: 1vw;
-  margin: 1vw;
+  margin: .5vw;
   overflow: scroll;
 }
 
