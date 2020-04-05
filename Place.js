@@ -9,6 +9,7 @@ class Place {
       for (let j = 0; j < data[i].ratings.length; j++) {
         this.restaurants[i].ratings[j] = new Rating(data[i].ratings[j].stars, data[i].ratings[j].comment)
       }
+      this.restaurants[i].avgRating()
     }
   }
 

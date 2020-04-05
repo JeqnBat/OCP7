@@ -12,46 +12,13 @@ html, body {
 
 /* Main layout
 ________________________________________*/
-#titre {
-  text-align: center;
-  margin: 0 auto;
-}
-
-#main {
-  height: 80vh;
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-}
-
-#three {
+#StreetView {
   filter: invert(1); /* bypass du mode development only du StreetView */
 }
 
-.column {
-  flex: 0 1 auto;
-  height: 96%;
-  width: 100%;
-  background: honeydew;
-  border-radius: 1vw;
-  margin: .5vw;
-  overflow: scroll;
-}
-
-.text {
-  border-radius: 1vw;
-  border: 1px solid orange;
-  margin: 1vw 4vw;
-  padding: 1vw;
-  background: antiquewhite;
-}
-
 .filter {
-  margin: 4vw;
+  font-size: .8rem;
 }
-
 
 /* FONTS
 ________________________________________*/
