@@ -43,7 +43,7 @@ ________________________________________*/
 .text {
   border-radius: 1vw;
   border: 1px solid orange;
-  margin: 4vw;
+  margin: 1vw 4vw;
   padding: 1vw;
   background: antiquewhite;
 }
@@ -55,6 +55,6 @@ ________________________________________*/
 
 /* FONTS
 ________________________________________*/
-.averageRate {
+.averageRating {
   color: gray;
 }

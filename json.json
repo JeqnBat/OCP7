@@ -30,5 +30,37 @@
         "comment": "J'ai trouve ca correct, sans plus"
       }
     ]
+  },
+  {
+    "restaurantName": "Akitaya",
+    "address": "10 Rue Francœur, 75018 Paris",
+    "lat": 48.890102,
+    "long": 2.342248,
+    "ratings": [
+      {
+        "stars": 5,
+        "comment": "J'adore les sushis !"
+      },
+      {
+        "stars": 5,
+        "comment": "Moi aussi !"
+      }
+    ]
+  },
+  {
+    "restaurantName": "PinkMama",
+    "address": "20bis rue de Douai, 75009 Paris",
+    "lat": 48.881905,
+    "long": 2.334492,
+    "ratings": [
+      {
+        "stars": 4,
+        "comment": "Vive les pizzas"
+      },
+      {
+        "stars": 2,
+        "comment": "J'ai fait la queue 4h"
+      }
+    ]
   }
 ]
