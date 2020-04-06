@@ -1,5 +1,4 @@
 $(function() {
-
   localStorage.getItem('map', 'pano')
   // let go          = new Go()
   let place       = new Place()
@@ -21,6 +20,7 @@ $(function() {
     data         = await response.json()
   }
 
+  // ----------------------------- APPELS -----------------------------
   function main() {
     // Factorisation
     let pR = place.restaurants
@@ -28,10 +28,11 @@ $(function() {
     place.process(data)
     aboutMap.createMarker(pR.length, place)
     aboutMap.isVisible(place)
+
     filter.click(aboutMap, pR.length, pR, aboutMap.markers)
 
   }
-  // ----------------------------- (2) APPELS -----------------------------
+
   const master = async () => {
     const waitData      = await getData()
     const locationRdy   = await geoLoc()

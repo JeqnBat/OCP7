@@ -31,18 +31,32 @@ class Restaurant {
     }
   }
 
+  showStars(nb, avg) {
+    let starNb = 5
+    for (let i = 0; i < starNb; i++) {
+      if (i < avg) {
+        $(`.score${nb}`).append(`
+          <span>★</span>
+          `)
+      } else {
+        $(`.score${nb}`).append(`
+          <span>☆</span>
+          `)
+      }
+    }
+  }
+
   showMiniature(name, address, avg) {
     if ($('#content').html().indexOf(`${name}`) == -1) {
       $('#content').append(`
         <div class="p-2 col-sm-6" item="mini${name}">
         ${name}<br>
         ${address}<br>
-        ${avg}<br>
-        <span id="score${name}"></span>
+        <span class="score${name}" data-toggle="tooltip" title="note moyenne : ${avg}"></span>
         </div>
         `)
     } else {
-      $(`[item=mini${name}]`).css('color', 'blue')
+      return
     }
   }
 
@@ -55,26 +69,43 @@ class Restaurant {
       <div class="cover p-2 col-sm-12" item="${this.name}">
       Nom : ${this.name}<br>
       Adresse : ${this.address}<br>
-      <p class="averageRating">Note moyenne : ${this.averageRating}</p>
+      <span>Note moyenne : ${this.averageRating}</span>
       <hr>
     `)
     // Nouvelle boucle pour process l'array dans l'array
-    for (let j = 0; j < this.ratings.length; j++) {
-      $(`[item=${this.name}]`).append(`
-      Commentaire :<br>
-      ${this.ratings[j].comment}<br>
-      Note : ${this.ratings[j].stars}<br>
-      <br>
-      </div>`)
+    for (let i = 0; i < this.ratings.length; i++) {
+      this.ratings[i].show(this.name)
+      this.showStars(i, this.averageRating)
     }
+    // onclick du bouton "ajouter un commentaire"
+    $('#content').on('click', '#addComment', function() {
+      $('#commentsection').removeClass('d-none')
+    })
+    // Commentaires à saisir par le user
     $('#content:last-child').append(`
-    <div class="comment p-2 col-sm-12" item=${this.name}>
-    <label for="comment">Ajouter un commentaire</label>
-    <textarea id="comment${this.name}" class="form-control"></textarea>
-    <label for="star">Note</label><br>
-    <input type="number" id="note${this.name}" min="0" max="5" value="1"><br>
-    <button type="submit" class="btn btn-primary" name="${this.name}">envoyer</button>
-    </div>`)
+      <button id="addComment" type="submit" class="btn btn-primary">ajouter un commentaire</button>
+      <div id="commentsection" class="d-none p-2 col-sm-12">
+      <label for="comment">Ajouter un commentaire</label>
+      <textarea id="comment${this.name}" class="form-control"></textarea>
+      <label for="star">Note</label><br>
+      <input type="number" id="note${this.name}" min="0" max="5" value="1"><br>
+      <button id="postComment" type="submit" class="btn btn-primary">envoyer</button>
+      </div>
+    `)
+  }
+
+  post() {
+    // griser le bouton tant que les deux champs ont pas une valeur
+    let comment = $(`#comment${this.name}`).val()
+    let score   = $(`#note${this.name}`).val()
+    let classInstance = this
+    $('#content').on('click', '#postComment', function() {
+
+      comment = $(`#comment${classInstance.name}`).val()
+      score   = $(`#note${classInstance.name}`).val()
+
+      console.log(this.name)
+    })
   }
 
 }
