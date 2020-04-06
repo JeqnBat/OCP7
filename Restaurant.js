@@ -9,8 +9,25 @@ class Restaurant {
   }
 
   avgRating() {
+    let starNb = 5
     for (let i = 0; i < this.ratings.length; i++) {
       this.averageRating += this.ratings[i].stars/this.ratings.length
+    }
+  }
+
+  showStars(name, avg) {
+    let starNb = 5
+    $(`#score${name}`).html('')
+    for (let i = 0; i < starNb; i++) {
+      if (i < avg) {
+        $(`#score${name}`).append(`
+          <span>★</span>
+          `)
+      } else {
+        $(`#score${name}`).append(`
+          <span>☆</span>
+          `)
+      }
     }
   }
 
@@ -21,7 +38,8 @@ class Restaurant {
         ${name}<br>
         ${address}<br>
         ${avg}<br>
-        </div
+        <span id="score${name}"></span>
+        </div>
         `)
     } else {
       $(`[item=mini${name}]`).css('color', 'blue')
@@ -50,7 +68,7 @@ class Restaurant {
       </div>`)
     }
     $('#content:last-child').append(`
-    <div class="comment p-2 col-sm-12" item="${this.name}">
+    <div class="comment p-2 col-sm-12" item=${this.name}>
     <label for="comment">Ajouter un commentaire</label>
     <textarea id="comment${this.name}" class="form-control"></textarea>
     <label for="star">Note</label><br>

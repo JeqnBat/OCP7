@@ -43,22 +43,12 @@ class Gmap {
       return map.getBounds().contains(marker.getPosition())
     }
 
-    // for (let i = 0; i < classeInstance.markers.length; i++) {
-    //   if (inBounds(classeInstance.markers[i]) == true) {
-    //     classeInstance.markers[i].setVisible(true)
-    //     pR[i].showMiniature(pR[i].name, pR[i].address, pR[i].averageRating)
-    //   }
-    // }
-
     google.maps.event.addListener(map, 'dragend', function() {
       for (let i = 0; i < classeInstance.markers.length; i++) {
         if (inBounds(classeInstance.markers[i]) == true) {
           classeInstance.markers[i].setVisible(true)
-          if ($('#content').children().hasClass('cover') == true) {
-            pR[i].hideMiniature(pR[i].name)
-          } else {
-            pR[i].showMiniature(pR[i].name, pR[i].address, pR[i].averageRating)
-          }
+          pR[i].showMiniature(pR[i].name, pR[i].address, pR[i].averageRating)
+          pR[i].showStars(pR[i].name, pR[i].averageRating)
         } else {
           classeInstance.markers[i].setVisible(false)
           pR[i].hideMiniature(pR[i].name)

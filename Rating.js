@@ -3,5 +3,5 @@ class Rating {
     this.stars = stars
     this.comment = comment
   }
-  // ESPACE DEDIE AUX METHODES
+  
 }
