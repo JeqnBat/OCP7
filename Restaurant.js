@@ -12,7 +12,7 @@ class Restaurant {
     this.createMarker()
     this.showMiniature()
     this.showStars()
-    this.click()
+    this.filter()
   }
 
 // MÉTHODES ________________________________________*/
@@ -142,47 +142,54 @@ class Restaurant {
   }
 
 
-  // FILTRE __________________________________________*/
-  click() {
+// FILTRE __________________________________________*/
+  // 1. Par note
+  filter() {
+    function process(avg) {
+      let min = $('#minRating').val()
+      let max = $('#maxRating').val()
+      if (avg >= min && avg <= max) {
+        return true
+      } else {
+        return false
+      }
+    }
+
+    function checkPos(marker) {
+      return map.getBounds().contains(marker.getPosition())
+    }
+
     let classInstance = this
     $('#filter').click(function() {
-      if (classInstance.inBounds(classInstance.marker) == false || classInstance.process() == false) {
+      if (process(classInstance.averageRating) == false || checkPos(classInstance.marker) == false) {
+        console.log(`${classInstance.name} est caché`)
+      } else {
+        console.log(`${classInstance.name} est pas caché`)
+      }
+    })
+
+    google.maps.event.addListener(map, 'idle', function() {
+      if (checkPos(classInstance.marker) == false || process(classInstance.averageRating) == false) {
         console.log(`${classInstance.name} est caché`)
       } else {
         console.log(`${classInstance.name} est pas caché`)
       }
     })
   }
-  process() {
-    let min = $('#minRating').val()
-    let max = $('#maxRating').val()
-    if (this.averageRating >= min && this.averageRating <= max) {
-      return true
-    } else {
-      return false
-    }
-  }
 
-  inBounds() {
-    function checkPos(marker) {
-      return map.getBounds().contains(marker.getPosition())
-    }
-    let classInstance = this
-    google.maps.event.addListener(map, 'dragend', function() {
-      if (classInstance.inBounds(classInstance.marker) == false || classInstance.click() == false) {
-        console.log(`${this.name} est caché`)
-      } else {
-        console.log(`${this.name} est pas caché`)
-      }
-    })
-  }
-
-  filter() {
-    if (classInstance.inBounds(classInstance.marker) == false || classInstance.click() == false) {
-      console.log(`${this.name} est caché`)
-    } else {
-      console.log(`${this.name} est pas caché`)
-    }
-  }
+  // 2. Par localisation
+  // inBounds() {
+  //   function checkPos(marker) {
+  //     return map.getBounds().contains(marker.getPosition())
+  //   }
+  //   let classInstance = this
+  //   google.maps.event.addListener(map, 'idle', function() {
+  //     if (checkPos(classInstance.marker) == false) {
+  //       console.log(`${classInstance.name} est caché`)
+  //     } else {
+  //       console.log(`${classInstance.name} est pas caché`)
+  //     }
+  //   })
+  // }
 
 }
