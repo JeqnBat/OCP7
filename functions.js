@@ -2,8 +2,6 @@ $(function() {
   localStorage.getItem('map', 'pano')
   // let go          = new Go()
   let place       = new Place()
-  let aboutMap    = new Gmap()
-  let filter      = new Filter()
   let data        = []
 
 /*(fonctionne pas dans un fichier à part)*/
@@ -22,15 +20,7 @@ $(function() {
 
   // ----------------------------- APPELS -----------------------------
   function main() {
-    // Factorisation
-    let pR = place.restaurants
-    // Appel des méthodes
     place.process(data)
-    aboutMap.createMarker(pR.length, place)
-    aboutMap.isVisible(place)
-
-    filter.click(aboutMap, pR.length, pR, aboutMap.markers)
-
   }
 
   const master = async () => {
