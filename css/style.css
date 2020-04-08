@@ -16,12 +16,6 @@ ________________________________________*/
   filter: invert(1); /* bypass du mode development only du StreetView */
 }
 
-.filter {
+.nav {
   font-size: .8rem;
-}
-
-/* STARS
-________________________________________*/
-.hollow {
-  content: "\2605"
 }

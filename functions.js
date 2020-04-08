@@ -1,8 +1,8 @@
 $(function() {
   localStorage.getItem('map', 'pano')
-  // let go          = new Go()
-  let place       = new Place()
-  let data        = []
+
+  let place  = new Place()
+  let data   = []
 
 /*(fonctionne pas dans un fichier à part)*/
   const getData = async () => {
@@ -18,7 +18,7 @@ $(function() {
     data         = await response.json()
   }
 
-  // ----------------------------- APPELS -----------------------------
+// APPELS __________________________________________*/
   function main() {
     place.process(data)
   }
@@ -28,7 +28,6 @@ $(function() {
     const locationRdy   = await geoLoc()
     const createObjects = await main()
   }
-
+  
   master()
-
 })
