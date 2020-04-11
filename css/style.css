@@ -19,3 +19,15 @@ ________________________________________*/
 .nav {
   font-size: .8rem;
 }
+
+.button {
+  width: 3rem;
+}
+/* trick de l'ancre pour rester en bas de page avec le y scrolling */
+#two {
+  overflow-y: scroll;
+}
+
+#anchor {
+  height: 1px;
+}

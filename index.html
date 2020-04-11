@@ -9,46 +9,28 @@
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
-    <div id="main" class="row no-gutters justify-content-center h-100">
+    <div id="main" class="row no-gutters h-100">
       <div id="one" class="col-lg-8"></div>
       <div id="two" class="col-lg-4 h-100">
         <div id="StreetView" class="h-25"></div>
         <div id="filter" class="nav p-2">
           <p>FILTRER PAR NOTE :
           <label for="minRating">min</label>
-          <input type="number" id="minRating" name="minRating" min="0" max="5" value="1">
+          <input class="button" type="number" id="minRating" name="minRating" min="0" max="5" value="1">
           <label for="maxRating">max</label>
-          <input type="number" id="maxRating" name="maxRating" min="0" max="5" value="5">
+          <input class="button" type="number" id="maxRating" name="maxRating" min="0" max="5" value="5">
           </p>
         </div>
         <div id="content" class="row no-gutters justify-content-left"></div>
+        <div id="anchor"></div>
       </div>
     </div>
-    <script>
-      let map
-      let pano
-      //
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('one'), {
-          center: {lat: -34.397, lng: 150.644},
-          zoom: 8
-        })
-        //
-        pano = new google.maps.StreetViewPanorama(document.getElementById('StreetView'), {
-          position: {lat: 37.869260, lng: -122.254811},
-          pov: {heading: 165, pitch: 0},
-          zoom: 1,
-        })
-      }
-      // Envoie les variables map & panorama dans le localStorage
-      localStorage.setItem('map', map, 'pano', pano)
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIi85Z-k3YNhERLkmweLw4PBm-3EAjXiI&callback=initMap"
-    async defer></script>
   </body>
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script src="Restaurant.js"></script>
-  <script src="Place.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIi85Z-k3YNhERLkmweLw4PBm-3EAjXiI&callback=initMap" async defer></script>
+  <script src="map.js"></script>
   <script src="geoloc.js"></script>
+  <script src="Place.js"></script>
+  <script src="Restaurant.js"></script>
   <script src="functions.js"></script>
 </html>

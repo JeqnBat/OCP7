@@ -28,6 +28,6 @@ $(function() {
     const locationRdy   = await geoLoc()
     const createObjects = await main()
   }
-  
+
   master()
 })
