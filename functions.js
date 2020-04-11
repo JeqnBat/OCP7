@@ -1,4 +1,5 @@
 $(function() {
+
   localStorage.getItem('map', 'pano')
 
   let place  = new Place()
@@ -26,8 +27,10 @@ $(function() {
   const master = async () => {
     const waitData      = await getData()
     const locationRdy   = await geoLoc()
-    const createObjects = await main()
+    main()
   }
 
-  master()
+  init(master)
+
+
 })

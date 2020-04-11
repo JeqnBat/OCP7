@@ -65,7 +65,7 @@ class Restaurant {
     let classInstance = this
     let miniature = `<div class="p-2 col-sm-6" item="mini${this.name}">
                     <span class="name${this.name}">${this.name}</span><br>
-                    <span class="score${this.name}"></span><br>
+                    <span class="score${this.name} text-warning"></span><br>
                     <span class="address${this.name}">${this.address}</span><br>
                     </div>`
     $('#content').append(miniature)
@@ -81,14 +81,14 @@ class Restaurant {
   showDetails() {
     let classInstance = this
     let anchor = document.getElementById('anchor')
-    let header = `<span id="backToNav" class="p-2 col-sm-12">☚ revenir à la navigation</span>
-                  <div class="p-2 col-sm-12" item="${this.name}">
-                  <span class="name${this.name}">${this.name}</span><br>
-                  <span class="score${this.name}"></span><br>
-                  <span class="address${this.name}">${this.address}</span><br>
+    let header = `<span id="backToNav" class="back2nav p-4">◀ revenir à la navigation</span>
+                  <div class="p-4 col-sm-12" item="${this.name}">
+                  <span class="title name${this.name}">${this.name}</span><br>
+                  <span class="score${this.name} text-warning"></span><br>
+                  <span class="text-muted address${this.name}">${this.address}</span><br>
                   <hr>`
     let form   = `<button id="addComment" type="submit" class="btn btn-primary mx-auto">ajouter un commentaire</button>
-                  <div id="commentsection" class="d-none p-2 col-sm-12">
+                  <div id="commentsection" class="d-none p-4 col-sm-12">
                   <label for="comment">Ajouter un commentaire</label>
                   <textarea id="comment${this.name}" class="form-control p-3"></textarea>
                   <label for="star">Note</label><br>
@@ -130,7 +130,7 @@ class Restaurant {
     let starNb    = 5
     let starFull  = `<span>★</span>`
     let starEmpty = `<span>☆</span>`
-    $(`.score${this.name}`).append(`<span>${this.averageScore} </span>`)
+    $(`.score${this.name}`).append(`<span class="text-dark">${this.averageScore} </span>`)
     for (let i = 0; i < starNb; i++) {
       if (i < this.averageScore) {
         $(`.score${this.name}`).append(starFull)
@@ -138,7 +138,7 @@ class Restaurant {
         $(`.score${this.name}`).append(starEmpty)
       }
     }
-    $(`.score${this.name}`).append(`<span> (${this.ratings.length})</span>`)
+    $(`.score${this.name}`).append(`<span class="text-dark"> (${this.ratings.length})</span>`)
   }
 // DÉPÔT D'UN COMMENTAIRE __________________________*/
   post() {
