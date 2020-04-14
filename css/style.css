@@ -73,6 +73,7 @@ ________________________________________*/
 }
 
 #home {
+  opacity: 0;
   -webkit-animation: fadeIn .5s linear forwards;
           animation: fadeIn .5s linear forwards;
   -webkit-animation-delay: .1s;
