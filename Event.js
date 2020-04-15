@@ -1,6 +1,7 @@
 class Event {
   constructor() {
     this.display = new Display()
+    this.operator = new Operator()
   }
 
   logoClick(init) {
@@ -29,11 +30,12 @@ class Event {
     })
   }
 
-  markerClick(marker, name, address, length, ratings, avg, lat, lng, pano) {
+  markerClick(marker, name, address, ratings, avg, lat, lng, pano) {
     let that = this
     marker.addListener('click', function() {
-      that.display.showDetails(name, address, length, ratings)
-      that.display.showStars(name, avg, length)
+      avg = that.operator.renderScore(ratings, avg)
+      that.display.showDetails(name, address, ratings)
+      that.display.showStars(name, avg, ratings)
       let latLng = new google.maps.LatLng(lat, lng)
       pano.setPosition(latLng)
     })
@@ -47,36 +49,61 @@ class Event {
     })
   }
 
-  miniatureClick(name, address, length, ratings, avg) {
+  miniatureClick(name, address, ratings, avg, lat, lng, pano) {
     let that = this
-    $(`[item=mini${name}]`).click(function() {
-      that.display.showDetails(name, address, length, ratings)
-      that.display.showStars(name, avg, length)
+    $('body').on('click', `#mini${name}`, function() {
+      that.display.showDetails(name, address, ratings, ratings)
+      that.display.showStars(name, avg, ratings)
+      let latLng = new google.maps.LatLng(lat, lng)
+      pano.setPosition(latLng)
     })
   }
 
-  backToNavClick() {
+  backToNavClick(avg, marker, map, name, address, ratings) {
+    let that = this
     $('body').on('click', '#backToNav', function() {
+      console.log('compte')
       $('#content').html('')
-      // classInstance.filter()
+      that.operator.filter(avg, marker, map, name, address, ratings)
     })
   }
 
-  addCommentClick() {
+  addCommentClick(name) {
     let anchor = document.getElementById('anchor')
-    $('body').on('click', '#addComment', function() {
-      $('#addComment').remove()
+    $('body').on('click', `#addComment${name}`, function() {
+      $(`#addComment${name}`).remove()
       $('#commentsection').removeClass('d-none')
       anchor.scrollIntoView()
     })
   }
 
   // poster le commentaire
-  postCommentClick() {
-    $('body').on('click', `#postComment`, function() {
-      this.post()
-      $('#addComment').remove()
+  postCommentClick(name, ratings, avg, address, infoWindow) {
+    let that = this
+    $('body').on('click', `#postComment${name}`, function() {
+      that.operator.postComment(name, ratings, avg, address)
+      avg = that.operator.renderScore(ratings, avg)
+      that.display.showDetails(name, address, ratings)
+      that.display.showStars(name, avg, ratings)
+      let content = that.display.infoWindow(name, avg, ratings, address)
+      infoWindow.setContent(content)
+      $(`#addComment${name}`).remove()
       $('#content').append('<span class="mx-auto">Votre commentaire a bien été enregistré !</span>')
+      console.log(avg)
+    })
+  }
+  // filtres de navigation
+  scoreFilterClick(avg, marker, map, name, address, ratings) {
+    let that = this
+    $('body').on('click', '#filter', function() {
+      that.operator.filter(avg, marker, map, name, address, ratings)
+    })
+  }
+
+  mapFilterDrag(avg, marker, map, name, address, ratings) {
+    let that = this
+    google.maps.event.addListener(map, 'idle', function() {
+      that.operator.filter(avg, marker, map, name, address, ratings)
     })
   }
 

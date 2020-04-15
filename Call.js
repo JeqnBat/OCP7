@@ -1,9 +1,8 @@
 class Call {
-  constructor(map, pano) {
-    this.map = map
-    this.pano = pano
+  constructor() {
+    this.map
+    this.pano
     this.data
-
   }
 // CALL API _______________________________________ */
   API() {
@@ -37,7 +36,7 @@ class Call {
   }
 // NAV GEOLOCATE __________________________________ */
   geoLoc() {
-    let map = this.map
+    let map = this.map // obligé à cause du scope des fonctions qui bloque 'this'
     let pano = this.pano
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(success, error)

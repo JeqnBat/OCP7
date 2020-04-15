@@ -1,9 +1,7 @@
 class Page {
   constructor() {
-    let map
-    let pano
     this.events = new Event()
-    this.calls = new Call(map, pano)
+    this.calls = new Call()
     this.restaurants = []
   }
 // INITIALISATION DE LA PAGE ______________________ */
@@ -14,13 +12,9 @@ class Page {
       const geoLocRdy = await this.calls.geoLoc()
       this.createObjects(this.calls.data, this.calls.map, this.calls.pano)
       this.events.togglerClick()
-      this.events.backToNavClick()
-      this.events.addCommentClick()
     }
-
     this.events.logoClick(loadingSequence)
   }
-
 // CREATION DES OBJETS RESTAURANT _________________ */
   createObjects(fromData, wMap, wPanorama) {
     for (let i = 0; i < fromData.length; i++) {

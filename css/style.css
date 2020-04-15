@@ -156,14 +156,14 @@ ________________________________________*/
   font-size: .8rem;
 }
 
-.back2nav {
+.backToNav {
   font-size: .8rem;
   color: #acacac;
   transform: translateX(0px);
   transition: all .2s ease-in-out;
 }
 
-.back2nav:hover {
+.backToNav:hover {
   color: #0275d8;
   transform: translateX(-10px);
 }
