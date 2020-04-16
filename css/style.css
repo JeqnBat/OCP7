@@ -15,24 +15,36 @@ ________________________________________*/
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0275d8;
-}
-::-webkit-scrollbar-thumb {
   background: white;
 }
+::-webkit-scrollbar-thumb {
+  background: #CAC9C9;
+}
 ::-webkit-scrollbar-thumb:hover {
-  background: antiquewhite;
+  background: silver;
 }
 
-#filter {
-  text-align: center;
+/* bouton ADDRESTAURANT */
+#addRestaurant {
+  transition: all .2s linear;
 }
+#addRestaurant:hover {
+  color: #2f7bff;
+}
+.addButton {
+  display: inline-block;
+}
+#addRestaurant:hover > .addButton {
+  -webkit-animation: rotate .5s ease-in-out forwards;
+          animation: rotate .5s ease-in-out forwards;
+}
+
 #StreetView {
   filter: invert(1); /* bypass du mode development only du StreetView */
 }
-
-#one {
+#navColumn {
   overflow-y: scroll;
+  overflow-x: hidden;
   scrollbar-color: lightgray white;
   scrollbar-width: thin;
   position: absolute;
@@ -40,13 +52,13 @@ ________________________________________*/
   top: 0;
   left: 0;
   background-color: white;
-  -webkit-box-shadow: 4px 0px 4px 0px rgba(0,0,0,0.3);
-          box-shadow: 4px 0px 4px 0px rgba(0,0,0,0.3);
+  -webkit-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.5);
+          box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.5);
 
   transition: left .3s ease-in-out;
 }
-
 #toggler {
+  cursor: pointer;
   position: absolute;
   left: 29vw;
   width: 20px;
@@ -125,6 +137,10 @@ ________________________________________*/
           animation-delay: .3s;
 }
 
+.point8 {
+  font-size: .8rem;
+}
+
 .fadeIn {
   opacity: 0;
   -webkit-animation: fadeIn 1s linear forwards;
@@ -132,6 +148,7 @@ ________________________________________*/
   -webkit-animation-delay: 1s;
           animation-delay: 1s;
 }
+
 .titre {
   transition: .3s;
 }
@@ -152,20 +169,16 @@ ________________________________________*/
           animation-delay: 1s;
 }
 
-.nav {
-  font-size: .8rem;
-}
-
-.backToNav {
+.pointLeft {
   font-size: .8rem;
   color: #acacac;
-  transform: translateX(0px);
+  margin-left: 20px;
   transition: all .2s ease-in-out;
 }
 
-.backToNav:hover {
+.pointLeft:hover {
   color: #0275d8;
-  transform: translateX(-10px);
+  margin-left: 10px;
 }
 
 .button {
@@ -178,12 +191,49 @@ ________________________________________*/
 }
 
 .button:hover {
-  border: 1px solid #0275d8 ;
+  border: 1px solid #0275d8;
 }
 
 .title {
-  font-size: 3rem;
-  color: #ff7e00;;
+  color: #ff7e00;
+}
+
+.miniature {
+  opacity: 0;
+  -webkit-animation: fadeIn .2s linear forwards;
+          animation: fadeIn .2s linear forwards;
+  transition: all .1s ease-in-out;
+}
+
+.miniature:hover {
+  cursor: pointer;
+  color: #c96800;
+}
+
+.orange {
+  color: #c96800;
+}
+
+/* navToggler
+________________________________________*/
+#leftNav {
+  margin-right: 0;
+  margin-left: 0;
+  transition: all .5s ease-in-out;
+}
+
+#rightNav {
+  margin-left: 0;
+  margin-right: -100%;
+  transition: all .5s ease-in-out;
+}
+
+.margin-right-0 {
+  margin-right: 0 !important;
+}
+
+.margin-left-100 {
+  margin-left: -100% !important;
 }
 
 /* Animations
@@ -221,9 +271,11 @@ ________________________________________*/
 }
 
 @-webkit-keyframes fadeIn {
+    0% { opacity: 0; }
   100% { opacity: 1; }
 }
 @keyframess fadeIn {
+    0% { opacity: 0; }
   100% { opacity: 1; }
 }
 
@@ -344,3 +396,7 @@ ________________________________________*/
             animation-timing-function: ease-out;
   }
 }
+
+
+/* blue */
+/* #2f7bff */

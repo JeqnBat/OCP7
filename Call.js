@@ -43,18 +43,18 @@ class Call {
     } else {
       //...
     }
+
     function success(position) {
-      let pos = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      }
-      map.setCenter(pos)
-      map.setZoom(17)
-      pano.setPosition(pos)
+        let pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        }
+        map.setCenter(pos)
+        map.setZoom(17)
+        pano.setPosition(pos)
     }
     function error(error) {
-      console.log(`${error.code}`)
+        console.log(`${error.code}`)
     }
   }
-
 }

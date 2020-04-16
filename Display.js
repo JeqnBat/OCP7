@@ -7,7 +7,7 @@ class Display {
     $('#main').addClass('top')
     $('#main').html(this.domElements[0].mainDiv)
     $('#map').addClass('fadeIn')
-    $('#one').addClass('fadeIn')
+    $('#navColumn').addClass('fadeIn')
     $('#toggler').addClass('fadeIn')
   }
 
@@ -20,9 +20,9 @@ class Display {
     return content
   }
   showMiniature(name, address) {
-    let miniature = `<div class="p-2 col-sm-6" id="mini${name}">
-                    <span class="name${name}">${name}</span><br>
-                    <span class="score${name} text-warning"></span><br>
+    let miniature = `<div class="miniature p-3 col-sm-6" id="mini${name}">
+                    <span class="name${name} h4 orange">${name}</span><br>
+                    <span class="score${name} text-primary"></span><br>
                     <span class="address${name}">${address}</span><br>
                     </div>`
     $('#content').append(miniature)
@@ -34,8 +34,8 @@ class Display {
     let scoreDiv  = `.score${name}`
     let starFull  = `<span>★</span>`
     let starEmpty = `<span>☆</span>`
-    let avgScore  = `<span class="text-dark">${avg} </span>`
-    let commentNb = `<span class="text-dark"> (${ratings.length})</span>`
+    let avgScore  = `<span class="text-black-50">${avg} </span>`
+    let commentNb = `<span class="text-black-50"> (${ratings.length})</span>`
     $(scoreDiv).html(avgScore)
     for (let i = 0; i < starNb; i++) {
       if (i < avg) {
@@ -48,32 +48,40 @@ class Display {
   }
 
   showDetails(name, address, ratings) {
-    let header = `<span id="backToNav" class="backToNav p-4">◀ revenir à la navigation</span>
+    let header = `<span id="backToNav" class="pointLeft pt-4">◀ revenir à la navigation</span>
                   <div class="p-4 col-sm-12" item="${name}">
-                  <span class="title name${name}">${name}</span><br>
-                  <span class="score${name} text-warning"></span><br>
+                  <span class="title display-3 name${name}">${name}</span><br>
+                  <span class="score${name} text-primary"></span><br>
                   <span class="text-muted address${name}">${address}</span><br>
-                  <hr>`
-    let form   = `<button id="addComment${name}" type="submit" class="btn btn-primary mx-auto">ajouter un commentaire</button>
-                  <div id="commentsection" class="d-none p-4 col-sm-12">
-                  <label for="comment">Ajouter un commentaire</label>
-                  <textarea id="comment${name}" class="form-control p-3"></textarea>
-                  <label for="star">Note</label><br>
-                  <input type="number" id="score${name}" class="button" min="0" max="5" value="5"><br>
-                  <button id="postComment${name}" type="submit" class="btn btn-primary">envoyer</button>
-                  `
-    $('#content').html(header)
+                  <hr>
+                  <span class="text-primary h5 mb-2">Commentaires</span>
+                  <br>`
+    let form   = `<button id="addComment${name}" type="submit" class="btn btn-primary mx-auto mb-2">ajouter un commentaire</button>
+                  <br>
+                  <div id="commentSection" class="d-none p-4 col-sm-12">
+                  <label for="star">Note</label>
+                  <br>
+                  <input type="number" id="score${name}" class="button" min="0" max="5" value="5">
+                  <br>
+                  <label for="comment">Commentaire</label>
+                  <textarea id="comment${name}" class="form-control p-3"></textarea><br>
+                  <button id="postComment${name}" type="submit" class="btn btn-primary">ajouter</button>
+                  <div id="anchor"></div>`
+    $('#rightNav').html(header)
     // display comments
     for (let i = 0; i < ratings.length; i++) {
-      let body = `<span>commentaire #${i+1}</span><br>
-                  <span>${ratings[i].comment}</span><br>
-                  <span class="score${name}${i}">note : ${ratings[i].stars}</span><br>
-                  <br>
-                  </div>`
-      $(`[item=${name}]`).append(body)
+      let allComments = `<span class="orange point8">#${i+1}</span>
+                         <br>
+                         <span class="text-body">${ratings[i].comment}</span>
+                         <br>
+                         <span class="score${name}${i} text-muted point8 ml-5">a noté <span class="orange">${ratings[i].stars}</span> sur 5</span>
+                         <br>
+                         <br>
+                         </div>`
+      $(`[item=${name}]`).append(allComments)
 
     }
     // formulaire de saisi
-    $('#content').append(form)
+    $('#rightNav').append(form)
   }
 }
