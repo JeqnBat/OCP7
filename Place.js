@@ -14,18 +14,13 @@ class Place {
     this.events = new Event()
 
     this.createMarker()
-    this.events.scoreFilterClick(this.averageScore, this.marker, this.map, this.name, this.address, this.ratings)
-    this.events.mapFilterDrag(this.averageScore, this.marker, this.map, this.name, this.address, this.ratings)
-    this.events.miniatureClick(this.name, this.address, this.ratings, this.averageScore, this.lat, this.lng, this.pano)
-    this.events.addCommentClick(this.name)
-    this.events.postCommentClick(this.name, this.ratings, this.averageScore, this.address, this.infoWindow)
-    this.events.backToNavClick(this.averageScore, this.marker, this.map, this.name, this.address, this.ratings)
+    this.events.allEvents(this.marker, this.name, this.address, this.ratings, this.averageScore, this.lat, this.lng, this.map, this.pano, this.infoWindow)
   }
 
 // CRÉATION DES MARKERS GMAP _______________________*/
   createMarker() {
     let latLng  = new google.maps.LatLng(this.lat, this.lng)
-    // let marker  = this.marker
+    let marker  = this.marker
     this.marker = new google.maps.Marker({
       position: latLng,
       map: this.map,
@@ -42,7 +37,5 @@ class Place {
     this.events.markerClick(this.marker, this.name, this.address, this.ratings, this.averageScore, this.lat, this.lng, this.pano)
     // MOUSEOVER
     this.events.markerMouseOver(this.marker, this.infoWindow)
-
   }
-
 }

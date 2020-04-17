@@ -49,39 +49,37 @@ class Display {
 
   showDetails(name, address, ratings) {
     let header = `<span id="backToNav" class="pointLeft pt-4">◀ revenir à la navigation</span>
-                  <div class="p-4 col-sm-12" item="${name}">
-                  <span class="title display-3 name${name}">${name}</span><br>
-                  <span class="score${name} text-primary"></span><br>
-                  <span class="text-muted address${name}">${address}</span><br>
-                  <hr>
-                  <span class="text-primary h5 mb-2">Commentaires</span>
-                  <br>`
-    let form   = `<button id="addComment${name}" type="submit" class="btn btn-primary mx-auto mb-2">ajouter un commentaire</button>
-                  <br>
-                  <div id="commentSection" class="d-none p-4 col-sm-12">
-                  <label for="star">Note</label>
-                  <br>
-                  <input type="number" id="score${name}" class="button" min="0" max="5" value="5">
-                  <br>
-                  <label for="comment">Commentaire</label>
-                  <textarea id="comment${name}" class="form-control p-3"></textarea><br>
+                  <div class="d-flex flex-column p-4 col-sm-12" item="${name}">
+                    <span class="title display-3 name${name}">${name}</span>
+                    <span class="score${name} text-primary"></span>
+                    <span class="text-muted address${name}">${address}</span>
+                    <hr>
+                    <span class="text-primary h5 mb-2">Commentaires</span>`
+    let form   = `<button id="addComment${name}" type="submit" class="btn btn-primary mx-auto mt-4 mb-2">ajouter un commentaire</button>
+                  <div id="commentSection" class="d-none p-4 col-12">
+                  <div class="form-group">
+                    <label for="score${name}">Note</label><br>
+                    <input type="number" id="score${name}" class="button" min="0" max="5" value="5">
+                  </div>
+                  <div class="form-group">
+                    <label for="comment${name}">Commentaire</label>
+                    <textarea id="comment${name}" class="form-control p-3"></textarea>
+                  </div>
                   <button id="postComment${name}" type="submit" class="btn btn-primary">ajouter</button>
                   <div id="anchor"></div>`
     $('#rightNav').html(header)
     // display comments
     for (let i = 0; i < ratings.length; i++) {
-      let allComments = `<span class="orange point8">#${i+1}</span>
-                         <br>
+      let allComments = `<span class="orange point8 mt-3">#${i+1}</span>
                          <span class="text-body">${ratings[i].comment}</span>
-                         <br>
                          <span class="score${name}${i} text-muted point8 ml-5">a noté <span class="orange">${ratings[i].stars}</span> sur 5</span>
-                         <br>
-                         <br>
                          </div>`
       $(`[item=${name}]`).append(allComments)
-
     }
     // formulaire de saisi
     $('#rightNav').append(form)
+  }
+  displayNewRestaurantForm() {
+    $('#rightNav').html(this.domElements[0].newRestaurantForm)
   }
 }

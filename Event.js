@@ -2,6 +2,7 @@ class Event {
   constructor() {
     this.display = new Display()
     this.operator = new Operator()
+    this.domElements = domElements
   }
 
   logoClick(init) {
@@ -14,7 +15,6 @@ class Event {
       }, 900)
     })
   }
-
   togglerClick() {
     $('#toggler').click(function() {
       let toggler = parseInt($(this).css('left'))
@@ -114,9 +114,33 @@ class Event {
 
   addRestaurantClick() {
     let that = this
-    $('body').on('mouseenter mouseleave', '#addRestaurant', function() {
-      $('.addButton').addClass('.addButtonSpin')
+    $('body').on('click', '#addRestaurant', function() {
+      $('#leftNav').addClass('margin-left-100')
+      $('#rightNav').addClass('margin-right-0')
+      that.display.displayNewRestaurantForm()
     })
+  }
+
+  postNewRestaurantClick(data, domElements) {
+    let that = this
+    $('body').on('click', '#postNewRestaurant', function() {
+      that.operator.postNewRestaurant(data)
+      $(`#newRestaurantForm`).remove()
+      $('#rightNav').append(that.domElements[0].confirmationMessage)
+      console.log(data)
+    })
+  }
+
+  allEvents(marker, name, address, ratings, avg, lat, lng, map, pano, infoWindow) {
+    this.markerClick(marker, name, address, ratings, avg, lat, lng, pano)
+    this.miniatureClick(name, address, ratings, avg, lat, lng, pano)
+    this.markerMouseOver(marker, infoWindow)
+    this.addCommentClick(name)
+    this.postCommentClick(name, ratings, avg, address, infoWindow)
+    this.scoreFilterClick(avg, marker, map, name, address, ratings)
+    this.mapFilterDrag(avg, marker, map, name, address, ratings)
+    this.backToNavClick(avg, marker, map, name, address, ratings)
+    this.addRestaurantClick()
   }
 
 }

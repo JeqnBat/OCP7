@@ -31,7 +31,6 @@ class Call {
       pov: {heading: 165, pitch: 0},
       zoom: 1,
     })
-
     return this.map, this.pano
   }
 // NAV GEOLOCATE __________________________________ */

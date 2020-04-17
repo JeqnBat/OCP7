@@ -27,5 +27,33 @@ const domElements = [
     </div>
     <div id="toggler" class="d-flex justify-content-center align-items-center"><div>‣</div></div>
   </div>`,
+
+  "newRestaurantForm":
+  `<span id="backToNav" class="pointLeft pt-4">◀ revenir à la navigation</span>
+     <div id="newRestaurantForm">
+     <div class="form-group px-4 mt-4">
+       <label for="newRestaurantName">Nom du restaurant</label>
+       <input type="text" class="form-control" id="newRestaurantName">
+     </div>
+     <div class="form-group px-4">
+       <label for="newRestaurantAddress">Adresse</label>
+       <input type="text" class="form-control" id="newRestaurantAddress" aria-describedby="nameHelp">
+       <small id="nameHelp" class="form-text text-muted">ex: place Rio de Janeiro, 75008 Paris.</small>
+     </div>
+     <div class="form-group px-4">
+       <label for="newRestaurantScore">Note</label>
+       <input type="number" class="form-control button" id="newRestaurantScore" min="0" max="5" value="5">
+     </div>
+     <div class="form-group px-4">
+       <label for="newRestaurantComment">Commentaire</label>
+       <textarea type="text" class="form-control" id="newRestaurantComment"></textarea>
+     </div>
+     <button id="postNewRestaurant" type="submit" class="btn btn-primary mr-auto m-4">Envoyer</button>
+   </div>`,
+
+   "confirmationMessage":
+   `<div class="mt-5 text-center">
+      <span class="display-4">Le restaurant a bien été ajouté !</span>
+    </div>`
   },
 ]

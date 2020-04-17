@@ -26,10 +26,14 @@ ________________________________________*/
 
 /* bouton ADDRESTAURANT */
 #addRestaurant {
+  cursor: pointer;
   transition: all .2s linear;
 }
 #addRestaurant:hover {
   color: #2f7bff;
+}
+#addRestaurant:active {
+  color: #5ec1ff;
 }
 .addButton {
   display: inline-block;
@@ -208,6 +212,11 @@ ________________________________________*/
 .miniature:hover {
   cursor: pointer;
   color: #c96800;
+}
+
+.miniature:active {
+  cursor: pointer;
+  color: gold;
 }
 
 .orange {
