@@ -26,7 +26,7 @@ class Call {
       center: {lat: -34.397, lng: 150.644},
       zoom: 8
     })
-    this.pano = new google.maps.StreetViewPanorama(document.getElementById('StreetView'), {
+    this.pano = new google.maps.StreetViewPanorama(document.getElementById('streetView'), {
       position: {lat: 37.869260, lng: -122.254811},
       pov: {heading: 165, pitch: 0},
       zoom: 1,

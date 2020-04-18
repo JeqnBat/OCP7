@@ -1,11 +1,10 @@
 class Display {
   constructor() {
-    this.domElements = domElements
   }
 
-  transition(domElements) {
+  transition() {
     $('#main').addClass('top')
-    $('#main').html(this.domElements[0].mainDiv)
+    $('#main').html(domElements[0].mainDiv)
     $('#map').addClass('fadeIn')
     $('#navColumn').addClass('fadeIn')
     $('#toggler').addClass('fadeIn')
@@ -78,8 +77,12 @@ class Display {
     }
     // formulaire de saisi
     $('#rightNav').append(form)
+    $('#streetViewBlinder').addClass('fadeOut')
+    setTimeout(function() {
+      $('#streetViewBlinder').remove()
+    }, 700)
   }
-  displayNewRestaurantForm() {
-    $('#rightNav').html(this.domElements[0].newRestaurantForm)
+  newRestaurantForm() {
+    $('#rightNav').html(domElements[0].newRestaurantForm)
   }
 }

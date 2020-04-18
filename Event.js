@@ -2,13 +2,12 @@ class Event {
   constructor() {
     this.display = new Display()
     this.operator = new Operator()
-    this.domElements = domElements
   }
 
   logoClick(init) {
     let that = this
     $('#logo').click(function() {
-      that.display.transition(domElements)
+      that.display.transition()
       setTimeout(function() {
         $('#home').remove()
         init()
@@ -39,7 +38,9 @@ class Event {
       that.display.showDetails(name, address, ratings)
       that.display.showStars(name, avg, ratings)
       let latLng = new google.maps.LatLng(lat, lng)
-      pano.setPosition(latLng)
+      setTimeout(function() {
+        pano.setPosition(latLng)
+      }, 500)
     })
   }
   markerMouseOver(marker, infoWindow) {
@@ -60,7 +61,9 @@ class Event {
       that.display.showDetails(name, address, ratings, ratings)
       that.display.showStars(name, avg, ratings)
       let latLng = new google.maps.LatLng(lat, lng)
-      pano.setPosition(latLng)
+      setTimeout(function() {
+        pano.setPosition(latLng)
+      }, 500)
     })
   }
   addCommentClick(name) {
@@ -112,22 +115,22 @@ class Event {
     })
   }
 
-  addRestaurantClick() {
+  openNewPlaceForm(data, formID, inputClass, inputID, errorMsg, confirmMsg) {
     let that = this
-    $('body').on('click', '#addRestaurant', function() {
+    $('body').on('click', '#addRestaurantButton', function() {
       $('#leftNav').addClass('margin-left-100')
       $('#rightNav').addClass('margin-right-0')
-      that.display.displayNewRestaurantForm()
+      that.display.newRestaurantForm()
+      that.postNewPlace(data, formID, inputClass, inputID, errorMsg, confirmMsg)
     })
   }
 
-  postNewRestaurantClick(data, domElements) {
+  postNewPlace(data, formID, inputClass, inputID, errorMsg, confirmMsg) {
     let that = this
-    $('body').on('click', '#postNewRestaurant', function() {
-      that.operator.postNewRestaurant(data)
-      $(`#newRestaurantForm`).remove()
-      $('#rightNav').append(that.domElements[0].confirmationMessage)
-      console.log(data)
+    let formTag = document.getElementById(`${form[0].id}`)
+    formTag.addEventListener('submit', evt => {
+      evt.preventDefault()
+      that.operator.formValidator(data, formID, inputClass, inputID, errorMsg, confirmMsg)
     })
   }
 
@@ -140,7 +143,6 @@ class Event {
     this.scoreFilterClick(avg, marker, map, name, address, ratings)
     this.mapFilterDrag(avg, marker, map, name, address, ratings)
     this.backToNavClick(avg, marker, map, name, address, ratings)
-    this.addRestaurantClick()
   }
 
 }

@@ -8,7 +8,7 @@ class Place {
     this.map = map
     this.pano = pano
     this.operator = new Operator()
-// CALCUL DE LA MOYENNE DU RESTAURANT ______________*/
+    // PLACE'S AVERAGESCORE CALCULATION
     this.averageScore = this.operator.renderScore(this.ratings, this.averageScore)
     this.display = new Display()
     this.events = new Event()
@@ -17,7 +17,7 @@ class Place {
     this.events.allEvents(this.marker, this.name, this.address, this.ratings, this.averageScore, this.lat, this.lng, this.map, this.pano, this.infoWindow)
   }
 
-// CRÉATION DES MARKERS GMAP _______________________*/
+// GMAP MARKERS CREATION _____________________________*/
   createMarker() {
     let latLng  = new google.maps.LatLng(this.lat, this.lng)
     let marker  = this.marker

@@ -1,6 +1,6 @@
 @charset "utf-8";
 /* JB PELLIER - OCP7 - 03/2020
-________________________________________*/
+______________________________________________________*/
 html, body {
   height: 100%;
   margin: 0;
@@ -8,86 +8,8 @@ html, body {
   overflow: hidden;
   background: radial-gradient(#ffb122, #c96800);
 }
-
-/* Main layout
-________________________________________*/
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: white;
-}
-::-webkit-scrollbar-thumb {
-  background: #CAC9C9;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: silver;
-}
-
-/* bouton ADDRESTAURANT */
-#addRestaurant {
-  cursor: pointer;
-  transition: all .2s linear;
-}
-#addRestaurant:hover {
-  color: #2f7bff;
-}
-#addRestaurant:active {
-  color: #5ec1ff;
-}
-.addButton {
-  display: inline-block;
-}
-#addRestaurant:hover > .addButton {
-  -webkit-animation: rotate .5s ease-in-out forwards;
-          animation: rotate .5s ease-in-out forwards;
-}
-
-#StreetView {
-  filter: invert(1); /* bypass du mode development only du StreetView */
-}
-#navColumn {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  scrollbar-color: lightgray white;
-  scrollbar-width: thin;
-  position: absolute;
-  width: 29vw;
-  top: 0;
-  left: 0;
-  background-color: white;
-  -webkit-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.5);
-          box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.5);
-
-  transition: left .3s ease-in-out;
-}
-#toggler {
-  cursor: pointer;
-  position: absolute;
-  left: 29vw;
-  width: 20px;
-  height: 46px;
-  background-color: white;
-  top: 2vh;
-  font-size: 2rem;
-  font-family: monospace;
-  color: grey;
-  transform: scaleX(-1);
-  -webkit-box-shadow: -4px 0px 4px 0px rgba(0,0,0,0.3);
-          box-shadow: -4px 0px 4px 0px rgba(0,0,0,0.3);
-
-  transition: left .3s ease-in-out;
-}
-
-/* trick de l'ancre pour rester en bas de page avec le y scrolling */
-#anchor {
-  height: 1px;
-}
-
-#main {
-  margin-top: -100vh;
-}
-
+/* HOMEPAGE
+______________________________________________________*/
 #home {
   opacity: 0;
   -webkit-animation: fadeIn .5s linear forwards;
@@ -106,12 +28,14 @@ ________________________________________*/
   -webkit-animation-delay: .9s;
           animation-delay: .9s;
 }
+/* BORDER ROTATION */
 #rotor {
   -webkit-animation: rotate 50s cubic-bezier(0.1, 0, 1, 1) forwards infinite;
           animation: rotate 50s cubic-bezier(0.1, 0, 1, 1) forwards infinite;
   -webkit-animation-delay: 1s;
           animation-delay: 1s;
 }
+/* LOGO COUNTERS ROTOR ROTATION TO STAY FIXED */
 #logo {
   height: 30vw;
   width: 30vw;
@@ -126,7 +50,6 @@ ________________________________________*/
 }
 #titre1 {
   margin-left: -120vw;
-
   -webkit-animation: left .9s cubic-bezier(0.21, 1.1, 0, 1.04) forwards;
           animation: left .9s cubic-bezier(0.21, 1.1, 0, 1.04) forwards;
   -webkit-animation-delay: .3s;
@@ -134,35 +57,10 @@ ________________________________________*/
 }
 #titre2 {
   margin-right: -120vw;
-
   -webkit-animation: right .9s cubic-bezier(0.21, 1.1, 0, 1.04) forwards;
           animation: right .9s cubic-bezier(0.21, 1.1, 0, 1.04) forwards;
   -webkit-animation-delay: .3s;
           animation-delay: .3s;
-}
-
-.point8 {
-  font-size: .8rem;
-}
-
-.fadeIn {
-  opacity: 0;
-  -webkit-animation: fadeIn 1s linear forwards;
-          animation: fadeIn 1s linear forwards;
-  -webkit-animation-delay: 1s;
-          animation-delay: 1s;
-}
-
-.titre {
-  transition: .3s;
-}
-
-.titre:hover {
-  transform: scale(1.05);
-}
-.top {
-  -webkit-animation: top .8s ease-in-out forwards;
-          animation: top .8s ease-in-out forwards;
 }
 .slogan {
   color: white;
@@ -172,19 +70,126 @@ ________________________________________*/
   -webkit-animation-delay: 1s;
           animation-delay: 1s;
 }
+/* SITE'S TITLE */
+.titre {
+  transition: .3s;
+}
+.titre:hover {
+  transform: scale(1.05);
+}
+/* TRANSITION FROM HOME TO MAIN PAGE */
+.top {
+  -webkit-animation: top .8s ease-in-out forwards;
+          animation: top .8s ease-in-out forwards;
+}
+.fadeIn {
+  opacity: 0;
+  -webkit-animation: fadeIn 1s linear forwards;
+          animation: fadeIn 1s linear forwards;
+  -webkit-animation-delay: 1s;
+          animation-delay: 1s;
+}
+/* MAIN PAGE
+______________________________________________________*/
+/* MAIN HIDDEN WHEN PAGE LOADS */
+#main {
+  margin-top: -100vh;
+}
+#navColumn {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-color: lightgray white;
+  scrollbar-width: thin;
+  position: absolute;
+  width: 29vw;
+  top: 0;
+  left: 0;
+  background-color: white;
+  -webkit-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.5);
+          box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.5);
 
+  transition: left .3s ease-in-out;
+}
+/* HIDE / SHOW NAVIGATION COLUMN */
+#toggler {
+  cursor: pointer;
+  position: absolute;
+  left: 29vw;
+  width: 20px;
+  height: 46px;
+  background-color: white;
+  top: 2vh;
+  font-size: 2rem;
+  font-family: monospace;
+  color: grey;
+  transform: scaleX(-1);
+  -webkit-box-shadow: -4px 0px 4px 0px rgba(0,0,0,0.3);
+          box-shadow: -4px 0px 4px 0px rgba(0,0,0,0.3);
+
+  transition: left .3s ease-in-out;
+}
+/* TOP LEFT CORNER W/ STREET VIEW DIV */
+#streetView {
+  filter: invert(1);
+}
+#streetviewBlinder {
+  z-index: 2;
+  position: inherit;
+  filter: invert(1);
+}
+.fadeOut {
+  -webkit-animation: fadeIn .7s linear reverse;
+          animation: fadeIn .7s linear reverse;
+}
+/* MINIATURE'S DIV */
+#leftNav {
+  margin-right: 0;
+  margin-left: 0;
+  transition: all .5s ease-in-out;
+}
+/* DETAILS & POST NEW RESTAURANT'S FORM DIV */
+#rightNav {
+  margin-left: 0;
+  margin-right: -100%;
+  transition: all .5s ease-in-out;
+}
+/* SLIDE ANIMATION BETWEEN LEFTNAV & RIGHTNAV */
+.margin-right-0 {
+  margin-right: 0 !important;
+}
+
+.margin-left-100 {
+  margin-left: -100% !important;
+}
+/* ADD NEW RESTAURANT BUTTON */
+#addRestaurantButton {
+  cursor: pointer;
+  transition: all .2s linear;
+}
+#addRestaurantButton:hover {
+  color: #2f7bff;
+}
+#addRestaurantButton:active {
+  color: #5ec1ff;
+}
+#addRestaurantButton:hover > .addButton {
+  -webkit-animation: rotate .5s ease-in-out forwards;
+          animation: rotate .5s ease-in-out forwards;
+}
+.addButton {
+  display: inline-block;
+}
+/* MAIN NAVIGATION ELEMENTS */
 .pointLeft {
   font-size: .8rem;
   color: #acacac;
   margin-left: 20px;
   transition: all .2s ease-in-out;
 }
-
 .pointLeft:hover {
   color: #0275d8;
   margin-left: 10px;
 }
-
 .button {
   width: 2.6rem;
   border: 1px solid silver;
@@ -193,79 +198,85 @@ ________________________________________*/
   color: #666;
   transition: border .1s ease-in-out;
 }
-
 .button:hover {
   border: 1px solid #0275d8;
 }
-
-.title {
-  color: #ff7e00;
+.point8 {
+  font-size: .8rem;
 }
-
+/* MINIATURES */
 .miniature {
   opacity: 0;
   -webkit-animation: fadeIn .2s linear forwards;
           animation: fadeIn .2s linear forwards;
   transition: all .1s ease-in-out;
 }
-
 .miniature:hover {
   cursor: pointer;
   color: #c96800;
 }
-
 .miniature:active {
   cursor: pointer;
   color: gold;
 }
-
+/* PLACE'S DETAILS */
+.title {
+  color: #ff7e00;
+}
 .orange {
   color: #c96800;
 }
-
-/* navToggler
-________________________________________*/
-#leftNav {
-  margin-right: 0;
-  margin-left: 0;
-  transition: all .5s ease-in-out;
+/* COMMENT FORM INVALID */
+input[data-state="invalid"] {
+  box-shadow: 0px 0px 4px 1px rgba(255,0,0,0.75);
 }
 
-#rightNav {
-  margin-left: 0;
-  margin-right: -100%;
-  transition: all .5s ease-in-out;
+textarea[data-state="invalid"] {
+  box-shadow: 0px 0px 4px 1px rgba(255,0,0,0.75);
 }
-
-.margin-right-0 {
-  margin-right: 0 !important;
+/* POST COMMENT */
+.confirMsg {
+  -webkit-animation: bounce-in-top .9s both;
+          animation: bounce-in-top .9s both;
 }
-
-.margin-left-100 {
-  margin-left: -100% !important;
+#anchor {
+  height: 1px;
 }
-
-/* Animations
-________________________________________*/
+/* SCROLLBARS
+______________________________________________________*/
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: white;
+}
+::-webkit-scrollbar-thumb {
+  background: #CAC9C9;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: silver;
+}
+/* ANIMATIONS
+______________________________________________________*/
 @-webkit-keyframes top {
-  100% { margin-top: 0vh; }
+  to { margin-top: 0vh; }
 }
 @keyframes top {
-  100% { margin-top: 0vh; }
+  to { margin-top: 0vh; }
 }
 
 @-webkit-keyframes rotate {
 	from { transform: rotate(0deg); }
-	to { transform: rotate(360deg); }
+	to   { transform: rotate(360deg); }
 }
 
 @keyframes rotate {
 	from { transform: rotate(0deg); }
-	to { transform: rotate(360deg); }
+	to   { transform: rotate(360deg); }
 }
 
 @-webkit-keyframes left {
-	100% { margin-left: 0vw; }
+	to { margin-left: 0vw; }
 }
 
 @keyframess left {
@@ -273,15 +284,15 @@ ________________________________________*/
 }
 
 @-webkit-keyframes right {
-	100% { margin-right: 0vw; }
+	to { margin-right: 0vw; }
 }
 @keyframess right {
 	100% { margin-right: 0vw; }
 }
 
 @-webkit-keyframes fadeIn {
-    0% { opacity: 0; }
-  100% { opacity: 1; }
+  from { opacity: 0; }
+    to { opacity: 1; }
 }
 @keyframess fadeIn {
     0% { opacity: 0; }
@@ -289,7 +300,7 @@ ________________________________________*/
 }
 
 @-webkit-keyframes border {
-  100% {
+  to {
     background: url('png/border.png');
     background-size: cover;
   }
@@ -405,7 +416,5 @@ ________________________________________*/
             animation-timing-function: ease-out;
   }
 }
-
-
-/* blue */
+/* primary blue */
 /* #2f7bff */

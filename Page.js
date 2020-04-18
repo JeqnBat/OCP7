@@ -3,7 +3,6 @@ class Page {
     this.events = new Event()
     this.calls = new Call()
     this.restaurants = []
-    this.domElements = domElements
   }
 // INITIALISATION DE LA PAGE ______________________ */
   init() {
@@ -13,8 +12,7 @@ class Page {
       const geoLocRdy = await this.calls.geoLoc()
       this.createObjects(this.calls.data, this.calls.map, this.calls.pano)
       this.events.togglerClick()
-      this.events.addRestaurantClick()
-      this.events.postNewRestaurantClick(this.calls.data, domElements)
+      this.events.openNewPlaceForm(this.calls.data, form[0].id, input[0].Class, input[0].id, error[0].msg, confirm[0].msg)
     }
     this.events.logoClick(loadingSequence)
   }
