@@ -3,8 +3,10 @@ class Page {
     this.events = new Event()
     this.calls = new Call()
     this.restaurants = []
+    this.kg = 5
   }
-// INITIALISATION DE LA PAGE ______________________ */
+
+// PAGE INITIALIZATION SEQUENCE ______________________*/
   init() {
     const loadingSequence = async () => {
       const dataRdy   = await this.calls.API()
@@ -16,7 +18,7 @@ class Page {
     }
     this.events.logoClick(loadingSequence)
   }
-// CREATION DES OBJETS RESTAURANT _________________ */
+// PLACE OBJECTS CREATION ____________________________*/
   createObjects(fromData, wMap, wPanorama) {
     for (let i = 0; i < fromData.length; i++) {
       this.restaurants[i] = new Place(fromData[i].restaurantName, fromData[i].address, fromData[i].lat, fromData[i].long, fromData[i].ratings, wMap, wPanorama)

@@ -12,11 +12,10 @@ class Place {
     this.averageScore = this.operator.renderScore(this.ratings, this.averageScore)
     this.display = new Display()
     this.events = new Event()
-
+    // PLACE'S CALLS
     this.createMarker()
-    this.events.allEvents(this.marker, this.name, this.address, this.ratings, this.averageScore, this.lat, this.lng, this.map, this.pano, this.infoWindow)
+    this.events.placeEvents(this.marker, this.name, this.address, this.ratings, this.averageScore, this.lat, this.lng, this.map, this.pano, this.infoWindow, form[1].id, input[1].Class, input[1].id, error[1].msg, confirm[1].msg)
   }
-
 // GMAP MARKERS CREATION _____________________________*/
   createMarker() {
     let latLng  = new google.maps.LatLng(this.lat, this.lng)
@@ -38,4 +37,5 @@ class Place {
     // MOUSEOVER
     this.events.markerMouseOver(this.marker, this.infoWindow)
   }
+
 }

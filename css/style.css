@@ -17,16 +17,21 @@ ______________________________________________________*/
   -webkit-animation-delay: .1s;
           animation-delay: .1s;
 }
+/* MAINDIV HIDDEN WHEN PAGE LOADS */
+#main {
+  margin-top: -100vh;
+}
 #border {
   height: 50vw;
   width: 50vw;
   border-radius: 50vw;
-  background: url('png/border0.png');
-  background-size: cover;
+  background: url('../png/border.png') no-repeat;
+  background-position: center;
+  background-size: 0%;
   -webkit-animation: border .6s linear forwards;
           animation: border .6s linear forwards;
-  -webkit-animation-delay: .9s;
-          animation-delay: .9s;
+  -webkit-animation-delay: .5s;
+          animation-delay: .5s;
 }
 /* BORDER ROTATION */
 #rotor {
@@ -37,11 +42,12 @@ ______________________________________________________*/
 }
 /* LOGO COUNTERS ROTOR ROTATION TO STAY FIXED */
 #logo {
+  opacity: 1;
   height: 30vw;
   width: 30vw;
   border-radius: 30vw;
   box-shadow: 0px 6vh 12vh rgba(0, 0, 0, 0.7);
-  background: url('png/logo1.png') no-repeat, radial-gradient(circle, #0046bd, #000a10);
+  background: url('../png/logo1.png') no-repeat, radial-gradient(circle, #0046bd, #000a10);
   background-size: cover;
   -webkit-animation: rotate 50s cubic-bezier(0, 0, .9, 1) reverse infinite;
           animation: rotate 50s cubic-bezier(0, 0, .9, 1) reverse infinite;
@@ -67,8 +73,8 @@ ______________________________________________________*/
   font-size: 1.3vw;
   -webkit-animation: bounce-in-top 1.1s both;
           animation: bounce-in-top 1.1s both;
-  -webkit-animation-delay: 1s;
-          animation-delay: 1s;
+  -webkit-animation-delay: .7s;
+          animation-delay: .7s;
 }
 /* SITE'S TITLE */
 .titre {
@@ -91,11 +97,8 @@ ______________________________________________________*/
 }
 /* MAIN PAGE
 ______________________________________________________*/
-/* MAIN HIDDEN WHEN PAGE LOADS */
-#main {
-  margin-top: -100vh;
-}
 #navColumn {
+  z-index: 3;
   overflow-y: scroll;
   overflow-x: hidden;
   scrollbar-color: lightgray white;
@@ -123,8 +126,8 @@ ______________________________________________________*/
   font-family: monospace;
   color: grey;
   transform: scaleX(-1);
-  -webkit-box-shadow: -4px 0px 4px 0px rgba(0,0,0,0.3);
-          box-shadow: -4px 0px 4px 0px rgba(0,0,0,0.3);
+  -webkit-box-shadow: -8px 0px 20px 0px rgba(0,0,0,0.3);
+          box-shadow: -8px 0px 20px 0px rgba(0,0,0,0.3);
 
   transition: left .3s ease-in-out;
 }
@@ -132,10 +135,14 @@ ______________________________________________________*/
 #streetView {
   filter: invert(1);
 }
-#streetviewBlinder {
+#streetViewBlinder {
   z-index: 2;
   position: inherit;
   filter: invert(1);
+  background: url('../png/smallLogo.png') no-repeat, white;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 .fadeOut {
   -webkit-animation: fadeIn .7s linear reverse;
@@ -259,24 +266,24 @@ ______________________________________________________*/
 /* ANIMATIONS
 ______________________________________________________*/
 @-webkit-keyframes top {
-  to { margin-top: 0vh; }
+  100% { margin-top: 0vh; }
 }
 @keyframes top {
-  to { margin-top: 0vh; }
+  100% { margin-top: 0vh; }
 }
 
 @-webkit-keyframes rotate {
-	from { transform: rotate(0deg); }
-	to   { transform: rotate(360deg); }
+	  0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
 }
 
 @keyframes rotate {
-	from { transform: rotate(0deg); }
-	to   { transform: rotate(360deg); }
+    0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
 }
 
 @-webkit-keyframes left {
-	to { margin-left: 0vw; }
+	100% { margin-left: 0vw; }
 }
 
 @keyframess left {
@@ -284,15 +291,15 @@ ______________________________________________________*/
 }
 
 @-webkit-keyframes right {
-	to { margin-right: 0vw; }
+	100% { margin-right: 0vw; }
 }
 @keyframess right {
 	100% { margin-right: 0vw; }
 }
 
 @-webkit-keyframes fadeIn {
-  from { opacity: 0; }
-    to { opacity: 1; }
+    0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 @keyframess fadeIn {
     0% { opacity: 0; }
@@ -300,18 +307,36 @@ ______________________________________________________*/
 }
 
 @-webkit-keyframes border {
-  to {
-    background: url('png/border.png');
+  25% {
+    background-size: 25%;
+  }
+  50% {
+    background-size: 50%;
+  }
+  75% {
+    background-size: 100%;
+  }
+  100% {
     background-size: cover;
   }
 }
 @keyframess border {
+  25% {
+    background-size: 25%;
+  }
+  50% {
+    background-size: 50%;
+  }
+  75% {
+    background-size: 100%;
+  }
   100% {
-    background: url('png/border.png');
     background-size: cover;
   }
 }
-/* Bounce animista */
+
+cross-fade(url(white.png), url(black.png), 0%);
+/* ANIMISTA BOUNCE */
 @-webkit-keyframes bounce-in-top {
   0% {
     -webkit-transform: translateY(-100vh);

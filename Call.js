@@ -4,7 +4,7 @@ class Call {
     this.pano
     this.data
   }
-// CALL API _______________________________________ */
+// CALL API __________________________________________*/
   API() {
     const getData = async () => {
       let customInit =  { method: 'GET',
@@ -20,7 +20,7 @@ class Call {
     }
     return getData()
   }
-// CALL GMAP ______________________________________ */
+// CALL GMAP _________________________________________*/
   initMap() {
     this.map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: -34.397, lng: 150.644},
@@ -33,9 +33,9 @@ class Call {
     })
     return this.map, this.pano
   }
-// NAV GEOLOCATE __________________________________ */
+// CALL NAVIGATOR GEOLOCATION FUNCTION _______________*/
   geoLoc() {
-    let map = this.map // obligé à cause du scope des fonctions qui bloque 'this'
+    let map = this.map
     let pano = this.pano
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(success, error)
@@ -56,4 +56,5 @@ class Call {
         console.log(`${error.code}`)
     }
   }
+  
 }

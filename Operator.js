@@ -2,15 +2,6 @@ class Operator {
   constructor() {
     this.display = new Display()
   }
-// POST A COMMENT ____________________________________*/
-  postComment(name, ratings, avg, address) {
-    let comment = {
-      stars: parseInt($(`#score${name}`).val()),
-      comment: $(`#comment${name}`).val()
-    }
-    let n = ratings.length
-    ratings[n] = comment
-  }
 // CALCULATE AVERAGE SCORE ___________________________*/
   renderScore(ratings, avg) {
     let sum = 0
@@ -20,7 +11,63 @@ class Operator {
     avg = (sum / ratings.length).toFixed(1)
     return avg
   }
-
+// POST A COMMENT ____________________________________*/
+  postComment(name, ratings, avg, address, formID, inputClass, inputID, errorMsg, confirmMsg, infoWindow) {
+    // EMBEDDED FORM VALIDATOR
+    let inputsNb = $(`#${formID} ${inputClass}`).length
+    let inputs = []
+    let value = []
+    let trimmed = []
+    for (let i = 0; i < inputsNb; i++) {
+      inputs[i] = document.getElementById(`${inputID+i}`)
+      value[i] = inputs[i].value
+      if (!value[i]) {
+        inputs[i].dataset.state = ''
+      } else {
+        inputs[i].dataset.state = 'invalid'
+      }
+      trimmed[i] = value[i].trim()
+      if (trimmed[i]) {
+        inputs[i].dataset.state = 'valid'
+      } else {
+        inputs[i].dataset.state = 'invalid'
+      }
+    }
+    // IF NO INPUT IS INVALID
+    if ($(`#${formID}`).html().indexOf('invalid') == -1) {
+      // POST -START
+      let comment = {
+        stars: parseInt($(`#${inputID}0`).val()),
+        comment: $(`#${inputID}1`).val()
+      }
+      let n = ratings.length
+      ratings[n] = comment
+      // POST -END
+      avg = this.renderScore(ratings, avg)
+      this.display.showDetails(name, address, ratings)
+      this.display.showStars(name, avg, ratings)
+      let content = this.display.infoWindow(name, avg, ratings, address)
+      infoWindow.setContent(content)
+      $(`#addComment${name}`).remove()
+      $(`[item=${name}]`).prepend(`${confirmMsg}`)
+      // SUCCESS -END
+    } else {
+      // ERROR -START
+      $('#errorMsg').html(`${errorMsg}`)
+      let anchor = document.getElementById('errorMsg')
+      anchor.scrollIntoView({behavior: "smooth"})
+      for (let i = 0; i < 4; i++) {
+        $('body').on('click', `#${inputID+i}`, function() {
+          if (inputs[i].dataset.state = 'invalid') {
+            inputs[i].dataset.state = 'valid'
+          } else {
+            return
+          }
+        })
+      }
+      // ERROR -END
+    }
+  }
 // CHECK IF FORM IS VALID BEFORE POSTING _____________*/
   formValidator(data, formID, inputClass, inputID, errorMsg, confirmMsg) {
     let inputsNb = $(`#${formID} ${inputClass}`).length
