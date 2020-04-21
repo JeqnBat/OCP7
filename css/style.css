@@ -1,6 +1,6 @@
 @charset "utf-8";
 /* JB PELLIER - OCP7 - 03/2020
-______________________________________________________*/
+______________________________________________________ */
 html, body {
   height: 100%;
   margin: 0;
@@ -9,7 +9,7 @@ html, body {
   background: radial-gradient(#ffb122, #c96800);
 }
 /* HOMEPAGE
-______________________________________________________*/
+______________________________________________________ */
 #home {
   opacity: 0;
   -webkit-animation: fadeIn .5s linear forwards;
@@ -96,7 +96,7 @@ ______________________________________________________*/
           animation-delay: 1s;
 }
 /* MAIN PAGE
-______________________________________________________*/
+______________________________________________________ */
 #navColumn {
   z-index: 3;
   overflow-y: scroll;
@@ -108,20 +108,21 @@ ______________________________________________________*/
   top: 0;
   left: 0;
   background-color: white;
-  -webkit-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.5);
-          box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.5);
+  -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.4);
+          box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.4);
 
   transition: left .3s ease-in-out;
 }
 /* HIDE / SHOW NAVIGATION COLUMN */
 #toggler {
+  z-index: 3;
   cursor: pointer;
   position: absolute;
   left: 29vw;
-  width: 20px;
-  height: 46px;
+  width: 22px;
+  height: 48px;
   background-color: white;
-  top: 2vh;
+  top: 1.5vh;
   font-size: 2rem;
   font-family: monospace;
   color: grey;
@@ -133,12 +134,10 @@ ______________________________________________________*/
 }
 /* TOP LEFT CORNER W/ STREET VIEW DIV */
 #streetView {
-  filter: invert(1);
 }
 #streetViewBlinder {
   z-index: 2;
   position: inherit;
-  filter: invert(1);
   background: url('../png/smallLogo.png') no-repeat, white;
   background-size: contain;
   background-repeat: no-repeat;
@@ -185,6 +184,24 @@ ______________________________________________________*/
 }
 .addButton {
   display: inline-block;
+}
+/* ADD NEW RESTAURANT STEPS */
+.pending {
+  border-bottom: 2px solid transparent;
+  color: inherit;
+  transition: all .2s ease-in-out;
+}
+/* .pending:after {
+    content: "";
+    display: block;
+    margin: 0 auto;
+    width: 50%;
+    padding-top: 20px;
+    border-bottom: 1px solid black;
+} */
+.completed {
+  border-bottom: 2px solid #2f7bff;
+  color: #2f7bff;
 }
 /* MAIN NAVIGATION ELEMENTS */
 .pointLeft {
@@ -237,7 +254,6 @@ ______________________________________________________*/
 input[data-state="invalid"] {
   box-shadow: 0px 0px 4px 1px rgba(255,0,0,0.75);
 }
-
 textarea[data-state="invalid"] {
   box-shadow: 0px 0px 4px 1px rgba(255,0,0,0.75);
 }
@@ -249,13 +265,14 @@ textarea[data-state="invalid"] {
 #anchor {
   height: 1px;
 }
-/* SCROLLBARS
-______________________________________________________*/
+/* SCROLLBAR
+______________________________________________________ */
 ::-webkit-scrollbar {
   width: 6px;
+  background: transparent;
 }
 ::-webkit-scrollbar-track {
-  background: white;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
   background: #CAC9C9;
@@ -264,7 +281,7 @@ ______________________________________________________*/
   background: silver;
 }
 /* ANIMATIONS
-______________________________________________________*/
+______________________________________________________ */
 @-webkit-keyframes top {
   100% { margin-top: 0vh; }
 }
@@ -334,8 +351,6 @@ ______________________________________________________*/
     background-size: cover;
   }
 }
-
-cross-fade(url(white.png), url(black.png), 0%);
 /* ANIMISTA BOUNCE */
 @-webkit-keyframes bounce-in-top {
   0% {

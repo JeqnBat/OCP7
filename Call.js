@@ -4,7 +4,7 @@ class Call {
     this.pano
     this.data
   }
-// CALL API __________________________________________*/
+// CALL API __________________________________________ */
   API() {
     const getData = async () => {
       let customInit =  { method: 'GET',
@@ -20,7 +20,7 @@ class Call {
     }
     return getData()
   }
-// CALL GMAP _________________________________________*/
+// CALL GMAP _________________________________________ */
   initMap() {
     this.map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: -34.397, lng: 150.644},
@@ -33,12 +33,12 @@ class Call {
     })
     return this.map, this.pano
   }
-// CALL NAVIGATOR GEOLOCATION FUNCTION _______________*/
+// CALL NAVIGATOR GEOLOCATION FUNCTION _______________ */
   geoLoc() {
     let map = this.map
     let pano = this.pano
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(success, error)
+      navigator.geolocation.getCurrentPosition(success, error) // possibilité de les mettre en fonctions fleches
     } else {
       //...
     }
@@ -51,10 +51,29 @@ class Call {
         map.setCenter(pos)
         map.setZoom(17)
         pano.setPosition(pos)
+    // CREATE USER'S POSITION MARKER
+        let latLng = new google.maps.LatLng(pos.lat, pos.lng)
+        let userMarker = new google.maps.Marker({
+          position: latLng,
+          map: map,
+          title: marker.title,
+          visible: true
+        })
+        let infoWindow = new google.maps.InfoWindow({
+          content: marker.title
+        })
+        userMarker.addListener('mouseover', function() {
+          infoWindow.open(userMarker.get('map'), userMarker)
+        })
+        userMarker.addListener('mouseout', function() {
+          infoWindow.close()
+        })
     }
     function error(error) {
         console.log(`${error.code}`)
     }
+
+
   }
-  
+
 }

@@ -1,41 +1,44 @@
 class Place {
-  constructor(name, address, lat, lng, ratings, map, pano) {
-    this.name = name
-    this.address = address
-    this.lat = lat
-    this.lng = lng
-    this.ratings = ratings
+  constructor(placeData, map, pano) {
+    this.name = placeData.restaurantName
+    this.address = placeData.address
+    this.lat = placeData.lat
+    this.lng = placeData.long
+    this.ratings = placeData.ratings
     this.map = map
     this.pano = pano
     this.operator = new Operator()
+    // Trim place's name to avoid conflict with whitespaces
+    let itemName = placeData.restaurantName
+    this.itemName = itemName.replace(/\s+/g, '')
     // PLACE'S AVERAGESCORE CALCULATION
-    this.averageScore = this.operator.renderScore(this.ratings, this.averageScore)
+    this.averageScore = this.operator.renderScore(this)
     this.display = new Display()
-    this.events = new Event()
+    this.userEvent = new Event()
     // PLACE'S CALLS
     this.createMarker()
-    this.events.placeEvents(this.marker, this.name, this.address, this.ratings, this.averageScore, this.lat, this.lng, this.map, this.pano, this.infoWindow, form[1].id, input[1].Class, input[1].id, error[1].msg, confirm[1].msg)
+    this.userEvent.placeEvents(this, form[1].id, input[1].Class, input[1].id, error[1].msg, confirm[1].msg)
   }
-// GMAP MARKERS CREATION _____________________________*/
+// GMAP MARKERS CREATION _____________________________ */
   createMarker() {
-    let latLng  = new google.maps.LatLng(this.lat, this.lng)
-    let marker  = this.marker
+    let latLng = new google.maps.LatLng(this.lat, this.lng)
+    let placeMarker = this.marker
     this.marker = new google.maps.Marker({
       position: latLng,
       map: this.map,
       title: this.name,
       visible: true,
       animation: google.maps.Animation.DROP,
-      icon: markerPNG
+      icon: marker.orange
     })
     // INFOWINDOW
     this.infoWindow = new google.maps.InfoWindow({
-      content: this.display.infoWindow(this.name, this.averageScore, this.ratings, this.address)
+      content: this.display.infoWindow(this)
     })
     // ONCLICK
-    this.events.markerClick(this.marker, this.name, this.address, this.ratings, this.averageScore, this.lat, this.lng, this.pano)
+    this.userEvent.markerClick(this)
     // MOUSEOVER
-    this.events.markerMouseOver(this.marker, this.infoWindow)
+    this.userEvent.markerMouseOver(this)
   }
 
 }

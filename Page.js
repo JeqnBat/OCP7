@@ -1,28 +1,27 @@
 class Page {
   constructor() {
-    this.events = new Event()
-    this.calls = new Call()
+    this.userEvent = new Event()
+    this.googleAPIcall = new Call()
     this.restaurants = []
-    this.kg = 5
   }
-
-// PAGE INITIALIZATION SEQUENCE ______________________*/
+// PAGE INITIALIZATION SEQUENCE ______________________ */
   init() {
     const loadingSequence = async () => {
-      const dataRdy   = await this.calls.API()
-      const gMapRdy   = await this.calls.initMap()
-      const geoLocRdy = await this.calls.geoLoc()
-      this.createObjects(this.calls.data, this.calls.map, this.calls.pano)
-      this.events.togglerClick()
-      this.events.openNewPlaceForm(this.calls.data, form[0].id, input[0].Class, input[0].id, error[0].msg, confirm[0].msg)
+      const dataRdy   = await this.googleAPIcall.API()
+      const gMapRdy   = await this.googleAPIcall.initMap()
+      const geoLocRdy = await this.googleAPIcall.geoLoc()
+      this.createPlaces(this.googleAPIcall.data, this.googleAPIcall.map, this.googleAPIcall.pano, form[0].id, input[0].Class, input[0].id, error[0].msg, confirm[0].msg)
+      this.userEvent.togglerClick()
     }
-    this.events.logoClick(loadingSequence)
+    this.userEvent.logoClick(loadingSequence)
+
   }
-// PLACE OBJECTS CREATION ____________________________*/
-  createObjects(fromData, wMap, wPanorama) {
+// PLACE OBJECTS CREATION ____________________________ */
+  createPlaces(fromData, wMap, wPanorama, form, inputClass, inputID, error, confirm) {
     for (let i = 0; i < fromData.length; i++) {
-      this.restaurants[i] = new Place(fromData[i].restaurantName, fromData[i].address, fromData[i].lat, fromData[i].long, fromData[i].ratings, wMap, wPanorama)
+      this.restaurants[i] = new Place(fromData[i], wMap, wPanorama)
     }
+    this.userEvent.openNewPlaceForm(fromData, wMap, wPanorama, form, inputClass, inputID, error, confirm)
   }
 
 }

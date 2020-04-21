@@ -1,6 +1,16 @@
 // NUMBER OF STARS & MARKER ICON _____________________*/
 const starNb = 5
-const markerPNG = 'png/marker.png'
+const marker = {'orange': 'png/marker.png',
+                'blue': 'png/markerBlue.png',
+                'title': 'Vous êtes ici'
+               }
+
+let newMarker = ''
+let lat = ''
+let lng = ''
+let name = ''
+let address = ''
+
 // ADD NEW COMMENT/RESTAURANT FORMS __________________*/
 const form = [
   {'id': 'newRestaurantForm'},
@@ -50,34 +60,40 @@ const domElements = [
                      </div>
                      <div id="content" class="row no-gutters w-100"></div>
                    </div>
-                   <div id="rightNav" class="d-flex flex-column h-100 w-100">
+                     <div id="rightNav" class="d-flex flex-column h-100 w-100"></div>
                    </div>
-                 </div>
-               </div>
-               <div id="toggler" class="d-flex justify-content-center align-items-center"><div>‣</div></div>
-               </div>`,
+                  </div>
+                  <div id="toggler" class="d-flex justify-content-center align-items-center"><div>‣</div></div>
+                 </div>`,
   // ADD NEW RESTAURANT FORM
   'newRestaurantForm': `<span id="backToNav" class="pointLeft pt-4">◀ revenir à la navigation</span>
                         <div id="errorMsg"></div>
+                        <div class="pending mx-4 mt-4">
+                          <span class="display-4 pl-2">1.</span><br>
+                          <span>Saisissez le nom du restaurant</span>
+                        </div>
                         <form id="newRestaurantForm">
                           <div class="form-group px-4 mt-4">
-                            <label for="newRestaurant0">Nom du restaurant</label>
-                            <input type="text" class="form-control" id="newRestaurant0">
+                            <label for="newRestaurant0" class="d-none">Nom du restaurant</label>
+                            <input type="text" class="form-control" id="newRestaurant0" placeholder="ex: le bouillon Pigalle">
                           </div>
-                          <div class="form-group px-4">
+                          <div class="form-group px-4 d-none">
                             <label for="newRestaurant1">Adresse</label>
                             <input type="text" class="form-control" id="newRestaurant1" aria-describedby="nameHelp">
-                            <small id="nameHelp" class="form-text text-muted">ex: place Rio de Janeiro, 75008 Paris.</small>
                           </div>
-                          <div class="form-group px-4">
-                            <label for="newRestaurant2">Note</label>
-                            <input type="number" class="form-control button" id="newRestaurant2" min="0" max="5">
+                          <div class="pending d-none mx-4 mb-3">
+                            <span class="display-4 pl-2">2.</span><br>
+                            <span>Laissez votre note et votre commentaire</span>
                           </div>
-                          <div class="form-group px-4">
+                          <div class="form-group px-4 d-none">
+                            <label for="newRestaurant2" class="d-none">Note</label>
+                            <input type="number" class="form-control button d-inline" id="newRestaurant2" min="0" max="5"><span class="text-black-50"> /5<span>
+                          </div>
+                          <div class="form-group px-4 d-none">
                             <label for="newRestaurant3">Commentaire</label>
                             <textarea type="text" class="form-control" id="newRestaurant3"></textarea>
                           </div>
-                          <button id="postNewRestaurant" type="submit" class="btn btn-primary mr-auto m-4">Envoyer</button>
+                          <button id="postNewRestaurant" type="submit" class="btn btn-primary mr-auto m-4 d-none">Envoyer</button>
                         </form>`,
   }
 ]
