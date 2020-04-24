@@ -48,8 +48,8 @@ class Operator {
       this.display.showStars(place)
       let content = this.display.infoWindow(place)
       place.infoWindow.setContent(content)
-      $(`#addComment${place.itemName}`).remove()
-      $(`[item=${place.itemName}]`).prepend(`${confirmMsg}`)
+      $(`#addComment${place.id}`).remove()
+      $(`[item=${place.id}]`).prepend(`${confirmMsg}`)
       // SUCCESS -END
     } else {
       // ERROR -START
@@ -108,17 +108,17 @@ class Operator {
   }
 // FORM AUTO-COMPLETE ________________________________ */
   autoComplete(map) {
+    let that = this
     let nameInput = document.getElementById('newRestaurant0')
     let options = {
-                types: [('establishment')],
-                componentRestrictions: {country: "fr"}
-            }
+                    types: [('establishment')],
+                    componentRestrictions: {country: "fr"}
+                  }
     let nameAutocomplete = new google.maps.places.Autocomplete(nameInput, options)
     nameAutocomplete.setFields(
-           ['address_components', 'geometry', 'name', 'formatted_address', 'place_id'])
+           ['address_components', 'geometry', 'name', 'formatted_address'])
     let infowindow = new google.maps.InfoWindow()
-    let content = ''
-    newMarker = new google.maps.Marker({
+    newPlaceMarker = new google.maps.Marker({
       map: map,
       anchorPoint: new google.maps.Point(0, -29),
       animation: google.maps.Animation.DROP,
@@ -127,7 +127,7 @@ class Operator {
     nameAutocomplete.addListener('place_changed', function() {
       nameAutocomplete.bindTo('bounds', map)
       infowindow.close()
-      newMarker.setVisible(false)
+      newPlaceMarker.setVisible(false)
       let place = nameAutocomplete.getPlace()
       if (!place.geometry) {
         // User entered the name of a Place that was not suggested and
@@ -142,29 +142,19 @@ class Operator {
         map.setCenter(place.geometry.location)
         map.setZoom(17)
       }
-      newMarker.setPosition(place.geometry.location)
-      newMarker.setVisible(true)
-
+      newPlaceMarker.setPosition(place.geometry.location)
+      newPlaceMarker.setVisible(true)
+      // on envoie les variables dans constants.js pour
+      // les réutiliser dans postNewPlace()
       lat = place.geometry.location.lat()
       lng = place.geometry.location.lng()
       name = place.name
       name.substr(0, name.indexOf(','))
       address = place.formatted_address
 
-      content = `<span>${place.name}</span> <br>
-                 <span>${place.formatted_address}</span>`
-      infowindow.setContent(content)
-      infowindow.open(map, newMarker)
-      // display ici
-      $('#newRestaurant1').val(place.formatted_address)
-      $('.pending').first().removeClass('pending').addClass('completed')
-      $('#newRestaurantForm').children().removeClass('d-none')
-      let anchor = document.getElementById('postNewRestaurant')
-      setTimeout(function() {
-        anchor.scrollIntoView({behavior: 'smooth'})
-      }, 800)
+      that.display.autoCompleteUpdate(place, infowindow)
     })
-    return lat, lng, name, address, newMarker
+    return lat, lng, name, address, newPlaceMarker
   }
 // ADD A NEW RESTAURANT TO DATA ______________________ */
   postNewPlace(data, map, panorama, formID, confirmMsg) {
@@ -184,12 +174,16 @@ class Operator {
     let n = data.length
     data[n] = new Place(coords, map, panorama)
 
-    newMarker.setVisible(false)
+    newPlaceMarker.setVisible(false)
 
-    $('.completed').remove()
-    $(`#${formID}`).remove()
-    $('#errorMsg').remove()
-    $('#rightNav').append(`${confirmMsg}`)
+    $('.pending').last().addClass('completed')
+
+    setTimeout(function() {
+      $('.pending').remove()
+      $('#errorMsg').remove()
+      $(`#${formID}`).remove()
+      $('#rightNav').append(`${confirmMsg}`)
+    }, 800)
   }
 // FILTER BY SCORE AND/OR MAP BOUNDARIES _____________ */
   // CHECK IF PLACE IS WITHIN MAP'S LIMITS
@@ -216,7 +210,7 @@ class Operator {
           place.marker.setVisible(true)
           place.marker.setAnimation(google.maps.Animation.DROP)
         }
-        if ($(`#mini${place.itemName}`).length == 0 && $(`.backToNav`).length == 0 ) {
+        if ($(`#mini${place.id}`).length == 0 && $(`.backToNav`).length == 0 ) {
           this.display.showMiniature(place)
           this.display.showStars(place)
         }

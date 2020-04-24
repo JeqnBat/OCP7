@@ -2,6 +2,7 @@ class Event {
   constructor() {
     this.display = new Display()
     this.operator = new Operator()
+    this.googleAPI = new API()
   }
 // MAIN LOGO CLICK ___________________________________ */
   logoClick(init) {
@@ -26,18 +27,22 @@ class Event {
       }
     })
   }
-// CLICK ON ONE GMAP MARKER __________________________ */
+// CLICK ON ONE MARKER _______________________________ */
   markerClick(place) {
     let that = this
     place.marker.addListener('click', function() {
       $('#leftNav').addClass('margin-left-100')
       $('#rightNav').addClass('margin-right-0')
-      that.display.showDetails(place)
-      that.display.showStars(place)
-      let latLng = new google.maps.LatLng(place.lat, place.lng)
+      let a = async () => {
+        await that.googleAPI.getDetails(place)
+        console.log(place.reviews[0].author_name)
+        that.display.showDetails(place)
+        that.display.showStars(place)
+      }
       setTimeout(function() {
-        place.pano.setPosition(latLng)
-      }, 500)
+        place.pano.setPosition(place.latLng)
+      }, 400)
+      a()
     })
   }
 // MOUSEOVER . MOUSEOUT GMAP MARKER __________________ */
@@ -52,23 +57,27 @@ class Event {
 // CLICK ON MINIATURE IN NAV COLUMN __________________ */
   miniatureClick(place) {
     let that = this
-    $('body').on('click', `#mini${place.itemName}`, function() {
+    $('body').on('click', `#mini${place.id}`, function() {
       $('#leftNav').addClass('margin-left-100')
       $('#rightNav').addClass('margin-right-0')
-      that.display.showDetails(place)
-      that.display.showStars(place)
-      let latLng = new google.maps.LatLng(place.lat, place.lng)
+      let a = async () => {
+        await that.googleAPI.getDetails(place)
+        console.log(place.reviews[0].author_name)
+        that.display.showDetails(place)
+        that.display.showStars(place)
+      }
       setTimeout(function() {
-        place.pano.setPosition(latLng)
-      }, 500)
+        place.pano.setPosition(place.latLng)
+      }, 400)
+      a()
     })
   }
 // 'ADD NEW COMMENT' BUTTON CLICK ____________________ */
   addCommentClick(place, formID, inputClass, inputID, errorMsg, confirmMsg) {
     let that = this
-    $('body').on('click', `#addComment${place.itemName}`, function() {
+    $('body').on('click', `#addComment${place.id}`, function() {
       let anchor = document.getElementById('anchor')
-      $(`#addComment${place.itemName}`).remove()
+      $(`#addComment${place.id}`).remove()
       $('#commentSection').removeClass('d-none')
       anchor.scrollIntoView({behavior: "smooth"})
       let formTag = document.getElementById(`${form[1].id}`)
@@ -104,7 +113,6 @@ class Event {
   }
 // 'ADD NEW RESTAURANT' BUTTON CLICK _________________ */
   openNewPlaceForm(data, map, panorama, formID, inputClass, inputID, errorMsg, confirmMsg) {
-
     let that = this
     $('body').on('click', '#addRestaurantButton', function() {
       $('#leftNav').addClass('margin-left-100')

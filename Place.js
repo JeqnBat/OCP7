@@ -1,18 +1,16 @@
 class Place {
-  constructor(placeData, map, pano) {
-    this.name = placeData.restaurantName
-    this.address = placeData.address
-    this.lat = placeData.lat
-    this.lng = placeData.long
-    this.ratings = placeData.ratings
+  constructor(placeData, map, pano, service) {
+    this.id = placeData.place_id // pour hook la requête getDetails() au click
+    this.name = placeData.name
+    this.address = placeData.vicinity
+    this.latLng = placeData.geometry.location
+    this.averageScore = placeData.rating
+    this.reviewsNb = placeData.user_ratings_total
+    this.reviews = []
     this.map = map
     this.pano = pano
+    this.service = service
     this.operator = new Operator()
-    // Trim place's name to avoid conflict with whitespaces
-    let itemName = placeData.restaurantName
-    this.itemName = itemName.replace(/\s+/g, '')
-    // PLACE'S AVERAGESCORE CALCULATION
-    this.averageScore = this.operator.renderScore(this)
     this.display = new Display()
     this.userEvent = new Event()
     // PLACE'S CALLS
@@ -21,10 +19,9 @@ class Place {
   }
 // GMAP MARKERS CREATION _____________________________ */
   createMarker() {
-    let latLng = new google.maps.LatLng(this.lat, this.lng)
     let placeMarker = this.marker
     this.marker = new google.maps.Marker({
-      position: latLng,
+      position: this.latLng,
       map: this.map,
       title: this.name,
       visible: true,

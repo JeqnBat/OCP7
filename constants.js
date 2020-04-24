@@ -1,17 +1,20 @@
-// NUMBER OF STARS & MARKER ICON _____________________*/
+// NUMBER OF STARS & MARKER ICON _____________________ */
 const starNb = 5
 const marker = {'orange': 'png/marker.png',
-                'blue': 'png/markerBlue.png',
-                'title': 'Vous êtes ici'
+                'blue'  : 'png/markerBlue.png',
+                'title' : 'Vous êtes ici'
                }
 
-let newMarker = ''
-let lat = ''
-let lng = ''
-let name = ''
-let address = ''
+const displayedReviewsNb = 5
 
-// ADD NEW COMMENT/RESTAURANT FORMS __________________*/
+// ADD NEW RESTAURANT
+let newPlaceMarker
+let lat
+let lng
+let name
+let address
+
+// ADD NEW COMMENT/RESTAURANT FORMS __________________ */
 const form = [
   {'id': 'newRestaurantForm'},
   {'id': 'addCommentForm'}
@@ -38,7 +41,7 @@ const confirm = [
   {'msg': `<span class="mx-auto">Votre commentaire a bien été enregistré !</span>`
   }
 ]
-// MAIN DOM ELEMENTS _________________________________*/
+// MAIN DOM ELEMENTS _________________________________ */
 const domElements = [
   {'mainDiv': `<div id="map" class="h-100 w-100"></div>
                <div id="navColumn" class="h-100 text-dark">
@@ -78,8 +81,8 @@ const domElements = [
                             <input type="text" class="form-control" id="newRestaurant0" placeholder="ex: le bouillon Pigalle">
                           </div>
                           <div class="form-group px-4 d-none">
-                            <label for="newRestaurant1">Adresse</label>
-                            <input type="text" class="form-control" id="newRestaurant1" aria-describedby="nameHelp">
+                            <label for="newRestaurant1" class="text-primary">Adresse</label>
+                            <input type="text" class="form-control" id="newRestaurant1">
                           </div>
                           <div class="pending d-none mx-4 mb-3">
                             <span class="display-4 pl-2">2.</span><br>
