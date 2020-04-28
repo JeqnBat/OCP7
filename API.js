@@ -85,21 +85,54 @@ class API {
       })
     })
   }
-// get details()
-  async getDetails(place) {
-    let requestDetails = {
-      placeId: place.id,
-      fields: ['name', 'formatted_address', 'geometry', 'rating', 'review']
+
+searchMorePlaces(map, pano, service) {
+    let request = {
+      bounds: map.getBounds(),
+      radius: '1000',
+      type: ['restaurant']
     }
-    return new Promise((resolve, reject) => {
-      place.service.getDetails(requestDetails, (result, status) => {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-          let a = result.reviews
-          place.reviews = a
-          resolve('done')
+    service.nearbySearch(request, (results, status) => {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        for (let i = 0; i < results.length; i++) {
+          let n = restaurants.length
+          let newPlaceId = results[i].place_id
+          let alreadyHere = (restaurants) => {
+              return newPlaceId != restaurants.id
+          }
+          let checkPlace = () => {
+            let testCondition = restaurants.every(alreadyHere)
+            if (testCondition == true) {
+              restaurants[n] = new Place(results[i], map, pano, service)
+            } else {
+
+            }
+          }
+          checkPlace()
         }
-      })
+      }
     })
+  }
+// GET REVIEWS OF SPECIFIC PLACE _____________________ */
+  async getDetails(place) {
+    if (place.reviews.length <= 1) {
+      let requestDetails = {
+        placeId: place.id,
+        fields: ['name', 'formatted_address', 'geometry', 'rating', 'review']
+      }
+      return new Promise((resolve, reject) => {
+        place.service.getDetails(requestDetails, (result, status) => {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            let newReviews = place.reviews
+            let oldReviews = result.reviews
+            place.reviews = newReviews.concat(oldReviews)
+            resolve('done')
+          }
+        })
+      })
+    } else {
+      return
+    }
   }
 
 }

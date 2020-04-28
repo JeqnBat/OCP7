@@ -62,33 +62,35 @@ class Display {
   showDetails(place) {
     let header = `<span id="backToNav" class="pointLeft pt-4">◀ revenir à la navigation</span>
                   <div class="d-flex flex-column p-4 w-100" item="${place.id}">
-                    <span class="title display-4 name${place.id}">${place.name}</span>
-                    <span class="score${place.id} text-primary"></span>
-                    <span class="text-muted address${place.id}">${place.address}</span>
+                    <span class="title display-4">${place.name}</span>
+                    <span class="text-primary score${place.id}"></span>
+                    <span class="text-muted">${place.address}</span>
                     <hr>
                     <span class="text-primary h5 mb-2">Commentaires</span>`
     // ADD NEW COMMENT FORM
     let form   = `<button id="addComment${place.id}" type="submit" class="btn btn-primary mx-auto mt-4 mb-2">ajouter un commentaire</button>
                   <div id="commentSection" class="d-none p-4 w-100">
                     <div id="errorMsg"></div>
+                    <br>
                     <form id="addCommentForm">
                       <div class="form-group">
-                        <label for="newRating0">Note</label><br>
-                        <input type="number" id="newRating0" class="button form-control" min="0" max="5" value="">
+                        <input type="text" id="newRating0" class="form-control w-50 p-3" placeholder="nom">
                       </div>
                       <div class="form-group">
-                        <label for="newRating1">Commentaire</label>
-                        <textarea id="newRating1" class="form-control p-3"></textarea>
+                        <input type="number" id="newRating1" class="scoreButton form-control pl-3" min="0" max="5" value="" placeholder="note">
+                      </div>
+                      <div class="form-group">
+                        <textarea id="newRating2" class="form-control p-3" placeholder="commentaire"></textarea>
                       </div>
                       <button id="postComment${place.id}" type="submit" class="btn btn-primary">ajouter</button>
                     </form>
                     <div id="anchor"></div>`
     $('#rightNav').html(header)
     // DISPLAY PLACE COMMENTS
-    for (let i = 0; i < displayedReviewsNb; i++) {
-      let allComments = `<span class="orange point8 mt-3">#${i+1}</span>
-                         <span class="text-body">aa</span>
-                         <span class="score${place.id}${i} text-muted point8 ml-5">a noté <span class="orange">aa</span> sur 5</span>
+    for (let i = 0; i < place.reviews.length; i++) {
+      let allComments = `<span class="orange point8 mt-3">#${i+1} de <span class='font-weight-bold'>${place.reviews[i].author_name}</span></span>
+                         <span class="text-body pl-2">${place.reviews[i].text}</span>
+                         <span class="text-muted point8 ml-5">a noté <span class="orange">${place.reviews[i].rating}</span> sur 5</span>
                         </div>`
       $(`[item=${place.id}]`).append(allComments)
     }
@@ -108,7 +110,7 @@ class Display {
     let content = `<span>${place.name}</span> <br>
                    <span>${place.formatted_address}</span>`
     infowindow.setContent(content)
-    infowindow.open(map, newMarker)
+    infowindow.open(map, newPlaceMarker)
 
     $('#newRestaurant1').val(place.formatted_address)
     $('.pending').first().addClass('completed')

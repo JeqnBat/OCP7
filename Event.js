@@ -3,6 +3,13 @@ class Event {
     this.display = new Display()
     this.operator = new Operator()
     this.googleAPI = new API()
+
+    this.getDetailsFirst = async (place) => {
+      await this.googleAPI.getDetails(place)
+      this.display.showDetails(place)
+      this.display.showStars(place)
+    }
+
   }
 // MAIN LOGO CLICK ___________________________________ */
   logoClick(init) {
@@ -33,16 +40,10 @@ class Event {
     place.marker.addListener('click', function() {
       $('#leftNav').addClass('margin-left-100')
       $('#rightNav').addClass('margin-right-0')
-      let a = async () => {
-        await that.googleAPI.getDetails(place)
-        console.log(place.reviews[0].author_name)
-        that.display.showDetails(place)
-        that.display.showStars(place)
-      }
+      that.getDetailsFirst(place)
       setTimeout(function() {
         place.pano.setPosition(place.latLng)
       }, 400)
-      a()
     })
   }
 // MOUSEOVER . MOUSEOUT GMAP MARKER __________________ */
@@ -60,25 +61,31 @@ class Event {
     $('body').on('click', `#mini${place.id}`, function() {
       $('#leftNav').addClass('margin-left-100')
       $('#rightNav').addClass('margin-right-0')
-      let a = async () => {
-        await that.googleAPI.getDetails(place)
-        console.log(place.reviews[0].author_name)
-        that.display.showDetails(place)
-        that.display.showStars(place)
-      }
+      that.getDetailsFirst(place)
       setTimeout(function() {
         place.pano.setPosition(place.latLng)
       }, 400)
-      a()
+    })
+  }
+// ADDNEWCOMMENT FROM ADDNEWRESTAURANT ERROR _________ */
+  addCommentMsg(place) {
+    let that = this
+    $('body').on('click', `.${place.id}`, function() {
+      that.getDetailsFirst(place)
+      setTimeout(function() {
+        place.pano.setPosition(place.latLng)
+        let anchor = document.getElementById(`addComment${place.id}`)
+        anchor.scrollIntoView({behavior: "smooth"})
+      }, 400)
     })
   }
 // 'ADD NEW COMMENT' BUTTON CLICK ____________________ */
   addCommentClick(place, formID, inputClass, inputID, errorMsg, confirmMsg) {
     let that = this
     $('body').on('click', `#addComment${place.id}`, function() {
-      let anchor = document.getElementById('anchor')
       $(`#addComment${place.id}`).remove()
       $('#commentSection').removeClass('d-none')
+      let anchor = document.getElementById('anchor')
       anchor.scrollIntoView({behavior: "smooth"})
       let formTag = document.getElementById(`${form[1].id}`)
       // POST NEW COMMENT
@@ -102,6 +109,13 @@ class Event {
       that.operator.filter(place)
     })
   }
+
+  searchNewPlacesDrag(map, pano, service) {
+    let that = this
+    google.maps.event.addListener(map, 'dragend', function() {
+      that.googleAPI.searchMorePlaces(map, pano, service)
+    })
+  }
 // 'BACK TO NAVIGATION' BUTTON CLICK _________________ */
   backToNavClick(place) {
     let that = this
@@ -112,29 +126,30 @@ class Event {
     })
   }
 // 'ADD NEW RESTAURANT' BUTTON CLICK _________________ */
-  openNewPlaceForm(data, map, panorama, formID, inputClass, inputID, errorMsg, confirmMsg) {
+  openNewPlaceForm(data, map, panorama, service, formID, inputClass, inputID, errorMsg, confirmMsg) {
     let that = this
     $('body').on('click', '#addRestaurantButton', function() {
       $('#leftNav').addClass('margin-left-100')
       $('#rightNav').addClass('margin-right-0')
       that.display.newRestaurantForm()
-      that.operator.autoComplete(map)
-      that.submitNewPlace(data, map, panorama, formID, inputClass, inputID, errorMsg, confirmMsg)
+      that.operator.autoComplete(map, data)
+      that.submitNewPlace(data, map, panorama, service, formID, inputClass, inputID, errorMsg, confirmMsg)
     })
   }
 // 'SUBMIT' NEW RESTAURANT ___________________________ */
-  submitNewPlace(data, map, panorama, formID, inputClass, inputID, errorMsg, confirmMsg) {
+  submitNewPlace(data, map, panorama, service, formID, inputClass, inputID, errorMsg, confirmMsg) {
     let that = this
     let formTag = document.getElementById(`${form[0].id}`)
     formTag.addEventListener('submit', evt => {
       evt.preventDefault()
-      that.operator.formValidator(data, map, panorama, formID, inputClass, inputID, errorMsg, confirmMsg)
+      that.operator.formValidator(data, map, panorama, service, formID, inputClass, inputID, errorMsg, confirmMsg)
     })
   }
 // ALL EVENTS CALLED BY 'PLACE' GROUPED IN 1 _________ */
   placeEvents(place, infoWindow, formID, inputClass, inputID, errorMsg, confirmMsg) {
     this.markerClick(place)
     this.miniatureClick(place)
+    this.addCommentMsg(place)
     this.markerMouseOver(place, infoWindow)
     this.addCommentClick(place, infoWindow, formID, inputClass, inputID, errorMsg, confirmMsg)
     this.scoreFilterClick(place)

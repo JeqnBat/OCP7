@@ -1,15 +1,16 @@
 class Place {
-  constructor(placeData, map, pano, service) {
-    this.id = placeData.place_id // pour hook la requête getDetails() au click
-    this.name = placeData.name
-    this.address = placeData.vicinity
-    this.latLng = placeData.geometry.location
-    this.averageScore = placeData.rating
-    this.reviewsNb = placeData.user_ratings_total
-    this.reviews = []
+  constructor(fromData, map, pano, service) {
+    this.id = fromData.place_id // pour hook la requête getDetails() au click
+    this.name = fromData.name
+    this.address = fromData.vicinity
+    this.latLng = fromData.geometry.location
+    this.rating = fromData.rating
+    this.averageScore = this.rating
+    this.reviewsNb = fromData.user_ratings_total
     this.map = map
     this.pano = pano
     this.service = service
+    this.reviews = []
     this.operator = new Operator()
     this.display = new Display()
     this.userEvent = new Event()
@@ -19,7 +20,6 @@ class Place {
   }
 // GMAP MARKERS CREATION _____________________________ */
   createMarker() {
-    let placeMarker = this.marker
     this.marker = new google.maps.Marker({
       position: this.latLng,
       map: this.map,
@@ -32,10 +32,6 @@ class Place {
     this.infoWindow = new google.maps.InfoWindow({
       content: this.display.infoWindow(this)
     })
-    // ONCLICK
-    this.userEvent.markerClick(this)
-    // MOUSEOVER
-    this.userEvent.markerMouseOver(this)
   }
 
 }
