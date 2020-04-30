@@ -1,11 +1,10 @@
 class Place {
   constructor(fromData, map, pano, service) {
-    this.id = fromData.place_id // pour hook la requête getDetails() au click
+    this.id = fromData.place_id
     this.name = fromData.name
     this.address = fromData.vicinity
     this.latLng = fromData.geometry.location
-    this.rating = fromData.rating
-    this.averageScore = this.rating
+    this.averageScore = fromData.rating
     this.reviewsNb = fromData.user_ratings_total
     this.map = map
     this.pano = pano
@@ -14,11 +13,16 @@ class Place {
     this.operator = new Operator()
     this.display = new Display()
     this.userEvent = new Event()
+
+    if (this.averageScore == null) {
+      this.averageScore = 0
+      return this.averageScore
+    }
     // PLACE'S CALLS
     this.createMarker()
     this.userEvent.placeEvents(this, form[1].id, input[1].Class, input[1].id, error[1].msg, confirm[1].msg)
   }
-// GMAP MARKERS CREATION _____________________________ */
+// GMAP MARKERS CREATION _______________________________ */
   createMarker() {
     this.marker = new google.maps.Marker({
       position: this.latLng,

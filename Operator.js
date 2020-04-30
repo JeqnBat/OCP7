@@ -2,16 +2,15 @@ class Operator {
   constructor() {
     this.display = new Display()
   }
-// CALCULATE AVERAGE SCORE ___________________________ */
+// CALCULATE AVERAGE SCORE _____________________________ */
   renderScore(place, inputScore) {
-    let avgTimesNb = place.rating * place.reviewsNb
+    let avgTimesNb = place.averageScore * place.reviewsNb
     let total = avgTimesNb + inputScore
     let newAverage = total / (place.reviewsNb+1)
-    place.rating = newAverage
-    place.averageScore = place.rating.toFixed(1)
+    place.averageScore = newAverage
     place.reviewsNb = place.reviewsNb+1
   }
-// POST A COMMENT ____________________________________ */
+// POST A COMMENT ______________________________________ */
   postComment(place, formID, inputClass, inputID, errorMsg, confirmMsg) {
     // EMBEDDED FORM VALIDATOR
     let inputsNb = $(`#${formID} ${inputClass}`).length
@@ -73,8 +72,8 @@ class Operator {
       // ERROR -END
     }
   }
-// CHECK IF FORM IS VALID BEFORE POSTING _____________ */
-  formValidator(data, map, panorama, service, formID, inputClass, inputID, errorMsg, confirmMsg) {
+// CHECK IF FORM IS VALID BEFORE POSTING _______________ */
+  formValidator(map, panorama, service, formID, inputClass, inputID, errorMsg, confirmMsg) {
     let inputsNb = $(`#${formID} ${inputClass}`).length
     let inputs = []
     let value = []
@@ -95,7 +94,7 @@ class Operator {
       }
     }
     if ($(`#${formID}`).html().indexOf('invalid') == -1) {
-      this.postNewPlace(data, map, panorama, service, formID, confirmMsg)
+      this.postNewPlace(map, panorama, service, formID, confirmMsg)
     } else {
       $('#errorMsg').html(`${errorMsg}`)
       let anchor = document.getElementById('errorMsg')
@@ -111,8 +110,8 @@ class Operator {
       }
     }
   }
-// FORM AUTO-COMPLETE ________________________________ */
-  autoComplete(map, data) {
+// FORM AUTO-COMPLETE __________________________________ */
+  autoComplete(map) {
     let that = this
     let nameInput = document.getElementById('newRestaurant0')
     let options = {
@@ -133,49 +132,47 @@ class Operator {
       infowindow.close()
       newPlaceMarker.setVisible(false)
       let place = nameAutocomplete.getPlace()
+      // IF PLACE DOESN'T HAVE GEOMETRY (EX:USER ENTERED A NAME THAT WAS NOT SUGGESTED AND PRESSED 'ENTER')
       if (!place.geometry) {
-        // User entered the name of a Place that was not suggested and
-        // pressed the Enter key, or the Place Details request failed.
-        window.alert("Nous n'avons pas trouvé de résultat pour : '" + place.name + "'");
-        return;
+        // STOP
+        window.alert("Nous n'avons pas trouvé de résultat pour : '" + place.name + "'")
+        return
       }
-      // If the place has a geometry viewport, use it on the map.
+      // IF PLACE HAS GEOMETRY
       if (place.geometry.viewport) {
         map.fitBounds(place.geometry.viewport)
-      } else { // else center map on place location
+        map.setZoom(18)
+      } else {
         map.setCenter(place.geometry.location)
-        map.setZoom(17)
+        map.setZoom(18)
       }
-
       newPlaceMarker.setPosition(place.geometry.location)
       newPlaceMarker.setVisible(true)
-
+      // STOCK PLACE DETAILS IN GLOBAL VARIABLES TO USE THEM LATER
       newPlaceId = place.place_id
       newPlaceName = place.name
       newPlaceVicinity = place.vicinity
       newPlaceGeometry = place.geometry.location
       newPlaceRatingsNb = place.user_ratings_total
       newPlaceRating = place.rating
-
-      let alreadyHere = (data) => {
-          return newPlaceId != data.id
+      // CHECK IF THIS PLACE ALREADY REGISTERED IN THE MAIN ARRAY
+      let alreadyHere = (restaurants) => {
+          return newPlaceId != restaurants.id
       }
       let checkPlace = () => {
-        let testCondition = data.every(alreadyHere)
+        let testCondition = restaurants.every(alreadyHere)
         if (testCondition == true) {
           that.display.autoCompleteUpdate(place, infowindow)
         } else {
-          newPlaceMarker.setVisible(false)
-          $('#errorMsg').html(`${error[2].msg}`).addClass(newPlaceId)
+          that.display.autoCompleteFail(newPlaceMarker)
         }
       }
       checkPlace()
     })
     return infowindow, newPlaceId, newPlaceName, newPlaceVicinity, newPlaceGeometry, newPlaceRatingsNb, newPlaceRating
   }
-// ADD A NEW RESTAURANT TO DATA ______________________ */
-  postNewPlace(data, map, panorama, service, formID, confirmMsg) {
-    // stocké dans constants.js
+// ADD A NEW RESTAURANT TO DATA ________________________ */
+  postNewPlace(map, panorama, service, formID, confirmMsg) {
     placeInfos = {
       place_id: newPlaceId,
       name: newPlaceName,
@@ -184,34 +181,23 @@ class Operator {
       user_ratings_total: newPlaceRatingsNb,
       rating: newPlaceRating
     }
-    let n = data.length
-    data[n] = new Place(placeInfos, map, panorama, service)
-    data[n].reviews = [{author_name: $(`#newRestaurant2`).val(),
+    let n = restaurants.length
+    restaurants[n] = new Place(placeInfos, map, panorama, service)
+    restaurants[n].reviews = [{author_name: $(`#newRestaurant2`).val(),
                         language: '',
                         profilte_photo_url: '',
                         rating: parseInt($(`#newRestaurant3`).val()),
                         relative_time_description: '',
                         text: $(`#newRestaurant4`).val(),
                         time: ''}]
-    newPlaceMarker.setVisible(false)
-    infowindow.close()
-
-    $('.pending').last().addClass('completed')
-    setTimeout(function() {
-      $('.pending').remove()
-      $('#errorMsg').remove()
-      $(`#${formID}`).remove()
-      $('#rightNav').append(`${confirmMsg}`)
-      let anchor = document.getElementById('cm')
-      anchor.scrollIntoView({behavior: 'smooth'})
-    }, 800)
+    this.display.newPlaceAddedAnim(formID, confirmMsg)
   }
-// FILTER BY SCORE AND/OR MAP BOUNDARIES _____________ */
-  // CHECK IF PLACE IS WITHIN MAP'S LIMITS
+// FILTER BY SCORE AND/OR MAP BOUNDARIES _______________ */
+  // 1. CHECK IF PLACE IS WITHIN MAP'S LIMITS
   checkPos(place) {
     return place.map.getBounds().contains(place.marker.getPosition())
   }
-  // CHECK IF PLACE'S AVERAGESCORE IS BETWEEN MIN & MAX VALUE
+  // 2. CHECK IF PLACE'S AVERAGESCORE IS BETWEEN MIN & MAX VALUE
   checkScore(place) {
     let min = $('#minRating').val()
     let max = $('#maxRating').val()
@@ -221,7 +207,7 @@ class Operator {
       return false
     }
   }
-  // IF AT LEAST ONE OF THE 2 FILTERS RETURNS FALSE > DO NOT DISPLAY
+  // 3. IF AT LEAST ONE OF THE 2 FILTERS RETURNS FALSE -> DO NOT DISPLAY
   filter(place) {
     if (this.checkScore(place) == false || this.checkPos(place) == false) {
       place.marker.setVisible(false)

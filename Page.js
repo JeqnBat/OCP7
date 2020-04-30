@@ -3,7 +3,7 @@ class Page {
     this.userEvent = new Event()
     this.googleAPI = new API()
   }
-// PAGE INITIALIZATION SEQUENCE ______________________ */
+// PAGE INITIALIZATION SEQUENCE ________________________ */
   init() {
     const loadingSequence = async () => {
       await this.googleAPI.initMap()
@@ -15,12 +15,13 @@ class Page {
     }
     this.userEvent.logoClick(loadingSequence)
   }
-// PLACE OBJECTS CREATION ____________________________ */
+// PLACE OBJECTS CREATION ______________________________ */
   createPlaces(fromData, wMap, wPanorama, wService, form, inputClass, inputID, error, confirm) {
     for (let i = 0; i < fromData.length; i++) {
       restaurants[i] = new Place(fromData[i], wMap, wPanorama, wService)
+      this.userEvent.operator.filter(restaurants[i])
     }
-    this.userEvent.openNewPlaceForm(fromData, wMap, wPanorama, wService, form, inputClass, inputID, error, confirm)
+    this.userEvent.openNewPlaceForm(wMap, wPanorama, wService, form, inputClass, inputID, error, confirm)
   }
 
 }

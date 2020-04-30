@@ -1,39 +1,44 @@
 class Display {
   constructor() {
   }
-// ANIMATION FROM HOMEPAGE TO MAIN LAYOUT ____________ */
-  transition() {
-    $('#main').addClass('top')
+// ANIMATION FROM HOMEPAGE TO MAIN LAYOUT ______________ */
+  transition(init) {
+    $('#main').addClass('visible')
+    $('#home').addClass('visible')
     $('#main').html(domElements[0].mainDiv)
     $('#map').addClass('fadeIn')
     $('#navColumn').addClass('fadeIn')
     $('#toggler').addClass('fadeIn')
+    setTimeout(function() {
+      $('#home').remove()
+      init()
+    }, 800)
   }
-// TOGGLER BUTTON ANIMATION __________________________ */
-  slideLeft() {
+// TOGGLER BUTTON ANIMATION ____________________________ */
+  togglerSlideLeft() {
     $('#toggler').css('left', '0')
     $('#toggler').css('transform', 'scaleX(1)')
-    $('#navColumn').css('left', '-29vw')
+    $('#navColumn').addClass('slideLeft')
   }
-  slideRight() {
+  togglerSlideRight() {
     $('#toggler').css('left', '29vw')
     $('#toggler').css('transform', 'scaleX(-1)')
-    $('#navColumn').css('left', '0')
+    $('#navColumn').removeClass('slideLeft')
   }
-// MARKER'S INFOWINDOW DISPLAY _______________________ */
+// MARKER'S INFOWINDOW DISPLAY _________________________ */
   infoWindow(place) {
     let content =  `<div>
                     <span class="font-weight-bold">${place.name} </span><br>
-                    <span>${place.averageScore} étoile(s) . ${place.reviewsNb} commentaires</span> <br>
+                    <span>${place.averageScore.toFixed(1)} étoile(s) . ${place.reviewsNb} commentaires</span> <br>
                     <span class="font-italic">${place.address}</span>
                     </div>`
     return content
   }
-// PLACE'S MINIATURE DISPLAY _________________________ */
+// PLACE'S MINIATURE DISPLAY ___________________________ */
   showMiniature(place) {
     let miniature = `<div class="miniature p-3 w-50" id="mini${place.id}">
-                     <span class="name${place.id} h5 orange">${place.name}</span><br>
-                     <span class="score${place.id} text-primary"></span><br>
+                     <span class="name${place.id} h5 text-primary">${place.name}</span><br>
+                     <span class="score${place.id} orange"></span><br>
                      <span class="address${place.id}">${place.address}</span><br>
                      </div>`
     $('#content').append(miniature)
@@ -41,12 +46,12 @@ class Display {
   hideMiniature(place) {
     $(`#mini${place.id}`).remove('')
   }
-// STARS RATING SYSTEM ________________________________ */
+// STARS RATING SYSTEM __________________________________ */
   showStars(place) {
     let scoreDiv  = `.score${place.id}`
     let starFull  = `<span>★</span>`
     let starEmpty = `<span>☆</span>`
-    let avgScore  = `<span class="text-black-50">${place.averageScore} </span>`
+    let avgScore  = `<span class="text-black-50">${place.averageScore.toFixed(1)} </span>`
     let commentNb = `<span class="text-black-50"> (${place.reviewsNb})</span>`
     $(scoreDiv).html(avgScore)
     for (let i = 0; i < starNb; i++) {
@@ -58,11 +63,25 @@ class Display {
     }
     $(scoreDiv).append(commentNb)
   }
-// DISPLAY PLACE'S INFORMATIONS ______________________ */
+// NAVIGATION COLUMN SLIDE FROM RIGHT TO LEFT __________ */
+  navColumnSlideLeft(place) {
+    $('#leftNav').addClass('slideLeft')
+    $('#rightNav').addClass('slideLeft')
+    setTimeout(function() {
+      let anchor = document.getElementById('streetView')
+      anchor.scrollIntoView({behavior: 'smooth'})
+    }, 400)
+    setTimeout(function() {
+      place.pano.setPosition(place.latLng)
+      place.map.panTo(place.latLng)
+      place.infoWindow.open(place.marker.get('map'), place.marker)
+    }, 700)
+  }
+// DISPLAY PLACE'S INFORMATIONS ________________________ */
   showDetails(place) {
     let header = `<span id="backToNav" class="pointLeft pt-4">◀ revenir à la navigation</span>
-                  <div class="d-flex flex-column p-4 w-100" item="${place.id}">
-                    <span class="title display-4">${place.name}</span>
+                  <div id="title${place.id}" class="d-flex flex-column p-4 w-100" item="${place.id}" >
+                    <span class="orange display-4">${place.name}</span>
                     <span class="text-primary score${place.id}"></span>
                     <span class="text-muted">${place.address}</span>
                     <hr>
@@ -89,7 +108,7 @@ class Display {
     // DISPLAY PLACE COMMENTS
     for (let i = 0; i < place.reviews.length; i++) {
       let allComments = `<span class="orange point8 mt-3">#${i+1} de <span class='font-weight-bold'>${place.reviews[i].author_name}</span></span>
-                         <span class="text-body pl-2">${place.reviews[i].text}</span>
+                         <span class="text-dark pl-2">${place.reviews[i].text}</span>
                          <span class="text-muted point8 ml-5">a noté <span class="orange">${place.reviews[i].rating}</span> sur 5</span>
                         </div>`
       $(`[item=${place.id}]`).append(allComments)
@@ -101,11 +120,20 @@ class Display {
       $('#streetViewBlinder').remove()
     }, 700)
   }
-// APPEND 'ADD NEW RESTAURANT' FORM __________________ */
-  newRestaurantForm() {
-    $('#rightNav').html(domElements[0].newRestaurantForm)
+// 'ADD NEW RESTAURANT' BUTTON CLICK ANIMATION _________ */
+  addCommentAnim(place) {
+    $(`#addComment${place.id}`).remove()
+    $('#commentSection').removeClass('d-none')
+    let anchor = document.getElementById('anchor')
+    anchor.scrollIntoView({behavior: "smooth"})
   }
 
+// APPEND 'ADD NEW RESTAURANT' FORM ____________________ */
+  newRestaurantForm() {
+    $('#rightNav').html(domElements[0].newRestaurantForm)
+    $('#leftNav').addClass('slideLeft')
+    $('#rightNav').addClass('slideLeft')
+  }
   autoCompleteUpdate(place, infowindow) {
     let content = `<span>${place.name}</span> <br>
                    <span>${place.formatted_address}</span>`
@@ -115,10 +143,32 @@ class Display {
     $('#newRestaurant1').val(place.formatted_address)
     $('.pending').first().addClass('completed')
     $('#newRestaurantForm').children().removeClass('d-none')
-    let anchor = document.getElementById('postNewRestaurant')
+    let anchor = document.getElementById('errorMsg')
     setTimeout(function() {
       anchor.scrollIntoView({behavior: 'smooth'})
     }, 800)
   }
-
+  autoCompleteFail(newPlaceMarker) {
+    newPlaceMarker.setVisible(false)
+    $('#errorMsg').html(`${error[2].msg}`).addClass(newPlaceId)
+  }
+// 'BACK TO NAV' BUTTON CLICK ANIMATION ________________ */
+  backToNavAnim() {
+    $('#leftNav').removeClass('slideLeft')
+    $('#rightNav').removeClass('slideLeft')
+  }
+// NEW PLACE ADDED CONFIRMATION ANIMATION ______________ */
+  newPlaceAddedAnim(formID, confirmMsg) {
+    newPlaceMarker.setVisible(false)
+    infowindow.close()
+    $('.pending').last().addClass('completed')
+    setTimeout(function() {
+      $('.pending').remove()
+      $('#errorMsg').remove()
+      $(`#${formID}`).remove()
+      $('#rightNav').append(`${confirmMsg}`)
+      let anchor = document.getElementById('cm')
+      anchor.scrollIntoView({behavior: 'smooth'})
+    }, 800)
+  }
 }

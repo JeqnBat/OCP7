@@ -6,7 +6,7 @@ class API {
     this.latLng
     this.places = []
   }
-// CALL GMAP _________________________________________ */
+// CALL GMAP ___________________________________________ */
   async initMap() {
     return new Promise((resolve, reject) => {
     this.map = new google.maps.Map(document.getElementById('map'), {
@@ -24,7 +24,7 @@ class API {
     return this.map, this.pano, this.service
     })
   }
-// CALL NAVIGATOR GEOLOCATION FUNCTION _______________ */
+// CALL NAVIGATOR GEOLOCATION FUNCTION _________________ */
   async geoLoc() {
     let userInfoWindow
     let userMarker
@@ -36,7 +36,7 @@ class API {
                   lng: position.coords.longitude
                 }
           this.map.setCenter(this.latLng)
-          this.map.setZoom(17)
+          this.map.setZoom(18)
       // CREATE USER'S POSITION MARKER
           this.latLng = new google.maps.LatLng(this.latLng.lat, this.latLng.lng)
           userMarker = new google.maps.Marker({
@@ -67,7 +67,7 @@ class API {
       }
     })
   }
-// CALL NEARBYSEARCH() TO FIND PLACES ________________ */
+// CALL NEARBYSEARCH() TO FIND PLACES __________________ */
   async searchPlaces() {
     let request = {
       location: this.latLng,
@@ -85,7 +85,7 @@ class API {
       })
     })
   }
-
+// CALL NEARBYSEARCH() TO MORE FIND PLACES _____________ */
 searchMorePlaces(map, pano, service) {
     let request = {
       bounds: map.getBounds(),
@@ -94,27 +94,33 @@ searchMorePlaces(map, pano, service) {
     }
     service.nearbySearch(request, (results, status) => {
       if (status == google.maps.places.PlacesServiceStatus.OK) {
-        for (let i = 0; i < results.length; i++) {
+        let lessInputs = results.length/2
+        for (let i = 0; i < lessInputs; i++) {
           let n = restaurants.length
           let newPlaceId = results[i].place_id
-          let alreadyHere = (restaurants) => {
+          // CHECKS IF PLACE IS ALREADY REGISTERED IN THE MAIN ARRAY
+          let checkPlaceId = (restaurants) => {
               return newPlaceId != restaurants.id
           }
-          let checkPlace = () => {
-            let testCondition = restaurants.every(alreadyHere)
+          let isPlaceRegistered = () => {
+            let testCondition = restaurants.every(checkPlaceId)
+            // IF IT IS NOT -> CREATE IT
             if (testCondition == true) {
               restaurants[n] = new Place(results[i], map, pano, service)
+            // ELSE -> PRINT NAME AND ERROR MSG
             } else {
-
+              console.log(`${results[i].name} is already registered in our database`)
             }
           }
-          checkPlace()
+          // CALL TEST
+          isPlaceRegistered()
         }
       }
     })
   }
-// GET REVIEWS OF SPECIFIC PLACE _____________________ */
+// GET REVIEWS OF SPECIFIC PLACE _______________________ */
   async getDetails(place) {
+    // if place has more than 1 review, getDetails() has already been called -> do not call it again
     if (place.reviews.length <= 1) {
       let requestDetails = {
         placeId: place.id,
