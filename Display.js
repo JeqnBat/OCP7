@@ -120,14 +120,33 @@ class Display {
       $('#streetViewBlinder').remove()
     }, 700)
   }
-// 'ADD NEW RESTAURANT' BUTTON CLICK ANIMATION _________ */
+// ADD COMMENT & CONFIRM MSG ANIMATIONS ________________ */
   addCommentAnim(place) {
     $(`#addComment${place.id}`).remove()
     $('#commentSection').removeClass('d-none')
     let anchor = document.getElementById('anchor')
     anchor.scrollIntoView({behavior: "smooth"})
   }
-
+  newCommentConfirm(place) {
+    $(`#addComment${place.id}`).remove()
+    $(`[item=${place.id}]`).prepend(`${confirmMsg}`)
+    let anchor = document.getElementById('backToNav')
+    anchor.scrollIntoView({behavior: 'smooth'})
+  }
+  newCommentError(errorMsg, inputID) {
+    $('#errorMsg').html(`${errorMsg}`)
+    let anchor = document.getElementById('errorMsg')
+    anchor.scrollIntoView({behavior: 'smooth'})
+    for (let i = 0; i < 4; i++) {
+      $('body').on('click', `#${inputID+i}`, function() {
+        if (inputs[i].dataset.state = 'invalid') {
+          inputs[i].dataset.state = 'valid'
+        } else {
+          return
+        }
+      })
+    }
+  }
 // APPEND 'ADD NEW RESTAURANT' FORM ____________________ */
   newRestaurantForm() {
     $('#rightNav').html(domElements[0].newRestaurantForm)
@@ -139,7 +158,6 @@ class Display {
                    <span>${place.formatted_address}</span>`
     infowindow.setContent(content)
     infowindow.open(map, newPlaceMarker)
-
     $('#newRestaurant1').val(place.formatted_address)
     $('.pending').first().addClass('completed')
     $('#newRestaurantForm').children().removeClass('d-none')

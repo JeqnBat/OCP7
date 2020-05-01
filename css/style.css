@@ -1,5 +1,7 @@
 @charset "utf-8";
-/* JB PELLIER - OCP7 - 03/2020
+/* JB PELLIER - OCP7 - STYLE.CSS
+.Style.css for animations & transitions ;
+.Bootstrap for colors & layout properties ;
 ______________________________________________________ */
 html, body {
   height: 100%;
@@ -8,7 +10,6 @@ html, body {
   overflow: hidden;
   background: radial-gradient(#ffb122, #c96800);
 }
-
 hr {
   width: 100%;
   margin-top: 1rem;
@@ -30,7 +31,10 @@ ______________________________________________________ */
           transition: transform .8s ease-in-out;
          will-change: transform;
 }
-/* MAINDIV HIDDEN WHEN PAGE LOADS */
+#home.visible  {
+  -webkit-transform: none;
+          transform: none;
+}
 #main {
   -webkit-transform: translateY(-100%);
           transform: translateY(-100%);
@@ -39,10 +43,6 @@ ______________________________________________________ */
          will-change: transform;
 }
 #main.visible {
-  -webkit-transform: none;
-          transform: none;
-}
-#home.visible  {
   -webkit-transform: none;
           transform: none;
 }
@@ -58,14 +58,14 @@ ______________________________________________________ */
   -webkit-animation-delay: .4s;
           animation-delay: .4s;
 }
-/* BORDER ROTATION */
+/* BORDER ROTATION CW */
 #rotor {
   -webkit-animation: rotate 50s cubic-bezier(0.1, 0, 1, 1) forwards infinite;
           animation: rotate 50s cubic-bezier(0.1, 0, 1, 1) forwards infinite;
   -webkit-animation-delay: 1s;
           animation-delay: 1s;
 }
-/* LOGO COUNTERS ROTOR ROTATION TO STAY FIXED */
+/* LOGO ROTATION CCW TO STAY FIXED */
 #logo {
   cursor: pointer;
   opacity: 1;
@@ -80,33 +80,33 @@ ______________________________________________________ */
   -webkit-animation-delay: 1s;
           animation-delay: 1s;
 }
-#titre1 {
+#title1 {
   transform: translateX(-100vw);
   -webkit-transition: transform .9s cubic-bezier(0.21, 1.1, 0, 1.04);
           transition: transform .9s cubic-bezier(0.21, 1.1, 0, 1.04);
          will-change: transform;
 }
-#titre2 {
-  transform: translateX(100vw);
-  -webkit-transition: transform .9s cubic-bezier(0.21, 1.1, 0, 1.04);
-          transition: transform .9s cubic-bezier(0.21, 1.1, 0, 1.04);
-         will-change: transform;
-}
-#titre1.visible {
+#title1.visible {
   -webkit-transform: none;
           transform: none;
 }
-#titre2.visible {
-  -webkit-transform: none;
-          transform: none;
-}
-#titre1:hover {
+#title1:hover {
   -webkit-transition: .3s;
           transition: .3s;
   -webkit-transform: scale(1.05);
           transform: scale(1.05);
 }
-#titre2:hover {
+#title2 {
+  transform: translateX(100vw);
+  -webkit-transition: transform .9s cubic-bezier(0.21, 1.1, 0, 1.04);
+          transition: transform .9s cubic-bezier(0.21, 1.1, 0, 1.04);
+         will-change: transform;
+}
+#title2.visible {
+  -webkit-transform: none;
+          transform: none;
+}
+#title2:hover {
   -webkit-transition: .3s;
           transition: .3s;
   -webkit-transform: scale(1.05);
@@ -131,16 +131,16 @@ ______________________________________________________ */
 /* MAIN PAGE
 ______________________________________________________ */
 #navColumn {
-  z-index: 3;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  scrollbar-color: lightgray white;
-  scrollbar-width: thin;
   position: absolute;
   width: 29vw;
   top: 0;
   left: 0;
   background-color: white;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-color: lightgray white;
+  scrollbar-width: thin;
+  z-index: 3;
   -webkit-transform: translateX(0);
           transform: translateX(0);
   -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.4);
@@ -154,17 +154,17 @@ ______________________________________________________ */
 }
 /* HIDE / SHOW NAVIGATION COLUMN */
 #toggler {
-  left: 29vw;
-  z-index: 3;
-  cursor: pointer;
   position: absolute;
+  cursor: pointer;
+  left: 29vw;
+  top: 1.5vh;
   width: 22px;
   height: 48px;
+  color: grey;
   background-color: white;
-  top: 1.5vh;
   font-size: 2rem;
   font-family: monospace;
-  color: grey;
+  z-index: 3;
   -webkit-transform: scaleX(-1);
           transform: scaleX(-1);
   -webkit-box-shadow: -8px 0px 20px 0px rgba(0,0,0,0.3);
@@ -174,12 +174,12 @@ ______________________________________________________ */
 }
 /* TOP LEFT CORNER W/ STREET VIEW DIV */
 #streetViewBlinder {
-  z-index: 2;
   position: inherit;
   background: url('../png/smallLogo.png') no-repeat, white;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  z-index: 2;
 }
 .fadeOut {
   -webkit-animation: fadeIn .7s linear reverse;
@@ -196,10 +196,7 @@ ______________________________________________________ */
 #leftNav.slideLeft {
   transform: translateX(-100%)
 }
-/* DETAILS & POST NEW RESTAURANT'S FORM DIV */
-#backToNav {
-  cursor: pointer;
-}
+/* DETAILS & 'ADD NEW RESTAURANT' DIV */
 #rightNav {
   margin: 0;
   transform: translateX(0);
@@ -208,12 +205,17 @@ ______________________________________________________ */
   will-change: transform;
 }
 #rightNav.slideLeft {
-  transform: translateX(-100%)
+  -webkit-transform: translateX(-100%);
+          transform: translateX(-100%);
+}
+#backToNav {
+  cursor: pointer;
 }
 /* 'ADD NEW RESTAURANT' BUTTON */
 #addRestaurantButton {
   cursor: pointer;
-  transition: all .2s ease-in-out;
+  -webkit-transition: all .2s ease-in-out;
+          transition: all .2s ease-in-out;
 }
 #addRestaurantButton:hover {
   color: #0074d9;
@@ -237,7 +239,8 @@ ______________________________________________________ */
           animation: fadeIn .2s linear forwards;
   -webkit-animation-delay: .5s;
           animation-delay: .5s;
-  transition: all .1s ease-in-out;
+  -webkit-transition: all .1s ease-in-out;
+          transition: all .1s ease-in-out;
 }
 .addCommentMsg:hover {
   cursor: pointer;
@@ -246,7 +249,8 @@ ______________________________________________________ */
 /* ADD NEW RESTAURANT STEPS */
 .pending {
   color: inherit;
-  transition: all .3s ease-in-out;
+  -webkit-transition: all .3s ease-in-out;
+          transition: all .3s ease-in-out;
 }
 .pending.completed {
   color: #0074d9;
@@ -257,7 +261,8 @@ ______________________________________________________ */
   margin: 0 auto;
   width: 0%;
   border-bottom: 2px solid;
-  transition: all .3s ease-in-out;
+  -webkit-transition: all .3s ease-in-out;
+          transition: all .3s ease-in-out;
 }
 .pending.completed:after {
   content: "";
@@ -271,7 +276,8 @@ ______________________________________________________ */
   font-size: .8rem;
   color: #acacac;
   margin-left: 20px;
-  transition: all .2s ease-in-out;
+  -webkit-transition: all .2s ease-in-out;
+          transition: all .2s ease-in-out;
 }
 .pointLeft:hover {
   color: #0275d8;
@@ -283,7 +289,8 @@ ______________________________________________________ */
   border-radius: 4px;
   padding: 1px;
   color: #666;
-  transition: border .1s ease-in-out;
+  -webkit-transition: border .1s ease-in-out;
+          transition: border .1s ease-in-out;
 }
 .filterButton:hover {
   border: 1px solid #0275d8;
@@ -294,7 +301,8 @@ ______________________________________________________ */
   border-radius: 4px;
   padding: 1px;
   color: #666;
-  transition: border .1s ease-in-out;
+  -webkit-transition: border .1s ease-in-out;
+          transition: border .1s ease-in-out;
 }
 .scoreButton:hover {
   border: 1px solid #0275d8;
@@ -307,7 +315,8 @@ ______________________________________________________ */
   opacity: 0;
   -webkit-animation: fadeIn .2s linear forwards;
           animation: fadeIn .2s linear forwards;
-  transition: all .1s ease-in-out;
+  -webkit-transition: all .1s ease-in-out;
+          transition: all .1s ease-in-out;
 }
 .miniature:hover {
   cursor: pointer;
@@ -336,7 +345,7 @@ textarea[data-state="invalid"] {
 #anchor {
   height: 1px;
 }
-/* SCROLLBAR
+/* SCROLLBAR STYLES FOR CHROME
 ______________________________________________________ */
 ::-webkit-scrollbar {
   width: 6px;

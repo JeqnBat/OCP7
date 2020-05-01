@@ -55,7 +55,7 @@ class Event {
       that.display.navColumnSlideLeft(place)
     })
   }
-// ADDNEWCOMMENT FROM ADDNEWRESTAURANT ERROR ___________ */
+// ADD NEW COMMENT FROM ADD NEW RESTAURANT ERROR _______ */
   addCommentMsg(place) {
     let that = this
     $('body').on('click', `.${place.id}`, function() {
@@ -95,7 +95,7 @@ class Event {
     })
   }
 // MAPDRAG TO FIND NEW PLACES __________________________ */
-  searchNewPlacesDrag(map, pano, service) {
+  searchNewPlaces(map, pano, service) {
     let that = this
     google.maps.event.addListener(map, 'dragend', function() {
       that.googleAPI.searchMorePlaces(map, pano, service)
@@ -127,7 +127,7 @@ class Event {
     let formTag = document.getElementById(`${form[0].id}`)
     formTag.addEventListener('submit', evt => {
       evt.preventDefault()
-      that.operator.formValidator(map, panorama, service, formID, inputClass, inputID, errorMsg, confirmMsg)
+      that.operator.postNewPlace(map, panorama, service, formID, inputClass, inputID, errorMsg, confirmMsg)
     })
   }
 // ALL EVENTS CALLED BY 'PLACE' GROUPED IN 1 __________ */

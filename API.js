@@ -19,7 +19,6 @@ class API {
       zoom: 1,
     })
     this.service = new google.maps.places.PlacesService(this.map)
-
     resolve('done')
     return this.map, this.pano, this.service
     })
@@ -49,7 +48,6 @@ class API {
             content: marker.title,
           })
           userInfoWindow.open(userMarker.get('map'), userMarker)
-          // à ranger dans les events
           userMarker.addListener('mouseover', function() {
             userInfoWindow.open(userMarker.get('map'), userMarker)
           })
@@ -62,8 +60,6 @@ class API {
           console.log(`${error.code}`)
           reject('failed')
         })
-      } else {
-        // ...
       }
     })
   }
@@ -120,7 +116,6 @@ searchMorePlaces(map, pano, service) {
   }
 // GET REVIEWS OF SPECIFIC PLACE _______________________ */
   async getDetails(place) {
-    // if place has more than 1 review, getDetails() has already been called -> do not call it again
     if (place.reviews.length <= 1) {
       let requestDetails = {
         placeId: place.id,
@@ -137,6 +132,7 @@ searchMorePlaces(map, pano, service) {
         })
       })
     } else {
+      // IF PLACE HAS MORE THAN 1 REVIEW : GETDETAILS() HAS ALREADY BEEN CALLED; DO NOT CALL IT AGAIN
       return
     }
   }

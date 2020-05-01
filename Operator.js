@@ -2,7 +2,7 @@ class Operator {
   constructor() {
     this.display = new Display()
   }
-// CALCULATE AVERAGE SCORE _____________________________ */
+// CALCULATE PLACE'S AVERAGE SCORE _____________________ */
   renderScore(place, inputScore) {
     let avgTimesNb = place.averageScore * place.reviewsNb
     let total = avgTimesNb + inputScore
@@ -10,9 +10,8 @@ class Operator {
     place.averageScore = newAverage
     place.reviewsNb = place.reviewsNb+1
   }
-// POST A COMMENT ______________________________________ */
-  postComment(place, formID, inputClass, inputID, errorMsg, confirmMsg) {
-    // EMBEDDED FORM VALIDATOR
+// CHECK IF ALL FORM'S INPUTS HAVE BEEN COMPLETED ______ */
+  formValidator(formID, inputClass, inputID) {
     let inputsNb = $(`#${formID} ${inputClass}`).length
     let inputs = []
     let value = []
@@ -32,9 +31,14 @@ class Operator {
         inputs[i].dataset.state = 'invalid'
       }
     }
+  }
+// POST A COMMENT ABOUT AN EXISTING PLACE ______________ */
+  postComment(place, formID, inputClass, inputID, errorMsg, confirmMsg) {
+    // CHECK INPUTS VALUE
+    this.formValidator(formID, inputClass, inputID)
     // IF NO INPUT IS INVALID
     if ($(`#${formID}`).html().indexOf('invalid') == -1) {
-      // POST -START
+      // POST START
       let comment = { author_name: $(`#newRating0`).val(),
                       language: '',
                       profilte_photo_url: '',
@@ -45,72 +49,17 @@ class Operator {
                     }
       place.reviews.push(comment)
       this.renderScore(place, comment.rating)
-      // POST -END
+      // POST END
       this.display.showDetails(place)
       this.display.showStars(place)
       let content = this.display.infoWindow(place)
       place.infoWindow.setContent(content)
-      $(`#addComment${place.id}`).remove()
-      $(`[item=${place.id}]`).prepend(`${confirmMsg}`)
-      let anchor = document.getElementById('backToNav')
-      anchor.scrollIntoView({behavior: 'smooth'})
-      // SUCCESS -END
+      this.display.newCommentConfirm(place)
     } else {
-      // ERROR -START
-      $('#errorMsg').html(`${errorMsg}`)
-      let anchor = document.getElementById('errorMsg')
-      anchor.scrollIntoView({behavior: 'smooth'})
-      for (let i = 0; i < 4; i++) {
-        $('body').on('click', `#${inputID+i}`, function() {
-          if (inputs[i].dataset.state = 'invalid') {
-            inputs[i].dataset.state = 'valid'
-          } else {
-            return
-          }
-        })
-      }
-      // ERROR -END
+      this.display.newCommentError(errorMsg, inputID)
     }
   }
-// CHECK IF FORM IS VALID BEFORE POSTING _______________ */
-  formValidator(map, panorama, service, formID, inputClass, inputID, errorMsg, confirmMsg) {
-    let inputsNb = $(`#${formID} ${inputClass}`).length
-    let inputs = []
-    let value = []
-    let trimmed = []
-    for (let i = 0; i < inputsNb; i++) {
-      inputs[i] = document.getElementById(`${inputID+i}`)
-      value[i] = inputs[i].value
-      if (!value[i]) {
-        inputs[i].dataset.state = ''
-      } else {
-        inputs[i].dataset.state = 'invalid'
-      }
-      trimmed[i] = value[i].trim()
-      if (trimmed[i]) {
-        inputs[i].dataset.state = 'valid'
-      } else {
-        inputs[i].dataset.state = 'invalid'
-      }
-    }
-    if ($(`#${formID}`).html().indexOf('invalid') == -1) {
-      this.postNewPlace(map, panorama, service, formID, confirmMsg)
-    } else {
-      $('#errorMsg').html(`${errorMsg}`)
-      let anchor = document.getElementById('errorMsg')
-      anchor.scrollIntoView({behavior: 'smooth'})
-      for (let i = 0; i < inputsNb; i++) {
-        $('body').on('click', `#${inputID+i}`, function() {
-          if (inputs[i].dataset.state = 'invalid') {
-            inputs[i].dataset.state = 'valid'
-          } else {
-            return
-          }
-        })
-      }
-    }
-  }
-// FORM AUTO-COMPLETE __________________________________ */
+// FORM AUTO-COMPLETE TO ADD NEW PLACE _________________ */
   autoComplete(map) {
     let that = this
     let nameInput = document.getElementById('newRestaurant0')
@@ -148,14 +97,14 @@ class Operator {
       }
       newPlaceMarker.setPosition(place.geometry.location)
       newPlaceMarker.setVisible(true)
-      // STOCK PLACE DETAILS IN GLOBAL VARIABLES TO USE THEM LATER
+      // STOCK PLACE DETAILS IN GLOBAL VARIABLES TO USE THEM ELSEWHERE
       newPlaceId = place.place_id
       newPlaceName = place.name
       newPlaceVicinity = place.vicinity
       newPlaceGeometry = place.geometry.location
       newPlaceRatingsNb = place.user_ratings_total
       newPlaceRating = place.rating
-      // CHECK IF THIS PLACE ALREADY REGISTERED IN THE MAIN ARRAY
+      // CHECK IF THIS PLACE IS ALREADY REGISTERED IN THE MAIN ARRAY
       let alreadyHere = (restaurants) => {
           return newPlaceId != restaurants.id
       }
@@ -169,28 +118,37 @@ class Operator {
       }
       checkPlace()
     })
+    // SEND UPDATED VARIABLES BACK TO GLOBAL SCOPE
     return infowindow, newPlaceId, newPlaceName, newPlaceVicinity, newPlaceGeometry, newPlaceRatingsNb, newPlaceRating
   }
-// ADD A NEW RESTAURANT TO DATA ________________________ */
-  postNewPlace(map, panorama, service, formID, confirmMsg) {
-    placeInfos = {
-      place_id: newPlaceId,
-      name: newPlaceName,
-      vicinity: newPlaceVicinity,
-      geometry: {location: newPlaceGeometry},
-      user_ratings_total: newPlaceRatingsNb,
-      rating: newPlaceRating
+// ADD NEW PLACE TO MAIN ARRAY _________________________ */
+  postNewPlace(map, panorama, service, formID, inputClass, inputID, errorMsg, confirmMsg) {
+    // CHECK INPUTS VALUE
+    this.formValidator(formID, inputClass, inputID)
+    // IF NO INPUTS ARE INVALID
+    if ($(`#${formID}`).html().indexOf('invalid') == -1) {
+      // POST NEW PLACE
+      placeInfos = {
+        place_id: newPlaceId,
+        name: newPlaceName,
+        vicinity: newPlaceVicinity,
+        geometry: {location: newPlaceGeometry},
+        user_ratings_total: newPlaceRatingsNb,
+        rating: newPlaceRating
+      }
+      let n = restaurants.length
+      restaurants[n] = new Place(placeInfos, map, panorama, service)
+      restaurants[n].reviews = [{author_name: $(`#newRestaurant2`).val(),
+                          language: '',
+                          profilte_photo_url: '',
+                          rating: parseInt($(`#newRestaurant3`).val()),
+                          relative_time_description: '',
+                          text: $(`#newRestaurant4`).val(),
+                          time: ''}]
+      this.display.newPlaceAddedAnim(formID, confirmMsg)
+    } else {
+      this.display.newCommentError(errorMsg, inputID)
     }
-    let n = restaurants.length
-    restaurants[n] = new Place(placeInfos, map, panorama, service)
-    restaurants[n].reviews = [{author_name: $(`#newRestaurant2`).val(),
-                        language: '',
-                        profilte_photo_url: '',
-                        rating: parseInt($(`#newRestaurant3`).val()),
-                        relative_time_description: '',
-                        text: $(`#newRestaurant4`).val(),
-                        time: ''}]
-    this.display.newPlaceAddedAnim(formID, confirmMsg)
   }
 // FILTER BY SCORE AND/OR MAP BOUNDARIES _______________ */
   // 1. CHECK IF PLACE IS WITHIN MAP'S LIMITS

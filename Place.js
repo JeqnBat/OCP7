@@ -13,7 +13,7 @@ class Place {
     this.operator = new Operator()
     this.display = new Display()
     this.userEvent = new Event()
-
+    // PREVENT BUG FROM PLACES WITH NO REVIEWS
     if (this.averageScore == null) {
       this.averageScore = 0
       return this.averageScore
@@ -32,7 +32,6 @@ class Place {
       animation: google.maps.Animation.DROP,
       icon: marker.orange
     })
-    // INFOWINDOW
     this.infoWindow = new google.maps.InfoWindow({
       content: this.display.infoWindow(this)
     })
