@@ -127,7 +127,7 @@ class Display {
     let anchor = document.getElementById('anchor')
     anchor.scrollIntoView({behavior: "smooth"})
   }
-  newCommentConfirm(place) {
+  newCommentConfirm(place, confirmMsg) {
     $(`#addComment${place.id}`).remove()
     $(`[item=${place.id}]`).prepend(`${confirmMsg}`)
     let anchor = document.getElementById('backToNav')

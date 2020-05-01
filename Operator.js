@@ -54,7 +54,7 @@ class Operator {
       this.display.showStars(place)
       let content = this.display.infoWindow(place)
       place.infoWindow.setContent(content)
-      this.display.newCommentConfirm(place)
+      this.display.newCommentConfirm(place, confirmMsg)
     } else {
       this.display.newCommentError(errorMsg, inputID)
     }
