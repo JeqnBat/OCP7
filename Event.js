@@ -9,7 +9,6 @@ class Event {
       this.display.showDetails(place)
       this.display.showStars(place)
     }
-
   }
 // MAIN LOGO CLICK _____________________________________ */
   logoClick(init) {
@@ -55,16 +54,25 @@ class Event {
       that.display.navColumnSlideLeft(place)
     })
   }
-// ADD NEW COMMENT FROM ADD NEW RESTAURANT ERROR _______ */
-  addCommentMsg(place) {
+// NAVIGATION FILTER (1) : SCORE FILTER ________________ */
+  scoreFilterClick(place) {
     let that = this
-    $('body').on('click', `.${place.id}`, function() {
-      that.waitForDetails(place)
-      setTimeout(function() {
-        place.pano.setPosition(place.latLng)
-        let anchor = document.getElementById(`addComment${place.id}`)
-        anchor.scrollIntoView({behavior: "smooth"})
-      }, 300)
+    $('body').on('click', '#filter', function() {
+      that.operator.filter(place)
+    })
+  }
+// NAVIGATION FILTER (2) : MAP'S LIMITS FILTER _________ */
+  mapDragFilter(place) {
+    let that = this
+    google.maps.event.addListener(place.map, 'dragend', function() {
+      that.operator.filter(place)
+    })
+  }
+// MAPDRAG TO FIND NEW PLACES __________________________ */
+  mapDragPlaces(map, pano, service) {
+    let that = this
+    google.maps.event.addListener(map, 'dragend', function() {
+      that.googleAPI.searchMorePlaces(map, pano, service)
     })
   }
 // 'ADD NEW COMMENT' BUTTON CLICK ______________________ */
@@ -78,27 +86,6 @@ class Event {
         evt.preventDefault()
         that.operator.postComment(place, formID, inputClass, inputID, errorMsg, confirmMsg)
       })
-    })
-  }
-// NAVIGATION FILTER (1) : SCORE FILTER ________________ */
-  scoreFilterClick(place) {
-    let that = this
-    $('body').on('click', '#filter', function() {
-      that.operator.filter(place)
-    })
-  }
-// NAVIGATION FILTER (2) : MAP LIMITS FILTER ___________ */
-  mapFilterDrag(place) {
-    let that = this
-    google.maps.event.addListener(place.map, 'dragend', function() {
-      that.operator.filter(place)
-    })
-  }
-// MAPDRAG TO FIND NEW PLACES __________________________ */
-  searchNewPlaces(map, pano, service) {
-    let that = this
-    google.maps.event.addListener(map, 'dragend', function() {
-      that.googleAPI.searchMorePlaces(map, pano, service)
     })
   }
 // 'BACK TO NAVIGATION' BUTTON CLICK ___________________ */
@@ -130,6 +117,17 @@ class Event {
       that.operator.postNewPlace(map, panorama, service, formID, inputClass, inputID, errorMsg, confirmMsg)
     })
   }
+// NEW RESTAURANT ERROR & ADD NEW COMMENT ______________ */
+  addCommentMsg(place) {
+    let that = this
+    $('body').on('click', `.${place.id}`, function() {
+      that.waitForDetails(place)
+      setTimeout(function() {
+        place.pano.setPosition(place.latLng)
+        that.display.anchorSlide(`addComment${place.id}`)
+      }, 300)
+    })
+  }
 // ALL EVENTS CALLED BY 'PLACE' GROUPED IN 1 __________ */
   placeEvents(place, infoWindow, formID, inputClass, inputID, errorMsg, confirmMsg) {
     this.markerClick(place)
@@ -138,7 +136,7 @@ class Event {
     this.markerMouseOver(place, infoWindow)
     this.addCommentClick(place, infoWindow, formID, inputClass, inputID, errorMsg, confirmMsg)
     this.scoreFilterClick(place)
-    this.mapFilterDrag(place)
+    this.mapDragFilter(place)
     this.backToNavClick(place)
   }
 

@@ -11,7 +11,7 @@ class Page {
       await this.googleAPI.searchPlaces()
       this.createPlaces(this.googleAPI.places, this.googleAPI.map, this.googleAPI.pano, this.googleAPI.service, form[0].id, input[0].Class, input[0].id, error[0].msg, confirm[0].msg)
       this.userEvent.togglerClick()
-      this.userEvent.searchNewPlaces(this.googleAPI.map, this.googleAPI.pano, this.googleAPI.service)
+      this.userEvent.mapDragPlaces(this.googleAPI.map, this.googleAPI.pano, this.googleAPI.service)
     }
     this.userEvent.logoClick(loadingSequence)
   }

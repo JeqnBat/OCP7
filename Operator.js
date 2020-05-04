@@ -13,7 +13,6 @@ class Operator {
 // CHECK IF ALL FORM'S INPUTS HAVE BEEN COMPLETED ______ */
   formValidator(formID, inputClass, inputID) {
     let inputsNb = $(`#${formID} ${inputClass}`).length
-    let inputs = []
     let value = []
     let trimmed = []
     for (let i = 0; i < inputsNb; i++) {
@@ -31,6 +30,7 @@ class Operator {
         inputs[i].dataset.state = 'invalid'
       }
     }
+    return inputs
   }
 // POST A COMMENT ABOUT AN EXISTING PLACE ______________ */
   postComment(place, formID, inputClass, inputID, errorMsg, confirmMsg) {
@@ -50,13 +50,24 @@ class Operator {
       place.reviews.push(comment)
       this.renderScore(place, comment.rating)
       // POST END
+      // TRANSITION & DISPLAY UPDATES
       this.display.showDetails(place)
       this.display.showStars(place)
       let content = this.display.infoWindow(place)
       place.infoWindow.setContent(content)
       this.display.newCommentConfirm(place, confirmMsg)
     } else {
+      // ELSE MANAGE ERROR
       this.display.newCommentError(errorMsg, inputID)
+      for (let i = 0; i < inputs.length; i++) {
+        $('body').on('click', `#${inputID+i}`, function() {
+          if (inputs[i].dataset.state = 'invalid') {
+            inputs[i].dataset.state = 'valid'
+          } else {
+            return
+          }
+        })
+      }
     }
   }
 // FORM AUTO-COMPLETE TO ADD NEW PLACE _________________ */
@@ -148,6 +159,15 @@ class Operator {
       this.display.newPlaceAddedAnim(formID, confirmMsg)
     } else {
       this.display.newCommentError(errorMsg, inputID)
+      for (let i = 0; i < 4; i++) {
+        $('body').on('click', `#${inputID+i}`, function() {
+          if (inputs[i].dataset.state = 'invalid') {
+            inputs[i].dataset.state = 'valid'
+          } else {
+            return
+          }
+        })
+      }
     }
   }
 // FILTER BY SCORE AND/OR MAP BOUNDARIES _______________ */
@@ -165,7 +185,7 @@ class Operator {
       return false
     }
   }
-  // 3. IF AT LEAST ONE OF THE 2 FILTERS RETURNS FALSE -> DO NOT DISPLAY
+  // 3. IF AT LEAST 1 OF THE 2 FILTERS RETURNS FALSE -> DO NOT DISPLAY
   filter(place) {
     if (this.checkScore(place) == false || this.checkPos(place) == false) {
       place.marker.setVisible(false)

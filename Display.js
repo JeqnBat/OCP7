@@ -14,6 +14,18 @@ class Display {
       init()
     }, 800)
   }
+// IF GEOLOC IS NOT ACTIVATED : DISPLAY THIS MESSAGE ___ */
+  geoLocErrorMsg() {
+    $('#main').prepend(
+      `<div id="geoLocErrorMsg" class="d-flex flex-column justify-content-center align-items-center h-100 w-100 bg-dark text-light text-center">
+      <span class="display-1 exclamationMark">!</span>
+      <span class="h3">La géolocalisation doit être activée pour utiliser notre application</span>
+      <span>modifiez les paramètres de votre navigateur pour y accéder</span>
+      </div>`)
+    setTimeout(function() {
+      $('#geoLocErrorMsg').addClass('fade')
+    }, 100)
+  }
 // TOGGLER BUTTON ANIMATION ____________________________ */
   togglerSlideLeft() {
     $('#toggler').css('left', '0')
@@ -25,7 +37,12 @@ class Display {
     $('#toggler').css('transform', 'scaleX(-1)')
     $('#navColumn').removeClass('slideLeft')
   }
-// MARKER'S INFOWINDOW DISPLAY _________________________ */
+// ANCHOR'S SMOOTH SLIDE _______________________________ */
+  anchorSlide(divID) {
+    let anchor = document.getElementById(divID)
+    anchor.scrollIntoView({behavior: 'smooth'})
+  }
+// PLACE MARKER'S INFOWINDOW ___________________________ */
   infoWindow(place) {
     let content =  `<div>
                     <span class="font-weight-bold">${place.name} </span><br>
@@ -65,11 +82,11 @@ class Display {
   }
 // NAVIGATION COLUMN SLIDE FROM RIGHT TO LEFT __________ */
   navColumnSlideLeft(place) {
+    let that = this
     $('#leftNav').addClass('slideLeft')
     $('#rightNav').addClass('slideLeft')
     setTimeout(function() {
-      let anchor = document.getElementById('streetView')
-      anchor.scrollIntoView({behavior: 'smooth'})
+      that.anchorSlide('streetView')
     }, 400)
     setTimeout(function() {
       place.pano.setPosition(place.latLng)
@@ -122,38 +139,31 @@ class Display {
   }
 // ADD COMMENT & CONFIRM MSG ANIMATIONS ________________ */
   addCommentAnim(place) {
+    let that = this
     $(`#addComment${place.id}`).remove()
     $('#commentSection').removeClass('d-none')
-    let anchor = document.getElementById('anchor')
-    anchor.scrollIntoView({behavior: "smooth"})
+    that.anchorSlide('anchor')
   }
   newCommentConfirm(place, confirmMsg) {
+    let that = this
     $(`#addComment${place.id}`).remove()
     $(`[item=${place.id}]`).prepend(`${confirmMsg}`)
-    let anchor = document.getElementById('backToNav')
-    anchor.scrollIntoView({behavior: 'smooth'})
+    that.anchorSlide('backToNav')
   }
   newCommentError(errorMsg, inputID) {
+    let that = this
     $('#errorMsg').html(`${errorMsg}`)
-    let anchor = document.getElementById('errorMsg')
-    anchor.scrollIntoView({behavior: 'smooth'})
-    for (let i = 0; i < 4; i++) {
-      $('body').on('click', `#${inputID+i}`, function() {
-        if (inputs[i].dataset.state = 'invalid') {
-          inputs[i].dataset.state = 'valid'
-        } else {
-          return
-        }
-      })
-    }
+    that.anchorSlide('errorMsg')
   }
 // APPEND 'ADD NEW RESTAURANT' FORM ____________________ */
   newRestaurantForm() {
+    let that = this
     $('#rightNav').html(domElements[0].newRestaurantForm)
     $('#leftNav').addClass('slideLeft')
     $('#rightNav').addClass('slideLeft')
   }
   autoCompleteUpdate(place, infowindow) {
+    let that = this
     let content = `<span>${place.name}</span> <br>
                    <span>${place.formatted_address}</span>`
     infowindow.setContent(content)
@@ -161,9 +171,8 @@ class Display {
     $('#newRestaurant1').val(place.formatted_address)
     $('.pending').first().addClass('completed')
     $('#newRestaurantForm').children().removeClass('d-none')
-    let anchor = document.getElementById('errorMsg')
     setTimeout(function() {
-      anchor.scrollIntoView({behavior: 'smooth'})
+      that.anchorSlide('errorMsg')
     }, 800)
   }
   autoCompleteFail(newPlaceMarker) {
@@ -177,6 +186,7 @@ class Display {
   }
 // NEW PLACE ADDED CONFIRMATION ANIMATION ______________ */
   newPlaceAddedAnim(formID, confirmMsg) {
+    let that = this
     newPlaceMarker.setVisible(false)
     infowindow.close()
     $('.pending').last().addClass('completed')
@@ -185,8 +195,7 @@ class Display {
       $('#errorMsg').remove()
       $(`#${formID}`).remove()
       $('#rightNav').append(`${confirmMsg}`)
-      let anchor = document.getElementById('cm')
-      anchor.scrollIntoView({behavior: 'smooth'})
+      that.anchorSlide('cm')
     }, 800)
   }
 }

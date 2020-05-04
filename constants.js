@@ -16,6 +16,8 @@ let newPlaceVicinity
 let newPlaceGeometry
 let newPlaceRatingsNb
 let newPlaceRating
+// FORM VALIDATOR INPUTS ARRAY _________________________ */
+let inputs = []
 // ADD NEW COMMENT/RESTAURANT FORMS ____________________ */
 const form = [
   {'id': 'newRestaurantForm'},

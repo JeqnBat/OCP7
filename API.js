@@ -5,6 +5,7 @@ class API {
     this.service
     this.latLng
     this.places = []
+    this.display = new Display()
   }
 // CALL GMAP ___________________________________________ */
   async initMap() {
@@ -54,11 +55,11 @@ class API {
           userMarker.addListener('mouseout', function() {
             userInfoWindow.close()
           })
-          resolve('done')
+          resolve('geoLoc done')
           return this.latLng
         }, (error) => {
-          console.log(`${error.code}`)
-          reject('failed')
+          reject('geoLoc loading failed')
+          this.display.geoLocErrorMsg()
         })
       }
     })
@@ -76,7 +77,9 @@ class API {
           for (var i = 0; i < results.length; i++) {
             this.places.push(results[i])
           }
-          resolve('done')
+          resolve('Done')
+        } else {
+          reject('Search aborted')
         }
       })
     })
@@ -103,7 +106,7 @@ searchMorePlaces(map, pano, service) {
             // IF IT IS NOT -> CREATE IT
             if (testCondition == true) {
               restaurants[n] = new Place(results[i], map, pano, service)
-            // ELSE -> PRINT NAME AND ERROR MSG
+            // ELSE -> PRINT NAME AND SEND ERROR MSG
             } else {
               console.log(`${results[i].name} is already registered in our database`)
             }

@@ -81,12 +81,13 @@ ______________________________________________________ */
           animation-delay: 1s;
 }
 #title1 {
-  transform: translateX(-100vw);
-  -webkit-transition: transform .9s cubic-bezier(0.21, 1.1, 0, 1.04);
-          transition: transform .9s cubic-bezier(0.21, 1.1, 0, 1.04);
-         will-change: transform;
+  -webkit-transform: translateX(-100vw);
+          transform: translateX(-100vw);
+  will-change: transform;
 }
 #title1.visible {
+  -webkit-transition: transform .9s cubic-bezier(0.21, 1.1, 0, 1.04);
+          transition: transform .9s cubic-bezier(0.21, 1.1, 0, 1.04);
   -webkit-transform: none;
           transform: none;
 }
@@ -97,12 +98,13 @@ ______________________________________________________ */
           transform: scale(1.05);
 }
 #title2 {
-  transform: translateX(100vw);
-  -webkit-transition: transform .9s cubic-bezier(0.21, 1.1, 0, 1.04);
-          transition: transform .9s cubic-bezier(0.21, 1.1, 0, 1.04);
-         will-change: transform;
+  -webkit-transform: translateX(100vw);
+          transform: translateX(100vw);
+  will-change: transform;
 }
 #title2.visible {
+  -webkit-transition: transform .9s cubic-bezier(0.21, 1.1, 0, 1.04);
+          transition: transform .9s cubic-bezier(0.21, 1.1, 0, 1.04);
   -webkit-transform: none;
           transform: none;
 }
@@ -128,6 +130,27 @@ ______________________________________________________ */
   -webkit-animation-delay: 1s;
           animation-delay: 1s;
 }
+/* GEOLOC ERROR MESSAGE
+______________________________________________________ */
+#geoLocErrorMsg {
+  position: absolute;
+  z-index: 4;
+  opacity: 0;
+  -webkit-transition: opacity .5s ease-in-out;
+          transition: opacity .5s ease-in-out;
+}
+#geoLocErrorMsg.fade {
+  opacity: .9;
+}
+.exclamationMark {
+  border: 1px solid white;
+  width: 120px;
+  height: 120px;
+  border-radius: 120px;
+  display: inline-block;
+  transform: scale(3);
+  opacity: .2;
+}
 /* MAIN PAGE
 ______________________________________________________ */
 #navColumn {
@@ -152,7 +175,7 @@ ______________________________________________________ */
   -webkit-transform: translateX(-100%);
           transform: translateX(-100%);
 }
-/* HIDE / SHOW NAVIGATION COLUMN */
+/* SHOW / HIDE NAVIGATION COLUMN */
 #toggler {
   position: absolute;
   cursor: pointer;
@@ -188,10 +211,10 @@ ______________________________________________________ */
 /* MINIATURE'S DIV */
 #leftNav {
   margin: 0;
-  transform: translateX(0);
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
   -webkit-transition: all .5s ease-in-out;
           transition: all .5s ease-in-out;
-  will-change: transform;
 }
 #leftNav.slideLeft {
   transform: translateX(-100%)
@@ -199,10 +222,10 @@ ______________________________________________________ */
 /* DETAILS & 'ADD NEW RESTAURANT' DIV */
 #rightNav {
   margin: 0;
-  transform: translateX(0);
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
   -webkit-transition: all .5s ease-in-out;
           transition: all .5s ease-in-out;
-  will-change: transform;
 }
 #rightNav.slideLeft {
   -webkit-transform: translateX(-100%);
