@@ -1,7 +1,21 @@
+/**
+ * <b>DESCR:</b><br>
+ * The display class deals with all the relations
+ * between the code and the DOM. Displaying infos,
+ * creating/removing DIVs & animations
+ *
+ * @constructor
+ */
 class Display {
   constructor() {
   }
-// ANIMATION FROM HOMEPAGE TO MAIN LAYOUT ______________ */
+// DISPLAY INITIAL CSS TRANSITION ______________________ */
+  /**
+   * <b>DESCR:</b><br>
+   * Transitions from home screen to main page
+   * after main logo 'click' event
+   * @param {init} function a callback function to fire at the end
+   */
   transition(init) {
     $('#main').addClass('visible')
     $('#home').addClass('visible')
@@ -14,7 +28,12 @@ class Display {
       init()
     }, 800)
   }
-// IF GEOLOC IS NOT ACTIVATED : DISPLAY THIS MESSAGE ___ */
+// DISPLAY GEOLOC ERROR MESSAGE ________________________ */
+  /**
+   * <b>DESCR:</b><br>
+   * Displays an error message if geoloc failed
+   * or user rejected it for his browser
+   */
   geoLocErrorMsg() {
     $('#main').prepend(
       `<div id="geoLocErrorMsg" class="d-flex flex-column justify-content-center align-items-center h-100 w-100 bg-dark text-light text-center">
@@ -26,7 +45,11 @@ class Display {
       $('#geoLocErrorMsg').addClass('fade')
     }, 100)
   }
-// TOGGLER BUTTON ANIMATION ____________________________ */
+// TOGGLER BUTTON SLIDE ________________________________ */
+  /**
+   * <b>DESCR:</b><br>
+   * Toggles the button touching the navigation column
+   */
   togglerSlideLeft() {
     $('#toggler').css('left', '0')
     $('#toggler').css('transform', 'scaleX(1)')
@@ -37,12 +60,26 @@ class Display {
     $('#toggler').css('transform', 'scaleX(-1)')
     $('#navColumn').removeClass('slideLeft')
   }
-// ANCHOR'S SMOOTH SLIDE _______________________________ */
+// ANCHOR SLIDE INTO VIEW ______________________________ */
+  /**
+   * <b>DESCR:</b><br>
+   * Smooth transition on the viewport to an anchor
+   * located elsewhere in the DOM
+   *
+   * @param {divID} string ID of the div you wish to scroll to
+   */
   anchorSlide(divID) {
     let anchor = document.getElementById(divID)
     anchor.scrollIntoView({behavior: 'smooth'})
   }
-// PLACE MARKER'S INFOWINDOW ___________________________ */
+// INFO WINDOW _________________________________________ */
+  /**
+   * <b>DESCR:</b><br>
+   * Fills in place's infos on its GMAP marker
+   *
+   * @param {place} object the place object w/ all its properties
+   * @returns {content} a DOM node containing all the places infos
+   */
   infoWindow(place) {
     let content =  `<div>
                     <span class="font-weight-bold">${place.name} </span><br>
@@ -51,7 +88,14 @@ class Display {
                     </div>`
     return content
   }
-// PLACE'S MINIATURE DISPLAY ___________________________ */
+// MINIATURE DIV _______________________________________ */
+  /**
+   * <b>DESCR:</b><br>
+   * Displays a miniature DIV on the navigation column
+   * containing informations from one place
+   *
+   * @param {place} object the place object w/ all its properties
+   */
   showMiniature(place) {
     let miniature = `<div class="miniature p-3 w-50" id="mini${place.id}">
                      <span class="name${place.id} h5 text-primary">${place.name}</span><br>
@@ -63,7 +107,14 @@ class Display {
   hideMiniature(place) {
     $(`#mini${place.id}`).remove('')
   }
-// STARS RATING SYSTEM __________________________________ */
+// 5 STARS RATING SYSTEM _______________________________ */
+  /**
+   * <b>DESCR:</b><br>
+   * Displays a 5 stars rating widget setting itself to
+   * match the place's actual score (from 0 to 5)
+   *
+   * @param {place} object the place object w/ all its properties
+   */
   showStars(place) {
     let scoreDiv  = `.score${place.id}`
     let starFull  = `<span>★</span>`
@@ -80,7 +131,13 @@ class Display {
     }
     $(scoreDiv).append(commentNb)
   }
-// NAVIGATION COLUMN SLIDE FROM RIGHT TO LEFT __________ */
+// NAVIGATION BAR TOGGLER ______________________________ */
+  /**
+   * <b>DESCR:</b><br>
+   * Toggles the navigation column
+   *
+   * @param {place} object the place object w/ all its properties
+   */
   navColumnSlideLeft(place) {
     let that = this
     $('#leftNav').addClass('slideLeft')
@@ -94,7 +151,14 @@ class Display {
       place.infoWindow.open(place.marker.get('map'), place.marker)
     }, 700)
   }
-// DISPLAY PLACE'S INFORMATIONS ________________________ */
+// DISPLAY ONE PLACE'S FULL DETAILS ____________________ */
+  /**
+   * <b>DESCR:</b><br>
+   * Displays a full height DIV inside the navigation column w/
+   * all details about a specific place
+   *
+   * @param {place} object the place object w/ all its properties
+   */
   showDetails(place) {
     let header = `<span id="backToNav" class="pointLeft pt-4">◀ revenir à la navigation</span>
                   <div id="title${place.id}" class="d-flex flex-column p-4 w-100" item="${place.id}" >
@@ -138,6 +202,16 @@ class Display {
     }, 700)
   }
 // ADD COMMENT & CONFIRM MSG ANIMATIONS ________________ */
+  /**
+   * <b>DESCR:</b><br>
+   * Display CSS animation sequences while completing
+   * 'ADD NEW COMMENT' form
+   *
+   * @param {place} object the place object w/ all its properties
+   * @param {confirMsg} string the confirmation message to display
+   * @param {errorMsg} string the error message to display
+   * @param {inputID} string the ID of the input
+   */
   addCommentAnim(place) {
     let that = this
     $(`#addComment${place.id}`).remove()
@@ -156,6 +230,15 @@ class Display {
     that.anchorSlide('errorMsg')
   }
 // APPEND 'ADD NEW RESTAURANT' FORM ____________________ */
+  /**
+   * <b>DESCR:</b><br>
+   * Display CSS animation sequences while completing
+   * 'ADDE NEW RESTAURANT' form
+   *
+   * @param {place} object the place object w/ all its properties
+   * @param {infowindow} object the infowindow of the new place
+   * @param {newPlaceMarker} object the marker of the new place
+   */
   newRestaurantForm() {
     let that = this
     $('#rightNav').html(domElements[0].newRestaurantForm)
