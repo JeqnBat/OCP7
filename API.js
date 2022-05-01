@@ -1,10 +1,3 @@
-/**
- * <b>DESCR:</b><br>
- * API class deals with all external calls and displays
- * an error if geoLoc API is disabled by user
- *
- * @constructor
- */
 class API {
   constructor() {
     this.map
@@ -14,16 +7,7 @@ class API {
     this.places = []
     this.display = new Display()
   }
-// GET THE GMAP w/ ASYNC FUNCTION  _____________________ */
-  /**
-   * <b>DESCR:</b><br>
-   * Calls GMAP API and displays a map in the dedicated DIV
-   * an error if geoLoc API is disabled by user
-   *
-   * @returns {this.map} the map object
-   * @returns {this.pano} the streetview panorama
-   * @returns {this.service} the 'PLaces APi' service object
-   */
+// CALL GMAP ___________________________________________ */
   async initMap() {
     return new Promise((resolve, reject) => {
     this.map = new google.maps.Map(document.getElementById('map'), {
@@ -40,17 +24,7 @@ class API {
     return this.map, this.pano, this.service
     })
   }
-// RUN BROWSER'S GEOLOC API  ___________________________ */
-  /**
-   * <b>DESCR:</b><br>
-   * Calls geoLoc API through the web browser.
-   * If call is resolved, stores the coordinates of the user
-   * and enters them in the GMAP
-   * Creates a gmap Marker & InfoWindow with the user's position
-   * If call is rejected, displays an error message
-   *
-   * @returns {this.latlng} the user's geoloc position
-   */
+// CALL NAVIGATOR GEOLOCATION FUNCTION _________________ */
   async geoLoc() {
     let userInfoWindow
     let userMarker
@@ -90,12 +64,7 @@ class API {
       }
     })
   }
-// USE GOOGLE SERVICE TO FIND NEW PLACES NEARBY ________ */
-  /**
-   * <b>DESCR:</b><br>
-   * Uses GMAP API to search for places near the user's position
-   *
-   */
+// CALL NEARBYSEARCH() TO FIND PLACES __________________ */
   async searchPlaces() {
     let request = {
       location: this.latLng,
@@ -115,16 +84,7 @@ class API {
       })
     })
   }
-// FIND NEW PLACES AFTER A MAP DRAG ____________________ */
-  /**
-   * <b>DESCR:</b><br>
-   * Searches for more places after an event (type: mousedrag) is fired
-   * using the 'nearbySearch' method of the google service object
-   *
-   * @param {map} object the GMAP object
-   * @param {pano} object the streetview panorama object
-   * @param {service} object the google service object
-   */
+// CALL NEARBYSEARCH() TO MORE FIND PLACES _____________ */
 searchMorePlaces(map, pano, service) {
     let request = {
       bounds: map.getBounds(),
@@ -157,14 +117,7 @@ searchMorePlaces(map, pano, service) {
       }
     })
   }
-// GET DETAILS FROM ONE PLACE __________________________ */
-  /**
-   * <b>DESCR:</b><br>
-   * Get a specific place's details using the 'getDetails'
-   * method from google service API
-   *
-   * @param {place} array all the places downloaded inside the app so far
-   */
+// GET REVIEWS OF SPECIFIC PLACE _______________________ */
   async getDetails(place) {
     if (place.reviews.length <= 1) {
       let requestDetails = {

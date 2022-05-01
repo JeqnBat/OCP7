@@ -1,0 +1,81 @@
+rapide, concis, précis, beau, éloquent
+	
+	API - HTTP - ASYNC / AWAIT - BUGS - FIXES
+
+on juge 1. construire un projet JAVASCRIPT en entier;
+	2. REQUETER DES API
+donc je dois montrer les deux de façon éloquente, concise et précise;
+
+  _PRÉSENTATION:
+
+	Bjr, je suis JB PELLIER dev front End, je suis très content ojd de vous
+	présenter ce projet;
+	En premier lieu un exposé du plan que va suivre cette présentation :
+	
+	1. Visite du site & respect des contraintes
+	2. Gdes étapes du dvpt, pbs & solutions proposées
+	3. Conclusion
+
+ I   - Contraintes & Respect des consignes
+
+ II  - Présentation théorique
+	bcp de choses à faire dans ce projet mais 2 aspects que j'ai retenu
+
+	1. Programmer en objet :
+		Je me suis vite rendu compte que ça allait être le bordel donc :
+		1. Trouver la bonne architecture (cohérente) éloquente
+			qui me parle (photo)
+		   .évidemment il y a des dizaines de façon de faire différentes
+		   .j'en ai choisi qui me semblait cohérente, intelligible... que
+		    sais je encore.
+		   .Revenir à la case départ, bcp d'heures de travail pour
+		   recommencer à 0;
+		   .compromis entre trop simple (1 objet, trop de dépendances)
+		   et trop compliqué (97 objets, tt est atomisé jusqu'à la moindre
+		   variable, trop lourd, trop long, contre-productif)
+		   .J'ai voulu explorer une autre méthode qu'un diagramme de classe
+		   les posts-it m'ont permis d'itérer plus facilement, de mieux
+		   me représenter ce que je voulais faire;
+		   . J'opte pour une architecture fonctionnelle, où chaque
+		   entité à un rôle bien défini et limité;
+
+		2. Division des tâches (boxes: display, event, etc)
+		3. système :
+			. compréhensible (pour les autres dev)
+			. résilient (on peut retirer des méthodes ou en rajouter)
+			  (sans tt casser)
+			. optimisé (factorisé)(moins de code, moins de bug)
+	   Conclusion l'intégration de l'API a été presque indolore et rapide
+	   ttes les méthoeds et les objets fonctionnaient parfaitement avt
+	   de l'intégrer -> voir détail dans la partie suivante
+	2. Intégrer une API
+	   Ajax avec Postman, puis callbacks puis exploration vers Promise, then
+	   et async await plus clean syntaxiquement
+		1. Async / Await & fetch avc le JSON local
+		2. Intégration de Google API (sans fetch)
+			.Fetch fonctionne pas; obligé de passer par
+			 leurs objets & méthodes JAVASCRIPT
+			.Lister les méthodes
+				.nearBySearch(par bounds & par latlng)
+				.getDetails() déclenché par click pour économies
+				.AutoComplete
+			.Ces changements ont pour conséquence :
+			 Refondre une partie du code car les inputs ont changé
+			 (deux appels nécessaires au lieu d'un seul avec le
+			  fichier local)
+			.Ex: 1.calcul de la moyenne renderScore
+			     2.async await sur getDetails()
+
+  III - conclusion :
+  	 Un pas en avant conséquent :
+	0. ouverture d'esprit (chaînes youtube, stackoverflow)
+		Point d'interrogation ?idées
+	1. utilisation de git&github -> le mentor peut avoir accès à ton boulot
+		-> travailler avec un tiers sur le même projet
+	2. mettre l'accent sur ES6 (ça vient des vidéos aussi)
+		fonctions flèches; async await; objet
+	   avoir un code plus moderne
+	3. au delà de tt ce que j'ai appris(API) le P7 m'a fait rentrer
+	   pour la première fois dans le monde du dev frontend;
+	   pour la première fois j'ai eu la sensation de toucher du doigt
+	   à quoi pouvait ressembler le métier concrètement
