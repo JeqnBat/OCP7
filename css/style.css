@@ -1,7 +1,23 @@
-@charset "utf-8";
-/* JB PELLIER - OCP7 - STYLE.CSS
-.Style.css for animations & transitions ;
-.Bootstrap for colors & layout properties ;
+/**
+ * Author : Jean-Baptiste Pellier
+ * Project Name : OpeanClassRooms Project#7 - "Miam Miam"
+ * Description : Build a review application for restaurants clients
+ * Tags : JS / ES6 / jQuery / bootstrap / OOP
+ */
+
+/* ======================= INDEX =======================
+
+ 1. HTML & BODY
+ 2. HOMEPAGE
+ 3. GEOLOC ERROR MESSAGE
+ 4. MAIN PAGE
+ 5. SCROLLBAR STYLES FOR CHROME
+ 6. ANIMATIONS
+ 7. MEDIA QUERIES
+
+*/
+
+/* 1. HTML & BODY
 ______________________________________________________ */
 html, body {
   height: 100%;
@@ -17,7 +33,7 @@ hr {
   border: 0;
   border-top: 1px solid rgba(33, 37, 41, 0.15);
 }
-/* HOMEPAGE
+/* 2. HOMEPAGE
 ______________________________________________________ */
 #home {
   opacity: 0;
@@ -58,14 +74,14 @@ ______________________________________________________ */
   -webkit-animation-delay: .4s;
           animation-delay: .4s;
 }
-/* BORDER ROTATION CW */
+/* border's animation clock wise */
 #rotor {
   -webkit-animation: rotate 50s cubic-bezier(0.1, 0, 1, 1) forwards infinite;
           animation: rotate 50s cubic-bezier(0.1, 0, 1, 1) forwards infinite;
   -webkit-animation-delay: 1s;
           animation-delay: 1s;
 }
-/* LOGO ROTATION CCW TO STAY FIXED */
+/* logo's rotation counter clock wise */
 #logo {
   cursor: pointer;
   opacity: 1;
@@ -122,7 +138,7 @@ ______________________________________________________ */
   -webkit-animation-delay: .6s;
           animation-delay: .6s;
 }
-/* TRANSITION FROM HOME TO MAIN PAGE */
+/* Transition from home to main page */
 .fadeIn {
   opacity: 0;
   -webkit-animation: fadeIn 1s linear forwards;
@@ -130,7 +146,7 @@ ______________________________________________________ */
   -webkit-animation-delay: 1s;
           animation-delay: 1s;
 }
-/* GEOLOC ERROR MESSAGE
+/* 3. GEOLOC ERROR MESSAGE
 ______________________________________________________ */
 #geoLocErrorMsg {
   position: absolute;
@@ -151,8 +167,42 @@ ______________________________________________________ */
   transform: scale(3);
   opacity: .2;
 }
-/* MAIN PAGE
+/* 4. MAIN PAGE
 ______________________________________________________ */
+/* 2022 Home Screen Warning Message */
+#twenty-two-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+  background: rgba(0,0,0,0.75);
+  color: white;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.1rem;
+}
+#twenty-two-message p {
+  justify-content: center;
+  max-width: 600px;
+  text-align: justify;
+}
+#twenty-two-message img {
+  width: 180px;
+  margin: 40px;
+}
+#twenty-two-message span {
+  position: absolute;
+  top: 20px;
+  right: 20%;
+  color: white;
+  font-size: 3rem;
+  cursor: pointer;
+}
+/* End of 2022 */
 #navColumn {
   position: absolute;
   width: 29vw;
@@ -175,7 +225,7 @@ ______________________________________________________ */
   -webkit-transform: translateX(-100%);
           transform: translateX(-100%);
 }
-/* SHOW / HIDE NAVIGATION COLUMN */
+/* Show / hide navigation column */
 #toggler {
   position: absolute;
   cursor: pointer;
@@ -195,7 +245,7 @@ ______________________________________________________ */
   -webkit-transition: all .3s ease-in-out;
           transition: all .3s ease-in-out;
 }
-/* TOP LEFT CORNER W/ STREET VIEW DIV */
+/* Top left corner w/ street view div */
 #streetViewBlinder {
   position: inherit;
   background: url('../png/smallLogo.png') no-repeat, white;
@@ -208,7 +258,7 @@ ______________________________________________________ */
   -webkit-animation: fadeIn .7s linear reverse;
           animation: fadeIn .7s linear reverse;
 }
-/* MINIATURE'S DIV */
+/* Miniature's div */
 #leftNav {
   margin: 0;
   -webkit-transform: translateX(0);
@@ -219,7 +269,7 @@ ______________________________________________________ */
 #leftNav.slideLeft {
   transform: translateX(-100%)
 }
-/* DETAILS & 'ADD NEW RESTAURANT' DIV */
+/* Details & 'ADD NEW RESTAURANT' div */
 #rightNav {
   margin: 0;
   -webkit-transform: translateX(0);
@@ -234,7 +284,7 @@ ______________________________________________________ */
 #backToNav {
   cursor: pointer;
 }
-/* 'ADD NEW RESTAURANT' BUTTON */
+/* 'ADD NEW RESTAURANT' button */
 #addRestaurantButton {
   cursor: pointer;
   -webkit-transition: all .2s ease-in-out;
@@ -269,7 +319,7 @@ ______________________________________________________ */
   cursor: pointer;
   color: #0074d9 !important;
 }
-/* ADD NEW RESTAURANT STEPS */
+/* 'ADD NEW RESTAURANT' form */
 .pending {
   color: inherit;
   -webkit-transition: all .3s ease-in-out;
@@ -294,7 +344,7 @@ ______________________________________________________ */
   width: 100%;
   border-bottom: 2px solid #0074d9;
 }
-/* MAIN NAVIGATION ELEMENTS */
+/* Main navigation elements */
 .pointLeft {
   font-size: .8rem;
   color: #acacac;
@@ -333,7 +383,7 @@ ______________________________________________________ */
 .point8 {
   font-size: .8rem;
 }
-/* MINIATURES */
+/* Miniatures */
 .miniature {
   opacity: 0;
   -webkit-animation: fadeIn .2s linear forwards;
@@ -349,18 +399,18 @@ ______________________________________________________ */
   cursor: pointer;
   color: gold;
 }
-/* PLACE'S DETAILS */
+/* Place's details */
 .orange {
   color: #fd7700;
 }
-/* COMMENT FORM INVALID */
+/* Invalid comment form */
 input[data-state="invalid"] {
   box-shadow: 0px 0px 4px 1px rgba(255,0,0,0.75);
 }
 textarea[data-state="invalid"] {
   box-shadow: 0px 0px 4px 1px rgba(255,0,0,0.75);
 }
-/* POST COMMENT */
+/* Post comment */
 .confirMsg {
   -webkit-animation: bounce-in-top .9s both;
           animation: bounce-in-top .9s both;
@@ -368,7 +418,7 @@ textarea[data-state="invalid"] {
 #anchor {
   height: 1px;
 }
-/* SCROLLBAR STYLES FOR CHROME
+/* 5. SCROLLBAR STYLES FOR CHROME
 ______________________________________________________ */
 ::-webkit-scrollbar {
   width: 6px;
@@ -383,7 +433,7 @@ ______________________________________________________ */
 ::-webkit-scrollbar-thumb:hover {
   background: silver;
 }
-/* ANIMATIONS
+/* 6. ANIMATIONS
 ______________________________________________________ */
 @-webkit-keyframes top {
   100% { margin-top: 0vh; }
@@ -541,5 +591,44 @@ ______________________________________________________ */
             transform: translateY(0);
     -webkit-animation-timing-function: ease-out;
             animation-timing-function: ease-out;
+  }
+}
+
+/* 7. MEDIA QUERIES
+______________________________________________________ */
+/* Mobile display */
+@media screen and (max-width: 425px), and (orientation: portrait) {
+  /* Home screen */
+  #border {
+    height: 100vw;
+    width: 100vw;
+    border-radius: 100vw;
+  }
+  #logo {
+    height: 70vw;
+    width: 70vw;
+    border-radius: 70vw;
+  }
+  #slogan-1 {
+    position: absolute;
+    font-size: 3rem;
+    top: 0;
+  }
+  #slogan-2 {
+    position: absolute;
+    font-size: 2.5rem;
+    bottom: 0;
+  }
+  /* Main page */
+  #toggler {
+    display: none!important;
+  }
+  #navColumn {
+    width: 100vw;
+    height: 45vh!important;
+    top: 0;
+  }
+  #streetView {
+    height: 20vh!important
   }
 }
